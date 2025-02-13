@@ -18,7 +18,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({ historyId }) => {
           setSolutionCode(data);
           setIsLoading(false);
         })
-        .catch((err) => {
+        .catch(() => {
           setError("솔루션을 가져오는 중 오류가 발생했습니다.");
           setIsLoading(false);
         });

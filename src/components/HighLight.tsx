@@ -1,4 +1,4 @@
-import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
+import { EditorView, Decoration } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
 
 // ✅ 미리 정의된 색상 리스트 (필요하면 더 추가 가능)

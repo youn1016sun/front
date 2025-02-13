@@ -20,7 +20,7 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userId }) => {
           setHistories(data);
           setIsLoading(false);
         })
-        .catch((err) => {
+        .catch(() => {
           setError("히스토리를 가져오는 중 오류가 발생했습니다.");
           setIsLoading(false);
         });
@@ -47,23 +47,3 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userId }) => {
 };
 
 export default UserHistory;
-
-
-// import { Divider } from 'primereact/divider';
-// import "../styles/history.css"
-
-// interface Props {
-//     type: Number;
-//     name: String;
-// }
-
-// function History({name="history"}: Props){
-//     var tagName = "history "
-//     return (
-//         <>
-//             <p className={tagName}>{ name }</p>
-//         </>
-//     );
-// }
-
-// export default History;
