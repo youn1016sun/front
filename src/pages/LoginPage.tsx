@@ -9,6 +9,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "../styles/login.css";
 import LoginApi from "../api/LoginApi.tsx";
+import GetHistories from "../api/GetHistories.tsx";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,12 +22,13 @@ const LoginPage: React.FC = () => {
     const result = await LoginApi({ email, password });
     // ✅ 로그인 정보 저장 (예: localStorage, 상태관리 라이브러리)
     localStorage.setItem("user_id", result.user_id);
-    const historiesArray = Object.entries(result.histories);
+    const histories = await GetHistories(result.user_id);
+    const historiesArray = Object.entries(histories);
 
     // review에 스테이트값 전달
     navigate("/review", { state: { 
       userId: result.user_id,
-      histories: historiesArray,
+      histories: historiesArray
     } });
 };
 
