@@ -3,12 +3,14 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import Chatbot from "./Chatbot"; // ✅ 챗봇 컴포넌트 추가
+import SolutionCode from "./SolutionCode"; // ✅ SolutionCode 컴포넌트 추가
 
 interface FeedbackProps {
   reviewResult: { review_id: number; title: string; comments: string }[];
+  historyId: number | null; // ✅ historyId 추가
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null); // ✅ 현재 활성화된 챗봇 인덱스
 
   // ✅ 특정 리뷰의 챗봇을 열고 닫는 함수
@@ -51,7 +53,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult }) => {
         </TabPanel>
 
         <TabPanel header="모범답안">
-          <p className="m-0">solution</p>
+          <SolutionCode historyId={historyId} /> {/* ✅ 모범답안 데이터 불러오기 */}
         </TabPanel>
       </TabView>
     </div>
