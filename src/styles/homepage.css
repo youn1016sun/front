@@ -1,0 +1,250 @@
+.home-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  gap: 20px; /* 좌우 간격 */
+}
+
+.home-left, .home-right {
+  flex: none; /* 크기가 자동으로 변하지 않도록 설정 */
+  width: 40vw; /* 좌우 비율 고정 (40%) */
+  max-width: 500px; /* 최대 너비 제한 */
+  min-width: 400px; /* 최소 너비 제한 */
+  height: 80vh; /* 높이 고정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 왼쪽 영역 스타일 */
+.home-left {
+  position: relative;
+  left: 5vw;
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 50px;
+}
+
+/* 오른쪽 영역 스타일 */
+.home-right {
+  position: relative;
+  right: -10vw;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 50px;
+}
+
+/* 추가된 오른쪽 섹션 스타일 */
+.additional-section {
+  width: 300px;
+  padding: 20px;
+  background: linear-gradient(135deg, #66ccff, #8844ee); /* 기존 색상 활용 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: white;
+}
+
+
+
+.section {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mascara {
+  width: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.square {
+  width: 200px;
+  height: 400px;
+  background: linear-gradient(135deg, #8844ee, #66ccff); /* 기존 색을 활용한 그라데이션 */
+  border-radius: 10px; /* 모서리를 살짝 둥글게 */
+}
+
+.texto-1, .texto-2 {
+  width: 200px;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 3em;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  animation: texto-anima 2s infinite alternate;
+}
+
+.texto-1 {
+  color: white;
+}
+
+.texto-2 {
+  z-index: -1;
+}
+
+@keyframes texto-anima {
+  to {
+    transform: translate3d(100px, 0, 0);
+  }
+}
+
+
+
+
+
+/* homepage.css */
+.home-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb; /* 기존보다 훨씬 더 연한 색상 */
+}
+
+.home-main {
+  flex: 1;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.7); /* 더 부드럽고 연한 배경 */
+  backdrop-filter: blur(5px);
+  border-radius: 12px; /* 둥근 모서리 추가 */
+  justify-content: flex-start !important;
+}
+
+/* homepage-container 스타일 수정 */
+.homepage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: rgba(250, 250, 250, 0.8); /* 더 연한 회색톤 */
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* 부드러운 그림자 */
+}
+
+/* ✅ 메인 콘텐츠 스타일 */
+.content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* ✅ 타이틀 스타일 */
+.main-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  animation: slideIn 1s ease-in-out;
+}
+
+/* ✅ 서브 타이틀 스타일 */
+.sub-title {
+  font-size: 1.5rem;
+  opacity: 0.9;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* ✅ 타이틀 등장 애니메이션 */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ✅ 서브타이틀 부드러운 등장 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* additionalSection 스타일 정의 */
+/* 추가 섹션 전체 컨테이너 */
+.anima-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 텍스트 리스트 */
+.home_title {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 1vh 0 0;
+}
+
+.home_title li {
+  display: flex;
+  height: 15vh; /* 높이 조정해서 절반 잘리는 문제 해결 */
+  pointer-events: none;
+  /* margin-bottom: 2vh; */
+}
+
+/* 텍스트 크기 및 스타일 */
+.home_title h2 {
+  font-size: 4vw;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: -0.2vw;
+  width: 200%;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* 왼쪽 텍스트 */
+.home_title .left {
+  width: 50%;
+  overflow: hidden;
+  color: #25282A;
+}
+
+.home_title .left h2 {
+  transform: translateZ(0) rotate(-10deg) skewX(-10deg);
+}
+
+/* 오른쪽 텍스트 */
+.home_title .right {
+  width: 50%;
+  overflow: hidden;
+  color: #25282A; /* 어두운 색 */
+}
+
+.home_title .right h2 {
+  /* 오른쪽 텍스트 (기존 단색 제거 & 그라디언트 적용) */
+  margin-left: -100%;
+  transform: translateZ(0) rotate(10deg) skewX(10deg);
+
+  /* 🔹 기존 단색 제거 */
+  color: transparent;
+
+  /* 🔹 텍스트에 그라디언트 색상 적용 */
+  background: linear-gradient(135deg, #8844ee, #66ccff);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+

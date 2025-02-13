@@ -1,0 +1,59 @@
+/* .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    width: 100vw;
+    background-color: #f4f6f8;
+  } */
+
+  .home-main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;  /* 가로 중앙 정렬 */
+    align-items: center;      /* 세로 중앙 정렬 */
+    height: 100vh;            /* 전체 화면 높이 */
+}
+
+  
+  .login-card {
+    width: 400px;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+  
+  .footer {
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    background-color: #282c34;
+    color: white;
+    margin-top: auto; /* 화면 아래로 밀기 */
+  }
+  
+  
+  .p-field {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  
+  .p-inputtext-lg {
+    width: 100%;
+  }
+  
+  .register-link {
+    margin-top: 1rem;
+    font-size: 14px;
+  }
+  

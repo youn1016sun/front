@@ -1,0 +1,96 @@
+/* ✅ HTML 및 BODY 기본 설정 */
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: fit-content;
+    background-color: #f4f6f8;
+  }
+
+  /* ✅ HEADER 스타일 */
+  .custom-header {
+    background: linear-gradient(120deg, #62bdfc, #2a89dc); /* 밝은 파란색 → 강한 그라데이션 */
+    color: white;
+    padding: 5px 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    text-align: center;
+    animation: slideDown 0.8s ease-in-out; /* 등장 애니메이션 */
+  }
+  
+  /* 네비게이션 스타일 */
+  nav ul {
+    display: flex;
+    /* justify-content: center; */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  nav ul li {
+    margin: 0 20px;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  nav ul li:hover {
+    transform: translateY(-3px); /* 마우스 호버 시 살짝 위로 이동 */
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+  }
+  
+  nav ul li a:hover {
+    color: #ffe082; /* 밝은 노란색 강조 */
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7); /* 네온 효과 */
+  }
+  
+  /* 헤더 등장 애니메이션 */
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* ✅ FOOTER 스타일 */
+  .custom-footer {
+    background: linear-gradient(120deg, #2a89dc, #62bdfc); /* 헤더의 반대 방향으로 그라데이션 */
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.15); /* 그림자 효과 */
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    text-align: center;
+    font-size: 1rem;
+    animation: slideUp 0.8s ease-in-out; /* 등장 애니메이션 */
+  }
+  
+  /* 푸터 등장 애니메이션 */
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
