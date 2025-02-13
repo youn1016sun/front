@@ -9,7 +9,7 @@ export const fetchUserHistory = async (userId: number) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/api/v1/histories/${userId}`);
     return response.data.problems; // ✅ 서버에서 받은 `problems` 배열 반환
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Error fetching user history:", error.response?.data || error.message);
     throw error;
   }

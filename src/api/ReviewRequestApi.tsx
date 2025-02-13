@@ -1,4 +1,3 @@
-import axios from "axios";
 import BaseApi from "./BaseApi.tsx";
 
 const url = "/v1/review";
@@ -14,7 +13,7 @@ export const sendReviewRequest = async (data: any) => {
 
     console.log("📡 API Response:", response.data);
     return response.data; // ✅ 전체 응답 데이터 반환 (history_id, problem_info, reviews 포함)
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ Error sending review request:", error.response?.data || error.message);
     throw error;
   }

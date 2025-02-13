@@ -1,25 +1,31 @@
 import React from 'react';
+import HomeSection from '../components/HomeSection'; // ✅ HomeSection import 추가
 import '../styles/homepage.css';
 
 const Homepage: React.FC = () => {
   return (
-    <div>Start!</div>
+    <div className="homepage-container">
+      <div className="home-left">
+        <HomeSection />
+      </div>
+      <div className="home-right">
+        {/* 오른쪽 콘텐츠 추가 가능 */}
+      </div>
+    </div>
   );
 };
 
 export default Homepage;
 
+
 // import React from 'react';
 // import '../styles/homepage.css';
 
-// const HomePage: React.FC = () => {
+
+// const Homepage: React.FC = () => {
 //   return (
-
-//           <div>
-//             hey
-//           </div>
-
+//     <div>start</div>
 //   );
 // };
 
-// export default HomePage;
+// export default Homepage;
