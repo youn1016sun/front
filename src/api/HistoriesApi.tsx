@@ -1,30 +1,16 @@
-import BaseApi from "./BaseApi";
+import axios from "axios";
 
-interface Props {
-    historyId: Number;
-    METHOD: string;
-}
+const API_BASE_URL = "http://222.100.174.159:25565";
+//http://222.100.174.159:25565
+//https://virtserver.swaggerhub.com/TNSTKD98/Algo_Reivew/1.0.0
 
-const url = "/v1/history/";
-
-const HistroyApi = async ({ historyId, METHOD }: Props): Promise<string | void> => {
-    if (METHOD === "GET") {
-
-    } else if(METHOD === "POST") {
-
-    } else if(METHOD === "PUT") {
-
-    } else if(METHOD === "DELETE") {
-
-    } else {
-        console.log("method error");
-    }
-    try {
-        const response = await BaseApi.post(url+{ historyId });
-        return "success";  // 성공 시 호출한 곳에서 처리
-    } catch (error) {
-        return "오류처리";
-    }
+// ✅ 특정 사용자의 리뷰 히스토리 가져오기
+export const fetchUserHistory = async (userId: number) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/api/v1/histories/${userId}`);
+    return response.data.problems; // ✅ 서버에서 받은 `problems` 배열 반환
+  } catch (error) {
+    console.error("❌ Error fetching user history:", error.response?.data || error.message);
+    throw error;
+  }
 };
-
-export default HistroyApi;
