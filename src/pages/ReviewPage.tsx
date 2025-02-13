@@ -35,6 +35,7 @@ const ReviewPage: React.FC = () => {
       return;
     }
 
+    // POST request data
     const requestData = {
       input_source: inputSource, // "url" 또는 "img"
       input_data: inputData, // URL 또는 Base64 인코딩된 이미지 데이터
@@ -79,8 +80,8 @@ const ReviewPage: React.FC = () => {
           <CodeEditor code={code} setCode={setCode} highlights={highlightedLines} /> {/* ✅ Highlight 데이터 전달 */}
         </Card>
 
-        <Card className="code-output">
-          <Feedback reviewResult={reviewResult?.reviews || []} />
+        <Card className="code-output"> 
+          <Feedback reviewResult={reviewResult?.reviews || []} historyId={reviewResult?.history_id || null} /> {/* reviewrequestapi로 받아온 response를 필요한 곳에 넘겨주는 함수*/}
         </Card>
       </div>
 
