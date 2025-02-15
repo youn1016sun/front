@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { fetchUserHistory } from "../api/HistoriesApi"; // ✅ API 호출 함수
+import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
 
-interface UserHistoryProps {
+interface HistoryProps {
   userId: number | null;
+  onSelectHistory: (historyId: number) => void; // ✅ 선택한 historyId를 부모 컴포넌트로 전달
 }
 
-const UserHistory: React.FC<UserHistoryProps> = ({ userId }) => {
+const History: React.FC<HistoryProps> = ({ userId, onSelectHistory }) => {
   const [histories, setHistories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,15 +37,18 @@ const UserHistory: React.FC<UserHistoryProps> = ({ userId }) => {
     <Accordion>
       {histories.map((problem) => (
         <AccordionTab key={problem.problem_id} header={problem.problem_name}>
-          <ul>
-            {problem.history_names.map((history: string, index: number) => (
-              <li key={index}>{history}</li>
-            ))}
-          </ul>
+          {problem.history_names.map((history: string, index: number) => (
+            <Button
+              key={index}
+              label={history}
+              className="p-button-text p-button-sm p-m-1"
+              onClick={() => onSelectHistory(problem.history_ids[index])} // ✅ historyId 전달
+            />
+          ))}
         </AccordionTab>
       ))}
     </Accordion>
   );
 };
 
-export default UserHistory;
+export default History;
