@@ -21,6 +21,10 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]);
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
+  const [reviewButtonLabel, setReviewButtonLabel] = useState<String>("Run Review");
+  const [problemId, setProblemId] = useState<number | null>(null);
+  const [problemInfo, setProblemInfo] = useState<string | null>(null);
+  const [historyId, setHistoryId] = useState<number | null>(null);
 
   const location = useLocation();
   const userId = location.state?.userId || localStorage.getItem("user_id");
@@ -50,6 +54,15 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     }
   }, [selectedHistoryId]);
 
+  // 리뷰버튼 이름 바꾸기
+  useEffect(() => {
+    if (reviewResult[0]){
+      setReviewButtonLabel("Review Again");
+    } else {
+      setReviewButtonLabel("Run Review");
+    }
+  }, [reviewResult]);
+
   const handleReview = async () => {
     if (!inputSource || !inputData || !code.trim()) {
       alert("필수 입력값을 입력하세요!");
@@ -57,9 +70,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     }
 
     const requestData = {
+      history_id: historyId,
       input_source: inputSource,
       input_data: inputData,
-      problem_info: null,
+      problem_id: problemId,
+      problem_info: problemInfo,
       source_code: code,
       reviews: [],
       user_id: userId,
@@ -70,6 +85,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     try {
       const response = await sendReviewRequest(requestData);
       console.log("✅ Review API Response:", response);
+      // 히스토리아이디 저장
+      setHistoryId(response.history_id);
+      // 문제 정보 저장
+      setProblemId(response.problem_id);
+      setProblemInfo(response.problem_info);
 
       if (response.reviews && Array.isArray(response.reviews)) {
         console.log("🔄 Setting reviewResult with reviews array:", response.reviews);
@@ -113,7 +133,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       </div>
 
       <div className="review-button">
-        <Button label="Run Review" icon="pi pi-search" className="p-button-lg p-button-primary review-button" onClick={handleReview} />
+        <Button label={reviewButtonLabel} icon="pi pi-search" className="p-button-lg p-button-primary review-button" onClick={handleReview} />
       </div>
     </div>
   );

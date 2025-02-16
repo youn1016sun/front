@@ -35,6 +35,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, highlights = [] 
         borderRadius: "5px",
         backgroundColor: "#ffffff",
         padding: "10px",
+        overflow:"scroll",
       }}
     />
   );
