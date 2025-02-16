@@ -112,12 +112,24 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     }
   };
 
+  // new 버튼, 입력값들 초기화시키기
+  const newReview= ()=> {
+    setCode("");
+    setReviewResult([]);
+    setHighlightedLines([]);
+    setInputSource(null);
+    setInputData(null);
+    setProblemId(null);
+    setProblemInfo(null);
+    setHistoryId(null);
+  }
   return (
     <div className="review-page">
       <div className="review-input1">
         <div className="url-input">
+          <Button label="New Review" onClick={newReview} />
           <p>로그인한 사용자 ID: {userId}</p>
-          <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} />
+          <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
         </div>
       </div>
 
