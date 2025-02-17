@@ -1,4 +1,5 @@
 import { InputText } from "primereact/inputtext";
+import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import RegisterApi from "../api/RegisterApi";
 import { useState, useEffect } from "react";
@@ -35,10 +36,11 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="flex align-items-center justify-content-center">
-      <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-
-        <div>
+    <div className="login-container">
+      <Card className="login-card">
+        <h1>Register</h1>
+        <div className="p-field">
+          <label htmlFor="email">Email</label>
           <label htmlFor="email" className="block text-900 font-medium mb-2">
             Email
           </label>
@@ -49,8 +51,9 @@ const RegisterPage: React.FC = () => {
             placeholder="Email address"
             className="w-full mb-3"
           />
-
-          <label htmlFor="password" className="block text-900 font-medium mb-2">
+        </div>
+        <div className="p-field">
+        <label htmlFor="password" className="block text-900 font-medium mb-2">
             Password
           </label>
           <InputText
@@ -67,18 +70,16 @@ const RegisterPage: React.FC = () => {
             placeholder="Password-check"
             className="w-full mb-3"
           />
-
-          <Button
+        </div>
+        <Button
             label="Register!"
             onClick={handleRegister}
             icon="pi pi-user"
             className="w-full"
             disabled={!passwdCheckValid} // 비밀번호 확인이 일치하지 않으면 비활성화
           />
-        </div>
-      </div>
+      </Card>
     </div>
   );
 };
-
 export default RegisterPage;
