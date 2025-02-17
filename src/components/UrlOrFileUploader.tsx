@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { FileUpload, FileUploadSelectEvent } from "primereact/fileupload"; // ✅ FileUploadSelectEvent 추가
@@ -8,10 +8,16 @@ interface UrlOrFileUploaderProps {
   setInputData: (data: string | null) => void;
 }
 
-const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, setInputData }) => {
+const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, setInputData, inputData }) => {
   const [activeInput, setActiveInput] = useState<"url" | "img" | null>(null);
   const [url, setUrl] = useState("");
 
+  useEffect(() => {
+    if (inputData === null) {
+      setUrl("");
+      setActiveInput(null);
+    }
+  }, [inputData]);
   // ✅ URL 입력 처리
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value;

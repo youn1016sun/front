@@ -16,16 +16,3 @@ const Homepage: React.FC = () => {
 };
 
 export default Homepage;
-
-
-// import React from 'react';
-// import '../styles/homepage.css';
-
-
-// const Homepage: React.FC = () => {
-//   return (
-//     <div>start</div>
-//   );
-// };
-
-// export default Homepage;

@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
-import Chatbot from "./Chatbot"; // ✅ 챗봇 컴포넌트 추가
-import SolutionCode from "./SolutionCode"; // ✅ SolutionCode 컴포넌트 추가
+import Chatbot from "./Chatbot";
+import SolutionCode from "./SolutionCode";
 
 interface FeedbackProps {
   reviewResult: { review_id: number; title: string; comments: string }[];
-  historyId: number | null; // ✅ historyId 추가
+  historyId: number | null;
 }
 
 const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId }) => {
-  const [activeChat, setActiveChat] = useState<number | null>(null); // ✅ 현재 활성화된 챗봇 인덱스
+  const [activeChat, setActiveChat] = useState<number | null>(null);
+  const [reviews, setReviews] = useState(reviewResult);
 
-  // ✅ 특정 리뷰의 챗봇을 열고 닫는 함수
+  useEffect(() => {
+    console.log("🔄 Feedback component received new reviewResult:", reviewResult);
+
+    if (Array.isArray(reviewResult)) {
+      console.log("✅ Updating state with reviewResult:", reviewResult);
+      setReviews([...reviewResult]);
+    } else {
+      console.error("❌ reviewResult is empty or not an array:", reviewResult);
+      setReviews([]);
+    }
+  }, [reviewResult]);
+
   const toggleChatbot = (reviewId: number) => {
     setActiveChat(activeChat === reviewId ? null : reviewId);
   };
@@ -24,8 +36,8 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId }) => 
         <TabPanel header="리뷰 상세">
           <div className="card">
             <Accordion>
-              {reviewResult.length > 0 ? (
-                reviewResult.map((review) => (
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
                   <AccordionTab
                     key={review.review_id}
                     header={
@@ -41,7 +53,6 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId }) => 
                   >
                     <p dangerouslySetInnerHTML={{ __html: review.comments.replace(/\n/g, "<br />") }}></p>
 
-                    {/* ✅ 챗봇이 활성화된 경우에만 렌더링 (왼쪽 상단) */}
                     {activeChat === review.review_id && <Chatbot onClose={() => setActiveChat(null)} />}
                   </AccordionTab>
                 ))
@@ -53,7 +64,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId }) => 
         </TabPanel>
 
         <TabPanel header="모범답안">
-          <SolutionCode historyId={historyId} /> {/* ✅ 모범답안 데이터 불러오기 */}
+          <SolutionCode historyId={historyId} />
         </TabPanel>
       </TabView>
     </div>
