@@ -11,7 +11,6 @@ import { sendReviewRequest } from "../api/ReviewRequestApi";
 
 interface ReviewPageProps {
   selectedHistoryId?: number | null;
-  // selectedHistoryId?: number | null; // ✅ 선택적으로 변경 (필수 아님)
 }
 
 
@@ -21,7 +20,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]);
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
-  const [reviewButtonLabel, setReviewButtonLabel] = useState<String>("Run Review");
+  const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
   const [problemId, setProblemId] = useState<number | null>(null);
   const [problemInfo, setProblemInfo] = useState<string | null>(null);
   const [historyId, setHistoryId] = useState<number | null>(null);
@@ -140,7 +139,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
         </Card>
 
         <Card className="code-output">
-          <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} />
+          <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} sourceCode={code}/>
         </Card>
       </div>
 
