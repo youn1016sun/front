@@ -56,7 +56,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
       if (response) {
         setChatMessages((prevMessages) => [
           ...prevMessages,
-          { sender: "bot", text: response.chatbot_response }, // ✅ API 응답 데이터 반영
+          { sender: "bot", text: response }, // ✅ API 응답 데이터 반영
         ]);
       }
     } catch (error) {

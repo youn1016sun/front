@@ -71,7 +71,7 @@ z-index: 1000;
 
 /* ✅ 챗봇 대화창 크기 조정 */
 .chatbot-window {
-  width: 650px; 
+  /* width: 650px; */
   max-width: 100%;
   height: 400px; 
   background-color: white;
