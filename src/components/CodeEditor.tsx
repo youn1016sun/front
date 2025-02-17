@@ -1,7 +1,7 @@
 import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-// import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
+import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
 
 interface HighlightedLine {
   start: number;
@@ -27,7 +27,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, highlights = [] 
         // getHighlightDecorations(highlights), // ✅ 그 후 Decoration 추가
         javascript(), // ✅ JavaScript 문법 적용
       ]}
-      // basicSetup={{ lineNumbers: true }}
+       // basicSetup={{ lineNumbers: true }}
       style={{
         height: "350px",
         fontSize: "14px",
