@@ -6,16 +6,20 @@ import { FileUpload, FileUploadSelectEvent } from "primereact/fileupload"; // �
 interface UrlOrFileUploaderProps {
   setInputSource: (source: "url" | "img") => void;
   setInputData: (data: string | null) => void;
+  inputData?: string | null; // ✅ 선택적 props 추가
 }
 
 const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, setInputData, inputData }) => {
   const [activeInput, setActiveInput] = useState<"url" | "img" | null>(null);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(inputData ?? ""); // ✅ 초기값을 `inputData`로 설정
+  // const [url, setUrl] = useState(""); 이전버전
 
   useEffect(() => {
     if (inputData === null) {
       setUrl("");
       setActiveInput(null);
+    } else if (inputData && activeInput === "url") {
+      setUrl(inputData); // ✅ `inputData`가 변경되면 `url` 업데이트
     }
   }, [inputData]);
   // ✅ URL 입력 처리
