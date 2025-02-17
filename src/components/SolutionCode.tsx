@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { fetchSolutionCode } from "../api/SolutionApi"; // ✅ API 호출 함수
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { oneDark } from "@codemirror/theme-one-dark"; // ✅ 다크 테마 적용 가능
+import { Card } from "primereact/card";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 interface SolutionCodeProps {
   historyId: number | null;
@@ -25,14 +30,31 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({ historyId }) => {
     }
   }, [historyId]); // ✅ historyId가 변경될 때마다 실행
 
-  if (isLoading) return <p>모범답안을 불러오는 중...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-  if (!solutionCode) return <p>모범답안이 없습니다.</p>;
-
   return (
-    <pre style={{ backgroundColor: "#f4f4f4", padding: "10px", borderRadius: "5px", whiteSpace: "pre-wrap" }}>
-      {solutionCode}
-    </pre>
+    <Card className="solution-container">
+      {isLoading ? (
+        <ProgressSpinner /> // ✅ 로딩 중일 때 스피너 표시
+      ) : error ? (
+        <p style={{ color: "red" }}>{error}</p>
+      ) : solutionCode ? (
+        <CodeMirror
+          value={solutionCode}
+          extensions={[javascript()]} // ✅ JavaScript 문법 적용
+          readOnly={true} // ✅ 읽기 전용 적용
+          style={{
+            height: "350px",
+            fontSize: "14px",
+            border: "1px solid #ddd",
+            borderRadius: "5px",
+            backgroundColor: "#ffffff", // ✅ 읽기 전용이라 회색 배경
+            padding: "10px",
+            overflow: "scroll",
+          }}
+        />
+      ) : (
+        <p>모범답안이 없습니다.</p>
+      )}
+    </Card>
   );
 };
 

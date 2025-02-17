@@ -1,10 +1,7 @@
 import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { python } from "@codemirror/lang-python";
-import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
-import solarizedTheme from "../styles/customTheme.js";
-
+// import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
 
 interface HighlightedLine {
   start: number;
@@ -15,31 +12,28 @@ interface HighlightedLine {
 interface CodeEditorProps {
   code: string;
   setCode: (code: string) => void;
+  readOnly?: boolean;
   highlights?: HighlightedLine[];
 }
 
  // ✅ HighlightManager 사용
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, highlights = [] }) => {
+ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false, highlights = [] }) => {
   return (
     <CodeMirror
       value={code}
-      onChange={(value) => setCode(value)}
+      onChange={readOnly ? () => {} : (value) => setCode(value)} // ✅ readOnly이면 변경 불가능하게 설정
       extensions={[
-        // generateHighlightTheme, // ✅ 스타일 적용을 먼저
-        // getHighlightDecorations(highlights), // ✅ 그 후 Decoration 추가
-        python(), // ✅ JavaScript 문법 적용
+        javascript(), // ✅ JavaScript 문법 적용
       ]}
-       // basicSetup={{ lineNumbers: true }}
-      theme={solarizedTheme}
       style={{
         height: "350px",
         fontSize: "14px",
         border: "1px solid #ddd",
         borderRadius: "5px",
-        backgroundColor: "#ffffff",
+        backgroundColor: readOnly ? "#f4f4f4" : "#ffffff", // ✅ 읽기 전용이면 회색 배경 적용
         padding: "10px",
-        overflow:"scroll",
+        overflow: "scroll",
       }}
     />
   );

@@ -8,23 +8,23 @@ import Feedback from "../components/Feedback";
 import { useLocation } from "react-router-dom";
 import { fetchHistoryDetails } from "../api/HistoriesApi";
 import { sendReviewRequest } from "../api/ReviewRequestApi";
+import { ProgressSpinner } from "primereact/progressspinner"; // ✅ 로딩 UI 추가
 
 interface ReviewPageProps {
   selectedHistoryId?: number | null;
-  // selectedHistoryId?: number | null; // ✅ 선택적으로 변경 (필수 아님)
 }
-
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
   const [code, setCode] = useState<string>("");
-  const [reviewResult, setReviewResult] = useState<any[]>([]); // ✅ reviewResult를 배열로 초기화
+  const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]);
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
-  const [reviewButtonLabel, setReviewButtonLabel] = useState<String>("Run Review");
+  const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
   const [problemId, setProblemId] = useState<number | null>(null);
   const [problemInfo, setProblemInfo] = useState<string | null>(null);
   const [historyId, setHistoryId] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ 로딩 상태 추가
 
   const location = useLocation();
   const userId = location.state?.userId || localStorage.getItem("user_id");
@@ -38,10 +38,10 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
 
           if (data.reviews && Array.isArray(data.reviews)) {
             console.log("🔄 Setting reviewResult with reviews array:", data.reviews);
-            setReviewResult([...data.reviews]); // ✅ 불변성을 유지하며 reviews 배열 설정
+            setReviewResult([...data.reviews]);
           } else {
             console.error("❌ API returned empty or invalid reviews:", data.reviews);
-            setReviewResult([]); // ✅ 오류 방지를 위해 빈 배열 설정
+            setReviewResult([]);
           }
 
           setInputSource(data.input_source);
@@ -54,9 +54,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     }
   }, [selectedHistoryId]);
 
-  // 리뷰버튼 이름 바꾸기
   useEffect(() => {
-    if (reviewResult[0]){
+    if (reviewResult.length > 0) {
       setReviewButtonLabel("Review Again");
     } else {
       setReviewButtonLabel("Run Review");
@@ -68,6 +67,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       alert("필수 입력값을 입력하세요!");
       return;
     }
+
+    // ✅ 로딩 시작
+    setIsLoading(true);
 
     const requestData = {
       history_id: historyId,
@@ -85,18 +87,17 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     try {
       const response = await sendReviewRequest(requestData);
       console.log("✅ Review API Response:", response);
-      // 히스토리아이디 저장
+      
       setHistoryId(response.history_id);
-      // 문제 정보 저장
       setProblemId(response.problem_id);
       setProblemInfo(response.problem_info);
 
       if (response.reviews && Array.isArray(response.reviews)) {
         console.log("🔄 Setting reviewResult with reviews array:", response.reviews);
-        setReviewResult([...response.reviews]); // ✅ reviews 배열만 저장
+        setReviewResult([...response.reviews]);
       } else {
         console.error("❌ API returned invalid review data:", response.reviews);
-        setReviewResult([]); // ✅ 오류 방지를 위해 빈 배열 설정
+        setReviewResult([]);
       }
 
       if (response.reviews) {
@@ -109,11 +110,12 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       }
     } catch (error) {
       console.error("❌ Error sending review request:", error);
+    } finally {
+      setIsLoading(false); // ✅ 로딩 종료
     }
   };
 
-  // new 버튼, 입력값들 초기화시키기
-  const newReview= ()=> {
+  const newReview = () => {
     setCode("");
     setReviewResult([]);
     setHighlightedLines([]);
@@ -122,7 +124,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     setProblemId(null);
     setProblemInfo(null);
     setHistoryId(null);
-  }
+  };
+
   return (
     <div className="review-page">
       <div className="review-input1">
@@ -140,12 +143,26 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
         </Card>
 
         <Card className="code-output">
-          <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} />
+          {/* ✅ 로딩 중이면 스피너 표시 (정가운데 정렬) */}
+          {isLoading ? (
+            <div className="loading-overlay">
+              <ProgressSpinner />
+              <p>리뷰를 생성 중입니다...</p>
+            </div>
+          ) : (
+            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} />
+          )}
         </Card>
       </div>
 
       <div className="review-button">
-        <Button label={reviewButtonLabel} icon="pi pi-search" className="p-button-lg p-button-primary review-button" onClick={handleReview} />
+        <Button 
+          label={reviewButtonLabel} 
+          icon="pi pi-search" 
+          className="p-button-lg p-button-primary review-button" 
+          onClick={handleReview} 
+          disabled={isLoading} // ✅ 로딩 중이면 버튼 비활성화
+        />
       </div>
     </div>
   );
