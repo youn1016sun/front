@@ -127,7 +127,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     <div className="review-page">
       <div className="review-input1">
         <div className="url-input">
-          <Button label="New Review" onClick={newReview} />
+          <Button label="New Review" icon="pi pi-plus" onClick={newReview} />
           <p>로그인한 사용자 ID: {userId}</p>
           <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
         </div>
