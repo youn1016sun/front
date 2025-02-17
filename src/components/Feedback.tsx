@@ -46,6 +46,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                 reviews.map((review) => (
                   <AccordionTab
                     key={review.review_id}
+                    key={review.id}
                     header={
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {review.title}

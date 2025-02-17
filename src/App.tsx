@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomeLayout from './layouts/HomeLayout';
-import ReviewLayout from './layouts/ReviewLayout';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
+import HomeLayout from './layouts/HomeLayout';
 import ReviewPage from './pages/ReviewPage';
+import ReviewLayout from './layouts/ReviewLayout';
+import LoginPage from './pages/LoginPage';
 import LoginLayout from './layouts/LoginLayout';
 import RegisterPage from './pages/RegisterPage';
+import RegisterLayout from './layouts/RegisterLayout';
 
 const App: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ const App: React.FC = () => {
         <Route path="/review" element={<ReviewLayout><ReviewPage /></ReviewLayout>} />
         
         {/* 임시 회원가입 */}
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterLayout><RegisterPage /></RegisterLayout>} />
       </Routes>
     </Router>
   );

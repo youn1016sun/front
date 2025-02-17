@@ -37,15 +37,6 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="flex align-items-center justify-content-center">
       <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-        <div className="text-center mb-5">
-          <img
-            src="/demo/images/blocks/logos/hyper.svg"
-            alt="hyper"
-            height={50}
-            className="mb-3"
-          />
-          <div className="text-900 text-3xl font-medium mb-3">Welcome Back</div>
-        </div>
 
         <div>
           <label htmlFor="email" className="block text-900 font-medium mb-2">
