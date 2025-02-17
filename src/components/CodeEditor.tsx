@@ -1,7 +1,7 @@
 import React from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
+// import { getHighlightDecorations, generateHighlightTheme } from "../components/HighLight"; // ✅ HighlightManager 사용
 
 interface HighlightedLine {
   start: number;
