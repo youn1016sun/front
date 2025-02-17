@@ -1,7 +1,8 @@
 import axios from "axios";
 
 //const API_BASE_URL = "https://virtserver.swaggerhub.com/TNSTKD98/Algo_Reivew/1.0.0";
-const API_BASE_URL = "http://222.100.174.159:25565";
+// http://52.199.8.118:8000
+const API_BASE_URL = "http://52.199.8.118:8000";
 
 // ✅ 특정 사용자의 리뷰 히스토리 가져오기 (user_id 기반)
 export const fetchUserHistory = async (userId: number) => {
@@ -22,5 +23,53 @@ export const fetchHistoryDetails = async (historyId: number) => {
   } catch (error: any) {
     console.error("❌ Error fetching history details:", error.response?.data || error.message);
     throw error;
+  }
+};
+
+/** ✅ 문제problem 이름 변경 (PUT 요청) */
+export const updateProblemName = async (problemId: number, newName: string) => {
+  try {
+    await axios.put(`${API_BASE_URL}/api/v1/problem/${problemId}`, { new_name: newName });
+    console.log(`✅ Problem ${problemId} 이름이 ${newName}로 변경됨`);
+    return true;
+  } catch (error: any) {
+    console.error(`❌ Error updating problem ${problemId}:`, error.response?.data || error.message);
+    return false;
+  }
+};
+
+/** ✅ 문제problem 삭제 (DELETE 요청) */
+export const deleteProblem = async (problemId: number) => {
+  try {
+    await axios.delete(`${API_BASE_URL}/api/v1/problem/${problemId}`);
+    console.log(`✅ Problem ${problemId} 삭제됨`);
+    return true;
+  } catch (error: any) {
+    console.error(`❌ Error deleting problem ${problemId}:`, error.response?.data || error.message);
+    return false;
+  }
+};
+
+/** ✅ 히스토리 이름 변경 (PUT 요청) */
+export const updateHistoryName = async (historyId: number, newName: string) => {
+  try {
+    await axios.put(`${API_BASE_URL}/api/v1/history/${historyId}`, { new_name: newName });
+    console.log(`✅ History ${historyId} 이름이 ${newName}로 변경됨`);
+    return true; // ✅ 성공 반환
+  } catch (error: any) {
+    console.error(`❌ Error updating history ${historyId}:`, error.response?.data || error.message);
+    return false; // ❌ 실패 반환
+  }
+};
+
+/** ✅ 히스토리 삭제 (DELETE 요청) */
+export const deleteHistory = async (historyId: number) => {
+  try {
+    await axios.delete(`${API_BASE_URL}/api/v1/history/${historyId}`);
+    console.log(`✅ History ${historyId} 삭제됨`);
+    return true; // ✅ 성공 반환
+  } catch (error: any) {
+    console.error(`❌ Error deleting history ${historyId}:`, error.response?.data || error.message);
+    return false; // ❌ 실패 반환
   }
 };
