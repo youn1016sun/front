@@ -13,13 +13,16 @@ const ReviewLayout: React.FC<ReviewLayoutProps> = ({ children }) => {
   const userId = location.state?.userId || localStorage.getItem("user_id");
   const [selectedHistoryId, setSelectedHistoryId] = useState<number | null>(null);
 
-  console.log("📌 ReviewLayout: selectedHistoryId:", selectedHistoryId);
+  // ✅ 사이드바 상태 추가
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   return (
-    <div className="review-layout">
+    <div className={`review-layout ${isSidebarOpen ? "sidebar-open" : ""}`}>
       <Header>
-        <CustomSidebar userId={userId} onSelectHistory={setSelectedHistoryId} />
+        {/* ✅ CustomSidebar에서 화면 조정 가능하도록 setSidebarOpen 전달 */}
+        <CustomSidebar userId={userId} onSelectHistory={setSelectedHistoryId} setSidebarOpen={setIsSidebarOpen} />
       </Header>
+
       <main className="review-content">
         {/* ✅ children이 ReviewPage인 경우에만 selectedHistoryId 전달 */}
         {React.isValidElement(children)

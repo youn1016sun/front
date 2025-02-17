@@ -11,8 +11,9 @@ interface UrlOrFileUploaderProps {
 
 const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, setInputData, inputData }) => {
   const [activeInput, setActiveInput] = useState<"url" | "img" | null>(null);
-  const [url, setUrl] = useState(inputData ?? ""); // ✅ 초기값을 `inputData`로 설정
-  // const [url, setUrl] = useState(""); 이전버전
+  const [url, setUrl] = useState("");
+  const [urlButtonClass, setUrlButtonClass] = useState<string>("p-button-primary p-button-sm w-8rem");
+  const [imgButtonClass, setImgButtonClass] = useState<string>("p-button-secondary p-button-sm w-8rem");
 
   useEffect(() => {
     if (inputData === null) {
@@ -44,6 +45,16 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
     }
   };
 
+  // 버튼 클릭에 따라 색깔 변경
+  useEffect(()=> {
+    if(activeInput === "url"){
+      setUrlButtonClass("p-button-primary p-button-sm w-8rem");
+      setImgButtonClass("p-button-secondary p-button-sm w-8rem");
+    } else if (activeInput === "img"){
+      setUrlButtonClass("p-button-secondary p-button-sm w-8rem");
+      setImgButtonClass("p-button-primary p-button-sm w-8rem");
+    }
+  }, [activeInput])
   return (
     <div className="flex flex-column align-items-center gap-2">
       {/* ✅ 입력 방식 선택 버튼 */}
@@ -52,13 +63,13 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
           label="URL 입력" 
           icon="pi pi-link" 
           onClick={() => setActiveInput("url")} 
-          className="p-button-primary p-button-sm w-8rem"
+          className={urlButtonClass}
         />
         <Button 
           label="이미지 선택" 
           icon="pi pi-image" 
           onClick={() => setActiveInput("img")} 
-          className="p-button-secondary p-button-sm w-8rem"
+          className={imgButtonClass}
         />
       </div>
 

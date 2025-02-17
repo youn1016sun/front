@@ -1,10 +1,32 @@
-/* ✅ 리뷰 페이지 전체 레이아웃 */
+✅ 리뷰 페이지 전체 레이아웃
+/* ✅ 전체 레이아웃 설정 */
 .review-layout {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* 화면 전체 높이 유지 */
-  overflow: hidden; /* 스크롤 제거 */
-  flex-grow: 1; /* 내부 요소들이 올바르게 배치될 수 있도록 설정 */
+  transition: margin-left 0.3s ease-in-out; /* ✅ 부드러운 전환 */
+}
+
+/* ✅ 사이드바가 열릴 때 */
+.review-layout.sidebar-open .review-content {
+  margin-left: 325px; /* ✅ 사이드바 크기만큼 오른쪽으로 이동 */
+  width: calc(100% - 325px);
+}
+
+/* ✅ 사이드바가 닫혔을 때 */
+.review-layout .review-content {
+  width: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+/* ✅ PrimeReact Sidebar의 기본 배경(어두운 효과) 제거 */
+.p-sidebar-mask {
+  background-color: transparent !important; /* ✅ 어두운 배경 제거 */
+  pointer-events: none !important; /* ✅ 클릭 방해 요소 제거 */
+}
+
+/* ✅ 사이드바 자체 스타일 조정 */
+.custom-sidebar .p-sidebar {
+  width: 250px !important; /* ✅ 사이드바 너비 고정 */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* ✅ 약간의 그림자 추가 */
 }
 
 .review-title {
@@ -71,7 +93,7 @@ z-index: 1000;
 
 /* ✅ 챗봇 대화창 크기 조정 */
 .chatbot-window {
-  width: 650px; 
+  /* width: 650px; */
   max-width: 100%;
   height: 400px; 
   background-color: white;
@@ -162,3 +184,17 @@ margin-top: auto;
   font-size: 16px;
 }
 
+/* ✅ 로딩 화면을 정가운데 배치 */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 수직 정렬 */
+  align-items: center; /* 수평 정렬 */
+  height: 100%; /* 부모 컨테이너 전체 높이 차지 */
+  width: 100%; /* 부모 컨테이너 전체 너비 차지 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.4); /* 반투명 배경 */
+  z-index: 10;
+}
