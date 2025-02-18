@@ -111,6 +111,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
           className="chatbot-input-text"
         />
         <Button 
+          id="chatbot-send-button"
           label="전송" 
           icon="pi pi-send" 
           className="p-button-primary chatbot-send-button"

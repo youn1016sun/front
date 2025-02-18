@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
@@ -17,6 +18,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
@@ -29,6 +31,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
       setReviews([]);
     }
   }, [reviewResult]);
+
 
   const toggleChatbot = (reviewId: number, event: React.MouseEvent) => {
     event.stopPropagation(); // ✅ 아코디언 탭 확장 방지
