@@ -71,7 +71,6 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                       initial={{ maxHeight: 0, opacity: 0 }}
                       animate={{ maxHeight: activeChat === review.id ? 400 : 0, opacity: activeChat === review.id ? 1 : 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                      exit={{ maxHeight: 0, opacity: 0 }}  // 사라질 때 애니메이션 추가
                       style={{ overflow: "hidden" }}
                     >
                       {activeChat === review.id && (
