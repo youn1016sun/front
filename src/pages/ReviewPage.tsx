@@ -15,7 +15,7 @@ interface ReviewPageProps {
 }
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
-  const [code, setCode] = useState<string>("");
+  const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]);
   const [inputSource, setInputSource] = useState<string | null>(null);
@@ -46,7 +46,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
 
           setInputSource(data.input_source);
           setInputData(data.input_data);
-          setCode(data.source_code);
+          setSourceCode(data.source_code);
         })
         .catch((error) => {
           console.error("❌ Error fetching history details:", error);
@@ -63,7 +63,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   }, [reviewResult]);
 
   const handleReview = async () => {
-    if (!inputSource || !inputData || !code.trim()) {
+    if (!inputSource || !inputData || !sourceCode.trim()) {
       alert("필수 입력값을 입력하세요!");
       return;
     }
@@ -77,7 +77,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       input_data: inputData,
       problem_id: problemId,
       problem_info: problemInfo,
-      source_code: code,
+      source_code: sourceCode,
       reviews: [],
       user_id: userId,
     };
@@ -116,7 +116,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   };
 
   const newReview = () => {
-    setCode("");
+    setSourceCode("");
     setReviewResult([]);
     setHighlightedLines([]);
     setInputSource(null);
@@ -139,7 +139,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       <div className="code-container" style={{ display: "flex" }}>
         <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
           <h3>Enter Your Code</h3>
-          <CodeEditor code={code} setCode={setCode} highlights={highlightedLines} />
+          <CodeEditor code={sourceCode} setCode={setSourceCode} highlights={highlightedLines} />
         </Card>
 
         <Card className="code-output">
@@ -150,7 +150,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (
-            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} />
+            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} problemInfo={problemInfo} sourceCode={sourceCode} />
           )}
         </Card>
       </div>

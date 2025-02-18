@@ -9,10 +9,11 @@ import { motion } from "framer-motion";
 interface FeedbackProps {
   reviewResult: { id: number; title: string; comments: string }[];
   historyId: number | null;
-  sourceCode: string;
+  sourceCode: string | null;
+  problemInfo: string | null;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
@@ -72,7 +73,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                       {activeChat === review.id && (
                         <Chatbot
                           onClose={() => setActiveChat(null)}
-                          problemInfo=""
+                          problemInfo={problemInfo}
                           sourceCode={sourceCode}
                           reviewTitle={review.title}
                           reviewComments={review.comments}
