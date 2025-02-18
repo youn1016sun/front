@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
 import "../styles/review.css";
 import { InputText } from "primereact/inputtext";
 import { ScrollPanel } from "primereact/scrollpanel";
@@ -7,7 +6,7 @@ import { Button } from "primereact/button";
 import { sendChatbotMessage } from "../api/ChatbotApi";
 
 interface ChatbotProps {
-  onClose: () => void; // ✅ 부모에서 챗봇 닫기 기능 전달
+  onClose: () => void;
   problemInfo: string;
   sourceCode: string;
   reviewTitle: string;
@@ -16,13 +15,14 @@ interface ChatbotProps {
 
 const Chatbot: React.FC<ChatbotProps> = ({ 
   onClose,
-  problemInfo, // ✅ props를 명확히 받아옴
+  problemInfo,
   sourceCode,
   reviewTitle,
   reviewComments,
 }) => {
   const [chatMessages, setChatMessages] = useState<{ sender: string; text: string }[]>([]);
   const [userInput, setUserInput] = useState<string>("");
+  const [isExpanded, setIsExpanded] = useState(false); // ✅ 확장 여부 상태 추가
   const scrollRef = useRef<any>(null);
 
   // ✅ 스크롤을 최신 메시지로 이동
@@ -34,7 +34,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }, 100);
   }, [chatMessages]);
 
-  // ✅ 챗봇 메시지 전송 함수 (POST 요청)
+  // ✅ 챗봇 메시지 전송 함수
   const sendMessage = async () => {
     if (userInput.trim() === "") return;
 
@@ -42,28 +42,20 @@ const Chatbot: React.FC<ChatbotProps> = ({
     setChatMessages(newMessages);
     setUserInput("");
 
-    // ✅ request data를 `console.log()`로 확인 (디버깅용)
-    const requestData = {
-      problemInfo,
-      sourceCode,
-      reviewTitle,
-      reviewComments,
-      questions: [userInput],
-      answers: [],
-    };
-    console.log("📡 Sending Chatbot Request:", requestData);
-
     try {
-      // ✅ API 요청
-      const response = await sendChatbotMessage(requestData);
+      const response = await sendChatbotMessage({
+        problemInfo,
+        sourceCode,
+        reviewTitle,
+        reviewComments,
+        questions: [userInput],
+        answers: [],
+      });
 
-      console.log("✅ chatbotAPI Response:", response); // ✅ API 응답 확인
-
-      // ✅ API 응답이 있을 경우, 봇 메시지 추가
       if (response) {
         setChatMessages((prevMessages) => [
           ...prevMessages,
-          { sender: "bot", text: response }, // ✅ 응답 메시지 반영
+          { sender: "bot", text: response },
         ]);
       } else {
         setChatMessages((prevMessages) => [
@@ -72,25 +64,28 @@ const Chatbot: React.FC<ChatbotProps> = ({
         ]);
       }
     } catch (error: any) {
-      console.error("❌ 챗봇 API 요청 실패:", error.response?.data || error.message);
-
+      console.error("❌ 챗봇 API 요청 실패:", error);
       setChatMessages((prevMessages) => [
         ...prevMessages,
         { sender: "bot", text: "서버 응답을 받을 수 없습니다." },
       ]);
     }
   };
+
   return (
-    <motion.div 
-      className="chatbot-window"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
-    >
+    <div className={`chatbot-window ${isExpanded ? "expanded" : ""}`}> {/* ✅ 확장 상태 반영 */}
+      {/* ✅ 챗봇 헤더: 버튼 추가 */}
       <div className="chatbot-header">
         <h3>ChatBot</h3>
-        <Button icon="pi pi-times" className="p-button-text" onClick={onClose} />
+        <div>
+          {/* 🔹 확장 버튼 (토글 기능 추가) */}
+          <Button
+            icon={isExpanded ? "pi pi-compress" : "pi pi-external-link"} // ✅ 확장 상태에 따라 아이콘 변경
+            className="p-button-text chatbot-expand-btn"
+            onClick={() => setIsExpanded(!isExpanded)} // ✅ 버튼 누르면 확장/축소
+          />
+          <Button icon="pi pi-times" className="p-button-text" onClick={onClose} />
+        </div>
       </div>
 
       {/* 채팅 메시지 영역 */}
@@ -113,12 +108,12 @@ const Chatbot: React.FC<ChatbotProps> = ({
         <Button 
           id="chatbot-send-button"
           label="전송" 
-          icon="pi pi-send" 
+          icon="pi pi-send"
           className="p-button-primary chatbot-send-button"
           onClick={sendMessage} 
         />
       </div>
-    </motion.div>
+    </div>
   );
 };
 
