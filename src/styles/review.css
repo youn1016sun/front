@@ -1,32 +1,28 @@
 ✅ 리뷰 페이지 전체 레이아웃
-/* ✅ 전체 레이아웃 설정 */
 .review-layout {
   display: flex;
-  transition: margin-left 0.3s ease-in-out; /* ✅ 부드러운 전환 */
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* ✅ 사이드바가 열릴 때 */
-.review-layout.sidebar-open .review-content {
-  margin-left: 325px; /* ✅ 사이드바 크기만큼 오른쪽으로 이동 */
-  width: calc(100% - 325px);
+.review-container {
+  display: flex;
+  flex: 1;
 }
 
-/* ✅ 사이드바가 닫혔을 때 */
-.review-layout .review-content {
-  width: 100%;
-  transition: width 0.3s ease-in-out;
+.custom-sidebar {
+  width: 250px; /* ✅ 사이드바 고정 */
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
-/* ✅ PrimeReact Sidebar의 기본 배경(어두운 효과) 제거 */
-.p-sidebar-mask {
-  background-color: transparent !important; /* ✅ 어두운 배경 제거 */
-  pointer-events: none !important; /* ✅ 클릭 방해 요소 제거 */
-}
-
-/* ✅ 사이드바 자체 스타일 조정 */
-.custom-sidebar .p-sidebar {
-  width: 250px !important; /* ✅ 사이드바 너비 고정 */
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* ✅ 약간의 그림자 추가 */
+.review-content {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
 }
 
 .review-title {
@@ -44,18 +40,6 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 5px;
   margin-top: 5px;
-}
-
-/* ✅ 코드 입력 & 출력을 가로로 배치 */
-.review-container {
-  display: flex !important;
-  flex-direction: row !important; /* 강제 가로 배치 */
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 900px;
-  gap: 20px;
-  flex-grow: 1;
 }
 
 .code-input, .code-output {
