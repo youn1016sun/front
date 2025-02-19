@@ -6,18 +6,24 @@ import { Button } from "primereact/button";
 import Chatbot from "./Chatbot";
 import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
+import { Badge } from "primereact/badge";
+import ReactMarkdown from "react-markdown";
 
 interface FeedbackProps {
   reviewResult: { id: number; title: string; comments: string }[];
   historyId: number | null;
   sourceCode: string | null;
   problemInfo: string | null;
+  problemId: number | null;
+  setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
+  const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
+  const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false); // ✅ 모범답안 탭 비활성화 여부 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +37,11 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
       setReviews([]);
     }
   }, [reviewResult]);
+
+  // 모범답안 생성 완료 이펙트
+  useEffect(() => {
+    console.log("🔄 Solution Generation Status Updated:", isSolutionGenerated);
+  }, [isSolutionGenerated]);
 
 
   const toggleChatbot = (reviewId: number, event: React.MouseEvent) => {
@@ -65,8 +76,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                       </div>
                     }
                   >
-                    <p dangerouslySetInnerHTML={{ __html: review.comments.replace(/\n/g, "<br />") }}></p>
-
+                    <ReactMarkdown>{review.comments}</ReactMarkdown>
                     <motion.div
                       initial={{ maxHeight: 0, opacity: 0 }}
                       animate={{ maxHeight: activeChat === review.id ? 400 : 0, opacity: activeChat === review.id ? 1 : 0 }}
@@ -92,8 +102,20 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
           </div>
         </TabPanel>
 
-        <TabPanel header="모범답안">
-          <SolutionCode historyId={historyId} />
+        {/* ✅ 모범답안 탭 - 생성 버튼 유지 개선 */}
+        <TabPanel
+          header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" />}</span>}
+          disabled={isTabDisabled} 
+        >
+          <SolutionCode
+            problemId={problemId}
+            problemInfo={problemInfo}
+            sourceCode={sourceCode}
+            reviews={reviewResult}
+            isSolutionGenerated={isSolutionGenerated}
+            setIsSolutionGenerated={setIsSolutionGenerated}
+            setTabDisabled={setIsTabDisabled} // ✅ 이 부분 추가
+          />
         </TabPanel>
       </TabView>
     </div>
