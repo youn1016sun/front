@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import Chatbot from "./Chatbot";
 import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
+import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
 
 interface FeedbackProps {
@@ -13,13 +14,16 @@ interface FeedbackProps {
   historyId: number | null;
   sourceCode: string | null;
   problemInfo: string | null;
-  setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>; // ✅ 하이라이트 변경 함수 추가
+  problemId: number | null;
+  setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, setHighlightedLines }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
+  const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
+  const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false); // ✅ 모범답안 탭 비활성화 여부 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +49,11 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
       setActiveIndex(index);
     }
   };
+
+  // 모범답안 생성 완료 이펙트
+  useEffect(() => {
+    console.log("🔄 Solution Generation Status Updated:", isSolutionGenerated);
+  }, [isSolutionGenerated]);
 
   const toggleChatbot = (reviewId: number, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -99,8 +108,21 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
             </Accordion>
           </div>
         </TabPanel>
-        <TabPanel header="모범답안">
-          <SolutionCode historyId={historyId} />
+
+        {/* ✅ 모범답안 탭 - 생성 버튼 유지 개선 */}
+        <TabPanel
+          header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" />}</span>}
+          disabled={isTabDisabled} 
+        >
+          <SolutionCode
+            problemId={problemId}
+            problemInfo={problemInfo}
+            sourceCode={sourceCode}
+            reviews={reviewResult}
+            isSolutionGenerated={isSolutionGenerated}
+            setIsSolutionGenerated={setIsSolutionGenerated}
+            setTabDisabled={setIsTabDisabled} // ✅ 이 부분 추가
+          />
         </TabPanel>
       </TabView>
     </div>

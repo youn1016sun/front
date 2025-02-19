@@ -146,7 +146,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
               reviewResult={reviewResult} 
               historyId={selectedHistoryId} 
               problemInfo={problemInfo} 
-              sourceCode={sourceCode} 
+              sourceCode={sourceCode}
+              problemId={problemId} 
               setHighlightedLines={setHighlightedLines} // ✅ 하이라이트 변경 함수 전달
             />
           )}

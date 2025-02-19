@@ -1,58 +1,124 @@
 import React, { useState, useEffect } from "react";
-import { fetchSolutionCode } from "../api/SolutionApi"; // ✅ API 호출 함수
+import { fetchSolutionCode, generateSolutionCode } from "../api/SolutionApi";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { oneDark } from "@codemirror/theme-one-dark"; // ✅ 다크 테마 적용 가능
 import { Card } from "primereact/card";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { Button } from "primereact/button";
 
 interface SolutionCodeProps {
-  historyId: number | null;
+  problemId: number | null;
+  problemInfo: string | null;
+  sourceCode: string;
+  reviews: any[];
+  setTabDisabled: (state: boolean) => void; // ✅ 모범답안 탭 비활성화 여부 설정
 }
 
-const SolutionCode: React.FC<SolutionCodeProps> = ({ historyId }) => {
+const SolutionCode: React.FC<SolutionCodeProps> = ({ problemId, problemInfo, sourceCode, reviews, setTabDisabled }) => {
   const [solutionCode, setSolutionCode] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isCreated, setIsCreated] = useState<boolean>(false);
+  const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
 
   useEffect(() => {
-    if (historyId && !solutionCode) { // ✅ historyId가 있고, 이전에 요청한 데이터가 없을 때만 실행
+    if (problemId) {
+      console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`); // ✅ GET 요청 시작 로그
       setIsLoading(true);
-      fetchSolutionCode(historyId)
+      setTabDisabled(true); // ✅ 요청 중에는 탭 비활성화
+
+      fetchSolutionCode(problemId)
         .then((data) => {
-          setSolutionCode(data);
-          setIsLoading(false);
+          console.log("✅ GET 응답:", data); // ✅ 응답 로그
+          setIsCreated(data.is_created);
+          if (data.is_created) {
+            setSolutionCode(data.solution_code);
+          }
         })
-        .catch(() => {
-          setError("솔루션을 가져오는 중 오류가 발생했습니다.");
+        .catch((error) => {
+          console.error("❌ GET 요청 실패:", error);
+        })
+        .finally(() => {
           setIsLoading(false);
+          setTabDisabled(false); // ✅ 응답 완료 후 탭 활성화
         });
+    } else {
+      console.warn("⚠ GET 요청 실패: problemId가 없음");
     }
-  }, [historyId]); // ✅ historyId가 변경될 때마다 실행
+}, [problemId, setTabDisabled]);
+
+
+const handleGenerateSolution = async () => {
+  if (!problemId || !problemInfo) {
+    console.error(`🚨 POST 요청 실패: problemId=${problemId}, problemInfo=${problemInfo}`);
+    setError("문제 정보를 찾을 수 없어요. 리뷰생성 버튼을 먼저 눌러주세요.");
+    return;
+  }
+
+  setIsLoading(true);
+  setTabDisabled(true); // ✅ 생성 중에는 탭 비활성화
+
+  const requestData = {
+    problem_id: problemId,
+    problem_info: problemInfo,
+    source_code: sourceCode,
+    reviews: reviews.map((review, index) => ({
+      review_id: index + 1, // ✅ review_id를 1부터 시작하는 숫자로 설정
+      title: review.title,
+      comments: review.comments,
+      start_line_number: 0,
+      end_line_number: 0,
+      is_passed: true,
+    })),
+  };
+
+  console.log(`📡 POST 요청: /api/v1/solution/${problemId}`, requestData);
+
+  try {
+    const response = await generateSolutionCode(problemId, requestData);
+    console.log("✅ POST 응답:", response);
+
+    setSolutionCode(response.solution_code);
+    setIsCreated(true);
+    setIsSolutionGenerated(true); // ✅ Success 아이콘 반영
+
+    // ✅ 모범답안 탭 버튼을 즉시 업데이트하기 위해 Feedback.tsx의 상태도 업데이트
+    setTimeout(() => {
+      setIsSolutionGenerated(true);
+    }, 100);
+    
+  } catch (error) {
+    console.error(`❌ POST 요청 실패: problemId=${problemId}`, error);
+    setError("솔루션 생성 중 오류가 발생했습니다.");
+  } finally {
+    setIsLoading(false);
+    setTabDisabled(false); // ✅ 응답 완료 후 탭 활성화
+  }
+};
 
   return (
     <Card className="solution-container">
       {isLoading ? (
-        <ProgressSpinner /> // ✅ 로딩 중일 때 스피너 표시
+        <ProgressSpinner />
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : solutionCode ? (
         <CodeMirror
           value={solutionCode}
-          extensions={[javascript()]} // ✅ JavaScript 문법 적용
-          readOnly={true} // ✅ 읽기 전용 적용
+          extensions={[javascript()]}
+          readOnly={true}
           style={{
             height: "350px",
             fontSize: "14px",
             border: "1px solid #ddd",
             borderRadius: "5px",
-            backgroundColor: "#ffffff", // ✅ 읽기 전용이라 회색 배경
+            backgroundColor: "#ffffff",
             padding: "10px",
             overflow: "scroll",
           }}
         />
       ) : (
-        <p>모범답안이 없습니다.</p>
+        <Button label="모범답안 생성" icon="pi pi-cog" onClick={handleGenerateSolution} className="p-button-primary p-button-lg" />
       )}
     </Card>
   );
