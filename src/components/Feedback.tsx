@@ -10,7 +10,7 @@ import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
 
 interface FeedbackProps {
-  reviewResult: { id: number; title: string; comments: string }[];
+  reviewResult: { id: number; title: string; comments: string; start_line_number: number; end_line_number: number }[];
   historyId: number | null;
   sourceCode: string | null;
   problemInfo: string | null;
@@ -18,7 +18,7 @@ interface FeedbackProps {
   setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId, setHighlightedLines }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
@@ -28,7 +28,6 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
-
     if (Array.isArray(reviewResult)) {
       console.log("✅ Updating state with reviewResult:", reviewResult);
       setReviews([...reviewResult]);
@@ -38,14 +37,26 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
     }
   }, [reviewResult]);
 
+  // ✅ Title 클릭 시 하이라이트 적용/해제
+  const handleAccordionToggle = (index: number, review: any) => {
+    if (activeIndex === index) {
+      // ✅ 현재 선택된 항목을 다시 클릭하면 하이라이트 해제
+      setHighlightedLines([]);
+      setActiveIndex(null);
+    } else {
+      // ✅ 새로운 항목을 클릭하면 해당 코드만 하이라이트 적용
+      setHighlightedLines([{ start: review.start_line_number, end: review.end_line_number, colorIndex: index % 3 }]);
+      setActiveIndex(index);
+    }
+  };
+
   // 모범답안 생성 완료 이펙트
   useEffect(() => {
     console.log("🔄 Solution Generation Status Updated:", isSolutionGenerated);
   }, [isSolutionGenerated]);
 
-
   const toggleChatbot = (reviewId: number, event: React.MouseEvent) => {
-    event.stopPropagation(); // ✅ 아코디언 탭 확장 방지
+    event.stopPropagation();
     setActiveChat(activeChat === reviewId ? null : reviewId);
   };
 
@@ -54,10 +65,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
       <TabView>
         <TabPanel header="리뷰 상세">
           <div className="card">
-            <Accordion
-              activeIndex={activeIndex} // ✅ 아코디언 상태 반영
-              onTabChange={(e) => setActiveIndex(e.index)} // ✅ 클릭한 탭의 인덱스를 추적
-            >
+            <Accordion activeIndex={activeIndex} onTabChange={(e) => handleAccordionToggle(e.index, reviewResult[e.index])}>
               {reviews.length > 0 ? (
                 reviews.map((review, index) => (
                   <AccordionTab
@@ -65,7 +73,6 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                     header={
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {review.title}
-                        {/* ✅ 아코디언이 열렸을 때만 버튼 표시 */}
                         {activeIndex === index && (
                           <Button
                             icon="pi pi-comments"

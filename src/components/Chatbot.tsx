@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown"
 import "../styles/review.css";
 import { InputText } from "primereact/inputtext";
 import { ScrollPanel } from "primereact/scrollpanel";
@@ -92,7 +93,9 @@ const Chatbot: React.FC<ChatbotProps> = ({
       <ScrollPanel ref={scrollRef} className="chatbot-messages">
         {chatMessages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.sender}`}>
-            <div className="chat-bubble">{msg.text}</div>
+            <div className="chat-bubble">
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+              </div>
           </div>
         ))}
       </ScrollPanel>
