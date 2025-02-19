@@ -12,6 +12,8 @@ interface SolutionCodeProps {
   sourceCode: string;
   reviews: any[];
   setTabDisabled: (state: boolean) => void; // ✅ 모범답안 탭 비활성화 여부 설정
+  isSolutionGenerated: boolean;
+  setIsSolutionGenerated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SolutionCode: React.FC<SolutionCodeProps> = ({ problemId, problemInfo, sourceCode, reviews, setTabDisabled }) => {
