@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
@@ -9,51 +8,43 @@ import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
 
+interface Review {
+  id: number;
+  title: string;
+  comments: string;
+  start_line_number: number;
+  end_line_number: number;
+}
+
 interface FeedbackProps {
-  reviewResult: { id: number; title: string; comments: string; start_line_number: number; end_line_number: number }[];
-  historyId: number | null;
-  sourceCode: string | null;
+  reviewResult: Review[];
+  historyId: number | null; // ✅ historyId 추가
   problemInfo: string | null;
   problemId: number | null;
+  sourceCode: string | null;
   setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId, setHighlightedLines }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemId, sourceCode, setHighlightedLines }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
-  const [reviews, setReviews] = useState(reviewResult);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
-  const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false); // ✅ 모범답안 탭 비활성화 여부 
-  const navigate = useNavigate();
+  const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
-    if (Array.isArray(reviewResult)) {
-      console.log("✅ Updating state with reviewResult:", reviewResult);
-      setReviews([...reviewResult]);
-    } else {
-      console.error("❌ reviewResult is empty or not an array:", reviewResult);
-      setReviews([]);
-    }
   }, [reviewResult]);
 
   // ✅ Title 클릭 시 하이라이트 적용/해제
-  const handleAccordionToggle = (index: number, review: any) => {
+  const handleAccordionToggle = (index: number, review?: Review) => {
     if (activeIndex === index) {
-      // ✅ 현재 선택된 항목을 다시 클릭하면 하이라이트 해제
       setHighlightedLines([]);
       setActiveIndex(null);
-    } else {
-      // ✅ 새로운 항목을 클릭하면 해당 코드만 하이라이트 적용
+    } else if (review) {
       setHighlightedLines([{ start: review.start_line_number, end: review.end_line_number, colorIndex: index % 3 }]);
       setActiveIndex(index);
     }
   };
-
-  // 모범답안 생성 완료 이펙트
-  useEffect(() => {
-    console.log("🔄 Solution Generation Status Updated:", isSolutionGenerated);
-  }, [isSolutionGenerated]);
 
   const toggleChatbot = (reviewId: number, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -65,11 +56,19 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
       <TabView>
         <TabPanel header="리뷰 상세">
           <div className="card">
-            <Accordion activeIndex={activeIndex} onTabChange={(e) => handleAccordionToggle(e.index, reviewResult[e.index])}>
-              {reviews.length > 0 ? (
-                reviews.map((review, index) => (
+            <Accordion
+              activeIndex={activeIndex ?? undefined}
+              onTabChange={(e) => {
+                const index = e.index as number;
+                if (index !== undefined && reviewResult[index]) {
+                  handleAccordionToggle(index, reviewResult[index]);
+                }
+              }}
+            >
+              {reviewResult.length > 0 ? (
+                reviewResult.map((review, index) => (
                   <AccordionTab
-                    key={review.id}
+                    key={review.id ?? index}
                     header={
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {review.title}
@@ -93,8 +92,8 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
                       {activeChat === review.id && (
                         <Chatbot
                           onClose={() => setActiveChat(null)}
-                          problemInfo={problemInfo}
-                          sourceCode={sourceCode}
+                          problemInfo={problemInfo ?? ""}
+                          sourceCode={sourceCode ?? ""}
                           reviewTitle={review.title}
                           reviewComments={review.comments}
                         />
@@ -116,8 +115,8 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourc
         >
           <SolutionCode
             problemId={problemId}
-            problemInfo={problemInfo}
-            sourceCode={sourceCode}
+            problemInfo={problemInfo ?? ""}
+            sourceCode={sourceCode ?? ""}
             reviews={reviewResult}
             isSolutionGenerated={isSolutionGenerated}
             setIsSolutionGenerated={setIsSolutionGenerated}
