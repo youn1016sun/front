@@ -18,6 +18,7 @@ interface Review {
 
 interface FeedbackProps {
   reviewResult: Review[];
+  historyId: number | null; // ✅ historyId 추가
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
@@ -67,7 +68,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
               {reviewResult.length > 0 ? (
                 reviewResult.map((review, index) => (
                   <AccordionTab
-                    key={review.id}
+                    key={review.id ?? index}
                     header={
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {review.title}
