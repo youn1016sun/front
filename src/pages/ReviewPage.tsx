@@ -150,7 +150,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (
-            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} problemInfo={problemInfo} sourceCode={sourceCode} />
+            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} problemInfo={problemInfo} sourceCode={sourceCode} problemId={problemId}/>
           )}
         </Card>
       </div>
