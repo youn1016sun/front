@@ -18,7 +18,7 @@ interface FeedbackProps {
   setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId }) => {
+const Feedback: React.FC<FeedbackProps> = ({ reviewResult = [], historyId, sourceCode, problemInfo, problemId, setHighlightedLines }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [reviews, setReviews] = useState(reviewResult);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // ✅ 현재 열린 아코디언 탭 상태
