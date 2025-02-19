@@ -1,13 +1,10 @@
-import axios from "axios";
-
-const API_BASE_URL = "https://virtserver.swaggerhub.com/TNSTKD98/Algo_Reivew/1.0.0";
+import BaseApi from "./BaseApi";
 
 // ✅ Solution Code를 가져오는 API 요청
 export const fetchSolutionCode = async (historyId: number) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/api/v1/solution/${historyId}`);
+    const response = await BaseApi.get(`v1/solution/${historyId}`);
     return response.data.solution_code; // ✅ 서버에서 받은 솔루션 코드 반환
-    console.log("solution code data", response.data.solution_code);
   } catch (error: any) {
     console.error("❌ Error fetching solution code:", error.response?.data || error.message);
     throw error;

@@ -1,9 +1,8 @@
-import axios from "axios";
 import BaseApi from "./BaseApi.tsx";
 
 //const API_BASE_URL = "https://virtserver.swaggerhub.com/TNSTKD98/Algo_Reivew/1.0.0";
 // http://52.199.8.118:8000
-const API_BASE_URL = "http://52.199.8.118:8000";
+// const API_BASE_URL = "http://52.199.8.118:8000";
 
 // ✅ 특정 사용자의 리뷰 히스토리 가져오기 (user_id 기반)
 export const fetchUserHistory = async (userId: number) => {
