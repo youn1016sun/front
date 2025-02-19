@@ -12,6 +12,7 @@
 
 .custom-sidebar {
   width: 15%; /* ✅ 사이드바 고정 */
+
   height: 100vh;
   background-color: #f8f9fa;
   padding: 20px;
