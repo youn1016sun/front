@@ -3,7 +3,7 @@ import axios from "axios";
 // ✅ 리뷰 데이터를 가져오는 API 함수
 export const fetchReviews = async () => {
     try {
-        const response = await axios.post("http://52.199.8.118:8000/api/v1/review"); // 📌 실제 API 주소로 변경
+        const response = await axios.post("http://13.231.227.232:8000/api/v1/review"); // 📌 실제 API 주소로 변경
         return response.data.reviews.map((review: any) => ({
             header: review.title,
             children: review.comments.replace(/\n/g, "<br />"), // ✅ 개행 문자 처리

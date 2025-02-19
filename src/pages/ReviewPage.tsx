@@ -17,7 +17,7 @@ interface ReviewPageProps {
 const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
-  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]);
+  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]); // ✅ 하이라이트 상태 추가
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
   const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
@@ -99,15 +99,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
         console.error("❌ API returned invalid review data:", response.reviews);
         setReviewResult([]);
       }
-
-      if (response.reviews) {
-        const highlights = response.reviews.map((review: any, index: number) => ({
-          start: review.start_line_number,
-          end: review.end_line_number,
-          colorIndex: index,
-        }));
-        setHighlightedLines(highlights);
-      }
     } catch (error) {
       console.error("❌ Error sending review request:", error);
     } finally {
@@ -118,7 +109,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   const newReview = () => {
     setSourceCode("");
     setReviewResult([]);
-    setHighlightedLines([]);
+    setHighlightedLines([]); // ✅ 하이라이트 초기화
     setInputSource(null);
     setInputData(null);
     setProblemId(null);
@@ -139,6 +130,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       <div className="code-container" style={{ display: "flex" }}>
         <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
           <h3>Enter Your Code</h3>
+          {/* ✅ 하이라이트 적용 */}
           <CodeEditor code={sourceCode} setCode={setSourceCode} highlights={highlightedLines} />
         </Card>
 
@@ -150,7 +142,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (
-            <Feedback reviewResult={reviewResult} historyId={selectedHistoryId} problemInfo={problemInfo} sourceCode={sourceCode} />
+            <Feedback 
+              reviewResult={reviewResult} 
+              historyId={selectedHistoryId} 
+              problemInfo={problemInfo} 
+              sourceCode={sourceCode} 
+              setHighlightedLines={setHighlightedLines} // ✅ 하이라이트 변경 함수 전달
+            />
           )}
         </Card>
       </div>
