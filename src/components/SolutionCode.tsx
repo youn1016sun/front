@@ -21,8 +21,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   problemInfo, 
   sourceCode, 
   reviews, 
-  setTabDisabled, 
-  isSolutionGenerated, 
+  setTabDisabled,
   setIsSolutionGenerated 
 }) => {
   const [solutionCode, setSolutionCode] = useState<string | null>(null);
