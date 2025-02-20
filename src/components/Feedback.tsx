@@ -3,6 +3,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import Chatbot from "./Chatbot";
+import { fetchSolutionCode } from "../api/SolutionApi";
 import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
@@ -19,7 +20,6 @@ interface Review {
 
 interface FeedbackProps {
   reviewResult: Review[];
-  historyId: number | null;
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
@@ -39,11 +39,39 @@ const Feedback: React.FC<FeedbackProps> = ({
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
   const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false);
+  const [solutionCode, setSolutionCode] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
-    setIsSolutionGenerated(false);
   }, [reviewResult]);
+
+  // ✅ GET 요청: 모범답안이 이미 존재하는지 확인
+  useEffect(() => {
+    if (problemId) {
+      console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`);
+      setIsTabDisabled(true);
+
+      fetchSolutionCode(problemId)
+        .then((data) => {
+          console.log("✅ GET 응답:", data);
+          if (data.is_created) {
+            setIsSolutionGenerated(true); // ✅ 모범답안이 존재하면 즉시 뱃지 업데이트
+            setSolutionCode(data.solution_code);
+          } else {
+            setIsSolutionGenerated(false);
+            setSolutionCode(null);
+          }
+        })
+        .catch((error) => {
+          console.error("❌ GET 요청 실패:", error);
+        })
+        .finally(() => {
+          setIsTabDisabled(false);
+        });
+    } else {
+      console.warn("⚠ GET 요청 실패: problemId가 없음");
+    }
+  }, [problemId]);//setTabDisabled, setIsSolutionGenerated]);
 
   // ✅ Title 클릭 시 하이라이트 적용/해제 (닫기 기능 수정)
   const handleAccordionToggle = (index: number) => {
@@ -165,6 +193,8 @@ const Feedback: React.FC<FeedbackProps> = ({
             reviews={reviewResult}
             isSolutionGenerated={isSolutionGenerated}
             setIsSolutionGenerated={setIsSolutionGenerated}
+            solutionCode={solutionCode}
+            setSolutionCode={setSolutionCode}
             setTabDisabled={setIsTabDisabled}
           />
         </TabPanel>
