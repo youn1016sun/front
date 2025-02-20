@@ -44,7 +44,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
             console.error("❌ API returned empty or invalid reviews:", data.reviews);
             setReviewResult([]);
           }
-
+          setProblemId(data.problem_id);
+          setProblemInfo(data.problem_info);
           setInputSource(data.input_source);
           setInputData(data.input_data);
           setSourceCode(data.source_code);
@@ -148,7 +149,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
               // historyId={selectedHistoryId} 
               problemInfo={problemInfo} 
               sourceCode={sourceCode}
-              problemId={selectedProblemId} 
+              problemId={problemId} 
               setHighlightedLines={setHighlightedLines} // ✅ 하이라이트 변경 함수 전달
             />
           )}
