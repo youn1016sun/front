@@ -103,8 +103,20 @@ const Feedback: React.FC<FeedbackProps> = ({
                   <AccordionTab
                     key={review.id}
                     header={
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "10px", // ✅ 여백 추가
+                          borderRadius: "8px", // ✅ 둥근 모서리
+                          backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE", // ✅ True(연두) / False(빨강)
+                          fontWeight: "bold",
+                          width: "100%",
+                        }}
+                      >
                         {review.title}
+                        {/* ✅ 챗봇 버튼을 다시 추가하여 사라지는 문제 해결 */}
                         {activeIndex === index && (
                           <Button
                             icon="pi pi-comments"
