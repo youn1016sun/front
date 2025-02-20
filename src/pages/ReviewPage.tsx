@@ -44,10 +44,12 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
             console.error("❌ API returned empty or invalid reviews:", data.reviews);
             setReviewResult([]);
           }
+          setHistoryId(selectedHistoryId);
           setProblemId(data.problem_id);
           setProblemInfo(data.problem_info);
           setInputSource(data.input_source);
           setInputData(data.input_data);
+          setReviewResult(data.reviews);
           setSourceCode(data.source_code);
         })
         .catch((error) => {
@@ -80,7 +82,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
       problem_id: problemId,
       problem_info: problemInfo,
       source_code: sourceCode,
-      reviews: [],
+      reviews: reviewResult,
       user_id: userId,
     };
 
