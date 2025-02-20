@@ -11,10 +11,11 @@ import { sendReviewRequest } from "../api/ReviewRequestApi";
 import { ProgressSpinner } from "primereact/progressspinner"; // ✅ 로딩 UI 추가
 
 interface ReviewPageProps {
+  selectedProblemId?: number | null;
   selectedHistoryId?: number | null;
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]); // ✅ 하이라이트 상태 추가
@@ -43,9 +44,12 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
             console.error("❌ API returned empty or invalid reviews:", data.reviews);
             setReviewResult([]);
           }
-
+          setHistoryId(selectedHistoryId);
+          setProblemId(data.problem_id);
+          setProblemInfo(data.problem_info);
           setInputSource(data.input_source);
           setInputData(data.input_data);
+          setReviewResult(data.reviews);
           setSourceCode(data.source_code);
         })
         .catch((error) => {
@@ -78,7 +82,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       problem_id: problemId,
       problem_info: problemInfo,
       source_code: sourceCode,
-      reviews: [],
+      reviews: reviewResult,
       user_id: userId,
     };
 
@@ -144,7 +148,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
           ) : (
             <Feedback 
               reviewResult={reviewResult} 
-              historyId={selectedHistoryId} 
+              // historyId={selectedHistoryId} 
               problemInfo={problemInfo} 
               sourceCode={sourceCode}
               problemId={problemId} 
