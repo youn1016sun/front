@@ -15,7 +15,7 @@ interface ReviewPageProps {
   selectedHistoryId?: number | null;
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selectedHistoryId = null }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; is_passed: boolean }[]>([]); // ✅ 하이라이트 상태 추가
@@ -144,14 +144,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (
-              <Feedback
-                reviewResult={reviewResult}
-                // historyId={selectedHistoryId}
-                problemInfo={problemInfo}
-                sourceCode={sourceCode}
-                problemId={problemId} // ✅ problemId가 숫자일 때만 전달
-                setHighlightedLines={setHighlightedLines}
-              />
+            <Feedback 
+              reviewResult={reviewResult} 
+              problemInfo={problemInfo} 
+              sourceCode={sourceCode}
+              problemId={problemId} 
+              setHighlightedLines={setHighlightedLines} // ✅ 하이라이트 변경 함수 전달
+            />
           )}
         </Card>
       </div>

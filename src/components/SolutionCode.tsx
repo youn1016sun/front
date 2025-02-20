@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { fetchSolutionCode, generateSolutionCode } from "../api/SolutionApi";
+import React, { useState } from "react";
+import { generateSolutionCode } from "../api/SolutionApi";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { Card } from "primereact/card";
@@ -13,7 +13,9 @@ interface SolutionCodeProps {
   reviews: any[];
   setTabDisabled: (state: boolean) => void;
   isSolutionGenerated: boolean;
-  setIsSolutionGenerated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSolutionGenerated: (state: boolean) => void;
+  solutionCode: string | null;
+  setSolutionCode: (state: string | null) => void;
 }
 
 const SolutionCode: React.FC<SolutionCodeProps> = ({ 
@@ -22,38 +24,13 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   sourceCode, 
   reviews, 
   setTabDisabled,
-  setIsSolutionGenerated 
+  setIsSolutionGenerated,
+  solutionCode,
+  setSolutionCode,
 }) => {
-  const [solutionCode, setSolutionCode] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ GET 요청: 모범답안이 이미 존재하는지 확인
-  useEffect(() => {
-    if (problemId !== null) {
-      console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`);
-      setIsLoading(true);
-      setTabDisabled(true);
-
-      fetchSolutionCode(problemId)
-        .then((data) => {
-          console.log("✅ GET 응답:", data);
-          if (data.is_created) {
-            setSolutionCode(data.solution_code);
-            setIsSolutionGenerated(true); // ✅ 모범답안이 존재하면 즉시 뱃지 업데이트
-          }
-        })
-        .catch((error) => {
-          console.error("❌ GET 요청 실패:", error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-          setTabDisabled(false);
-        });
-    } else {
-      console.warn("⚠ GET 요청 실패: problemId가 없음",problemId);
-    }
-  }, [problemId, setTabDisabled, setIsSolutionGenerated]);
 
   // ✅ POST 요청: 모범답안 생성
   const handleGenerateSolution = async () => {
@@ -120,7 +97,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           }}
         />
       ) : (
-        <Button label="모범답안 생성" icon="pi pi-cog" onClick={handleGenerateSolution} className="p-button-primary p-button-lg" />
+        <Button label="모범답안 생성" icon="pi pi-cog" onClick={handleGenerateSolution} className="p-button-primary p-button-lg" style={{ display: "block", margin: "0 auto" }} />
       )}
     </Card>
   );
