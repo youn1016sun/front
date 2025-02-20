@@ -19,7 +19,7 @@ interface Review {
 
 interface FeedbackProps {
   reviewResult: Review[];
-  historyId: number | null;
+  // historyId: number | null;
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
