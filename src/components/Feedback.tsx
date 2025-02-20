@@ -38,6 +38,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
 
   // ✅ Title 클릭 시 하이라이트 적용/해제
   const handleAccordionToggle = (index: number, review?: Review) => {
+    console.log(index);
     if (activeIndex === index) {
       setHighlightedLines([]);
       setActiveIndex(null);
