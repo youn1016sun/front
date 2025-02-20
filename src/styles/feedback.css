@@ -1,0 +1,13 @@
+.tab-name{
+    font-size: 21px;
+}
+
+.check-badge{
+    float: right;
+    margin-left: 4px;
+    text-align: center;
+    align-items: center;
+    height:1.7em;
+    width: 1.7em;
+    font-size: 0.6em;
+}

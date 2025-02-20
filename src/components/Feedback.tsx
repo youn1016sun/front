@@ -8,6 +8,7 @@ import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
+import "../styles/feedback.css";
 
 interface Review {
   id: number;
@@ -101,7 +102,7 @@ const Feedback: React.FC<FeedbackProps> = ({
   return (
     <div className="card">
       <TabView>
-        <TabPanel header="리뷰 상세">
+        <TabPanel header="리뷰 상세" className="tab-name">
           <div className="card">
             <Accordion
               activeIndex={activeIndex ?? undefined} // ✅ Primereact의 undefined 처리 방식 활용
@@ -183,8 +184,9 @@ const Feedback: React.FC<FeedbackProps> = ({
 
         {/* ✅ 모범답안 탭 - 생성 버튼 유지 개선 */}
         <TabPanel
-          header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" />}</span>}
+          header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" className="check-badge"/>}</span>}
           disabled={isTabDisabled}
+          className="tab-name"
         >
           <SolutionCode
             problemId={problemId ?? null}
