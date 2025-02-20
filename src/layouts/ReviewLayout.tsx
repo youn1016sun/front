@@ -11,16 +11,17 @@ interface ReviewLayoutProps {
 const ReviewLayout: React.FC<ReviewLayoutProps> = ({ children }) => {
   const location = useLocation();
   const userId = location.state?.userId || localStorage.getItem("user_id");
+  const [selectedProblemId, setSelectedProblemId] = useState<number | null>(null);
   const [selectedHistoryId, setSelectedHistoryId] = useState<number | null>(null);
 
   return (
     <div className="review-layout">
       <Header />
       <div className="review-container">
-        <CustomSidebar userId={userId} onSelectHistory={setSelectedHistoryId} />
+        <CustomSidebar userId={userId} onSelectHistory={setSelectedHistoryId} onSelectProblem={setSelectedProblemId} />
         <main className="review-content">
           {React.isValidElement(children)
-            ? cloneElement(children as ReactElement<any>, { selectedHistoryId })
+            ? cloneElement(children as ReactElement<any>, { selectedProblemId, selectedHistoryId })
             : children}
         </main>
       </div>

@@ -10,10 +10,11 @@ import { InputText } from "primereact/inputtext";
 
 interface HistoryProps {
   userId: number | null;
+  onSelectProblem: (problemId: number) => void;
   onSelectHistory: (historyId: number) => void; // ✅ 선택한 historyId를 부모 컴포넌트로 전달
 }
 
-const History: React.FC<HistoryProps> = ({ userId, onSelectHistory }) => {
+const History: React.FC<HistoryProps> = ({ userId, onSelectProblem, onSelectHistory }) => {
   const [histories, setHistories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -93,7 +94,7 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory }) => {
       <Toast ref={toast} />
       <Accordion>
         {histories.map((problem) => (
-          <AccordionTab key={problem.problem_id} header={problem.problem_name}>
+          <AccordionTab key={problem.problem_id} header={problem.problem_name} onClick={() => onSelectProblem(problem.problem_id)}>
             {problem.history_names.map((history: string, index: number) => {
               const historyId = problem.history_ids[index];
 

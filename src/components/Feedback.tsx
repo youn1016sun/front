@@ -26,6 +26,7 @@ interface FeedbackProps {
 }
 
 const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemId, sourceCode, setHighlightedLines }) => {
+  console.log(`problemId = ${problemId}`)
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
