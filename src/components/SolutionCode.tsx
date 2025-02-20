@@ -5,6 +5,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { Card } from "primereact/card";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
+import "../styles/solution.css";
 
 interface SolutionCodeProps {
   problemId: number | null;
@@ -97,7 +98,9 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           }}
         />
       ) : (
-        <Button label="모범답안 생성" icon="pi pi-cog" onClick={handleGenerateSolution} className="p-button-primary p-button-lg" style={{ display: "block", margin: "0 auto" }} />
+        <div className="center-btn">
+          <Button label="모범답안 생성" icon="pi pi-cog" onClick={handleGenerateSolution} className="p-button-primary p-button-lg" />
+        </div>
       )}
     </Card>
   );

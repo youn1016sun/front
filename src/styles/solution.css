@@ -1,0 +1,11 @@
+.solution-container {
+    min-height: 340px;
+    box-sizing: border-box;
+}
+
+.center-btn {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 9% 0;
+  }
