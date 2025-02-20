@@ -30,7 +30,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
 
   // ✅ GET 요청: 모범답안이 이미 존재하는지 확인
   useEffect(() => {
-    if (problemId) {
+    if (problemId !== null) {
       console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`);
       setIsLoading(true);
       setTabDisabled(true);
@@ -51,7 +51,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           setTabDisabled(false);
         });
     } else {
-      console.warn("⚠ GET 요청 실패: problemId가 없음");
+      console.warn("⚠ GET 요청 실패: problemId가 없음",problemId);
     }
   }, [problemId, setTabDisabled, setIsSolutionGenerated]);
 

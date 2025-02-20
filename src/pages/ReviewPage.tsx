@@ -63,8 +63,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
   }, [reviewResult]);
 
   const handleReview = async () => {
-    if (!inputSource || !inputData || !sourceCode.trim()) {
-      alert("필수 입력값을 입력하세요!");
+    if (!sourceCode.trim()) {
+      alert("코드를 입력해주세요");
       return;
     }
 
@@ -72,13 +72,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
     setIsLoading(true);
 
     const requestData = {
-      history_id: historyId,
+      // history_id: historyId,
       input_source: inputSource,
       input_data: inputData,
       problem_id: problemId,
       problem_info: problemInfo,
       source_code: sourceCode,
-      reviews: [],
+      reviews: reviewResult,
       user_id: userId,
     };
 
@@ -135,21 +135,20 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
         </Card>
 
         <Card className="code-output">
-          {/* ✅ 로딩 중이면 스피너 표시 (정가운데 정렬) */}
           {isLoading ? (
             <div className="loading-overlay">
               <ProgressSpinner />
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (
-            <Feedback 
-              reviewResult={reviewResult} 
-              historyId={selectedHistoryId} 
-              problemInfo={problemInfo} 
-              sourceCode={sourceCode}
-              problemId={problemId} 
-              setHighlightedLines={setHighlightedLines} // ✅ 하이라이트 변경 함수 전달
-            />
+              <Feedback
+                reviewResult={reviewResult}
+                historyId={selectedHistoryId}
+                problemInfo={problemInfo}
+                sourceCode={sourceCode}
+                problemId={problemId} // ✅ problemId가 숫자일 때만 전달
+                setHighlightedLines={setHighlightedLines}
+              />
           )}
         </Card>
       </div>
