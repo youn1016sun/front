@@ -15,7 +15,7 @@ interface ReviewPageProps {
   selectedHistoryId?: number | null;
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selectedHistoryId = null }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]); // ✅ 하이라이트 상태 추가
@@ -148,7 +148,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
           ) : (
             <Feedback 
               reviewResult={reviewResult} 
-              // historyId={selectedHistoryId} 
               problemInfo={problemInfo} 
               sourceCode={sourceCode}
               problemId={problemId} 

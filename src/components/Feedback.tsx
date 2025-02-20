@@ -3,6 +3,7 @@ import { TabView, TabPanel } from "primereact/tabview";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import Chatbot from "./Chatbot";
+import { fetchSolutionCode } from "../api/SolutionApi";
 import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
@@ -14,36 +15,80 @@ interface Review {
   comments: string;
   start_line_number: number;
   end_line_number: number;
+  is_passed: boolean; // ✅ is_passed 값 추가
 }
 
 interface FeedbackProps {
   reviewResult: Review[];
-  historyId: number | null; // ✅ historyId 추가
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
-  setHighlightedLines: React.Dispatch<React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>>;
+  setHighlightedLines: React.Dispatch<
+    React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>
+  >;
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemId, sourceCode, setHighlightedLines }) => {
+const Feedback: React.FC<FeedbackProps> = ({
+  reviewResult,
+  problemInfo,
+  problemId,
+  sourceCode,
+  setHighlightedLines,
+}) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
   const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false);
+  const [solutionCode, setSolutionCode] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
-    setIsSolutionGenerated(false);
   }, [reviewResult]);
 
-  // ✅ Title 클릭 시 하이라이트 적용/해제
-  const handleAccordionToggle = (index: number, review?: Review) => {
-    console.log(index);
+  // ✅ GET 요청: 모범답안이 이미 존재하는지 확인
+  useEffect(() => {
+    if (problemId) {
+      console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`);
+      setIsTabDisabled(true);
+
+      fetchSolutionCode(problemId)
+        .then((data) => {
+          console.log("✅ GET 응답:", data);
+          if (data.is_created) {
+            setIsSolutionGenerated(true); // ✅ 모범답안이 존재하면 즉시 뱃지 업데이트
+            setSolutionCode(data.solution_code);
+          } else {
+            setIsSolutionGenerated(false);
+            setSolutionCode(null);
+          }
+        })
+        .catch((error) => {
+          console.error("❌ GET 요청 실패:", error);
+        })
+        .finally(() => {
+          setIsTabDisabled(false);
+        });
+    } else {
+      console.warn("⚠ GET 요청 실패: problemId가 없음");
+    }
+  }, [problemId]);//setTabDisabled, setIsSolutionGenerated]);
+
+  // ✅ Title 클릭 시 하이라이트 적용/해제 (닫기 기능 수정)
+  const handleAccordionToggle = (index: number) => {
+    if (index === null || index === undefined || !reviewResult[index]) {
+      console.error("❌ 유효하지 않은 index 접근", index);
+      return; // ❗ 유효하지 않은 index는 실행하지 않음
+    }
+
+    console.log(`🔄 handleAccordionToggle 실행됨 | 현재 activeIndex: ${activeIndex}, 클릭된 index: ${index}`);
+
     if (activeIndex === index) {
+      console.log("✅ 기존 선택된 항목을 다시 클릭 → 닫기 & 하이라이트 제거");
       setHighlightedLines([]);
       setActiveIndex(null);
-    } else if (review) {
-      setHighlightedLines([{ start: review.start_line_number, end: review.end_line_number, colorIndex: index % 3 }]);
+    } else {
+      console.log(`✅ 새로운 항목 클릭 → 하이라이트 적용 (start: ${reviewResult[index].start_line_number}, end: ${reviewResult[index].end_line_number})`);
+      setHighlightedLines([{ start: reviewResult[index].start_line_number, end: reviewResult[index].end_line_number, colorIndex: index % 3 }]);
       setActiveIndex(index);
     }
   };
@@ -59,21 +104,47 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
         <TabPanel header="리뷰 상세">
           <div className="card">
             <Accordion
-              activeIndex={activeIndex ?? undefined}
+              activeIndex={activeIndex ?? undefined} // ✅ Primereact의 undefined 처리 방식 활용
               onTabChange={(e) => {
                 const index = e.index as number;
-                if (index !== undefined && reviewResult[index]) {
-                  handleAccordionToggle(index, reviewResult[index]);
+
+                // ❗ index가 null 또는 undefined일 때 처리
+                if (index === null || index === undefined) {
+                  console.warn("⚠️ onTabChange 이벤트에서 null 또는 undefined index 반환됨", index);
+                  setActiveIndex(null);
+                  setHighlightedLines([]); // ✅ 닫을 때 하이라이트 제거
+                  return;
                 }
+
+                // ❗ reviewResult 범위를 벗어나는 index인지 체크
+                if (!reviewResult[index]) {
+                  console.error("❌ 유효하지 않은 index 접근", index);
+                  return;
+                }
+
+                console.log("🔄 onTabChange 이벤트 발생 | index:", index);
+                handleAccordionToggle(index);
               }}
             >
               {reviewResult.length > 0 ? (
                 reviewResult.map((review, index) => (
                   <AccordionTab
-                    key={review.id ?? index}
+                    key={review.id}
                     header={
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "10px", // ✅ 여백 추가
+                          borderRadius: "8px", // ✅ 둥근 모서리
+                          backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE", // ✅ True(연두) / False(빨강)
+                          fontWeight: "bold",
+                          width: "100%",
+                        }}
+                      >
                         {review.title}
+                        {/* ✅ 챗봇 버튼을 다시 추가하여 사라지는 문제 해결 */}
                         {activeIndex === index && (
                           <Button
                             icon="pi pi-comments"
@@ -113,7 +184,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
         {/* ✅ 모범답안 탭 - 생성 버튼 유지 개선 */}
         <TabPanel
           header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" />}</span>}
-          disabled={isTabDisabled} 
+          disabled={isTabDisabled}
         >
           <SolutionCode
             problemId={problemId}
@@ -122,7 +193,9 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
             reviews={reviewResult}
             isSolutionGenerated={isSolutionGenerated}
             setIsSolutionGenerated={setIsSolutionGenerated}
-            setTabDisabled={setIsTabDisabled} // ✅ 이 부분 추가
+            solutionCode={solutionCode}
+            setSolutionCode={setSolutionCode}
+            setTabDisabled={setIsTabDisabled}
           />
         </TabPanel>
       </TabView>
