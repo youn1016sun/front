@@ -15,10 +15,10 @@ interface ReviewPageProps {
   selectedHistoryId?: number | null;
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selectedHistoryId = null }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
-  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]); // ✅ 하이라이트 상태 추가
+  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; is_passed: boolean }[]>([]); // ✅ 하이라이트 상태 추가
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
   const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
@@ -67,8 +67,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
   }, [reviewResult]);
 
   const handleReview = async () => {
-    if (!inputSource || !inputData || !sourceCode.trim()) {
-      alert("필수 입력값을 입력하세요!");
+    if (!sourceCode.trim()) {
+      alert("코드를 입력해주세요");
       return;
     }
 
@@ -76,7 +76,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
     setIsLoading(true);
 
     const requestData = {
-      history_id: historyId,
       input_source: inputSource,
       input_data: inputData,
       problem_id: problemId,
@@ -139,7 +138,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
         </Card>
 
         <Card className="code-output">
-          {/* ✅ 로딩 중이면 스피너 표시 (정가운데 정렬) */}
           {isLoading ? (
             <div className="loading-overlay">
               <ProgressSpinner />
@@ -148,7 +146,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
           ) : (
             <Feedback 
               reviewResult={reviewResult} 
-              // historyId={selectedHistoryId} 
               problemInfo={problemInfo} 
               sourceCode={sourceCode}
               problemId={problemId} 
