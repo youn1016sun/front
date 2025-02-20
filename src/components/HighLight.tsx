@@ -19,6 +19,8 @@ export const getHighlightDecorations = (highlights: HighlightedLine[]) => {
 
     highlights.forEach(({ start, end, is_passed }) => {
       const highlightColor = is_passed ? passedColor : failedColor;
+      console.log("백그라운드 컬러:",highlightColor);
+      console.log("trueORfalse:", is_passed);
 
       for (let line = start; line <= end; line++) {
         const linePos = state.doc.line(line);

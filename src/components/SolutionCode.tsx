@@ -31,6 +31,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+
   // ✅ POST 요청: 모범답안 생성
   const handleGenerateSolution = async () => {
     if (!problemId || !problemInfo) {

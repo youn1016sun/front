@@ -15,7 +15,7 @@ interface Review {
   comments: string;
   start_line_number: number;
   end_line_number: number;
-  is_passed: boolean; // ✅ is_passed 값 추가
+  is_passed : boolean;
 }
 
 interface FeedbackProps {
@@ -24,7 +24,7 @@ interface FeedbackProps {
   problemId: number | null;
   sourceCode: string | null;
   setHighlightedLines: React.Dispatch<
-    React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>
+    React.SetStateAction<{ start: number; end: number; is_passed: boolean }[]>
   >;
 }
 
@@ -88,7 +88,7 @@ const Feedback: React.FC<FeedbackProps> = ({
       setActiveIndex(null);
     } else {
       console.log(`✅ 새로운 항목 클릭 → 하이라이트 적용 (start: ${reviewResult[index].start_line_number}, end: ${reviewResult[index].end_line_number})`);
-      setHighlightedLines([{ start: reviewResult[index].start_line_number, end: reviewResult[index].end_line_number, colorIndex: index % 3 }]);
+      setHighlightedLines([{ start: reviewResult[index].start_line_number, end: reviewResult[index].end_line_number, is_passed: reviewResult[index].is_passed}]);
       setActiveIndex(index);
     }
   };
@@ -187,7 +187,7 @@ const Feedback: React.FC<FeedbackProps> = ({
           disabled={isTabDisabled}
         >
           <SolutionCode
-            problemId={problemId}
+            problemId={problemId ?? null}
             problemInfo={problemInfo ?? ""}
             sourceCode={sourceCode ?? ""}
             reviews={reviewResult}
