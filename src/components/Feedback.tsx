@@ -42,6 +42,7 @@ const Feedback: React.FC<FeedbackProps> = ({
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
+    setIsSolutionGenerated(false);
   }, [reviewResult]);
 
   // ✅ Title 클릭 시 하이라이트 적용/해제 (닫기 기능 수정)
