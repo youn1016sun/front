@@ -33,6 +33,7 @@ const Feedback: React.FC<FeedbackProps> = ({ reviewResult, problemInfo, problemI
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
+    setIsSolutionGenerated(false);
   }, [reviewResult]);
 
   // ✅ Title 클릭 시 하이라이트 적용/해제
