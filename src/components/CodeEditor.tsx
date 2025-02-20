@@ -6,7 +6,7 @@ import { getHighlightDecorations, generateHighlightTheme } from "../components/H
 interface HighlightedLine {
   start: number;
   end: number;
-  colorIndex: number;
+  is_passed: boolean;
 }
 
 interface CodeEditorProps {

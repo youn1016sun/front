@@ -19,12 +19,12 @@ interface Review {
 
 interface FeedbackProps {
   reviewResult: Review[];
-  historyId: number | null;
+  // historyId: number | null;
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
   setHighlightedLines: React.Dispatch<
-    React.SetStateAction<{ start: number; end: number; colorIndex: number }[]>
+    React.SetStateAction<{ start: number; end: number; is_passed: boolean }[]>
   >;
 }
 
@@ -60,7 +60,7 @@ const Feedback: React.FC<FeedbackProps> = ({
       setActiveIndex(null);
     } else {
       console.log(`✅ 새로운 항목 클릭 → 하이라이트 적용 (start: ${reviewResult[index].start_line_number}, end: ${reviewResult[index].end_line_number})`);
-      setHighlightedLines([{ start: reviewResult[index].start_line_number, end: reviewResult[index].end_line_number, colorIndex: index % 3 }]);
+      setHighlightedLines([{ start: reviewResult[index].start_line_number, end: reviewResult[index].end_line_number, is_passed: reviewResult[index].is_passed}]);
       setActiveIndex(index);
     }
   };

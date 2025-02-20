@@ -18,7 +18,7 @@ interface ReviewPageProps {
 const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selectedHistoryId = null }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
-  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; colorIndex: number }[]>([]); // ✅ 하이라이트 상태 추가
+  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; is_passed: boolean }[]>([]); // ✅ 하이라이트 상태 추가
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
   const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
@@ -76,7 +76,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
     setIsLoading(true);
 
     const requestData = {
-      // history_id: historyId,
       input_source: inputSource,
       input_data: inputData,
       problem_id: problemId,
@@ -147,7 +146,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedProblemId = null, selec
           ) : (
               <Feedback
                 reviewResult={reviewResult}
-                historyId={selectedHistoryId}
+                // historyId={selectedHistoryId}
                 problemInfo={problemInfo}
                 sourceCode={sourceCode}
                 problemId={problemId} // ✅ problemId가 숫자일 때만 전달
