@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { fetchSolutionCode, generateSolutionCode } from "../api/SolutionApi";
+import React, { useState } from "react";
+import { generateSolutionCode } from "../api/SolutionApi";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { Card } from "primereact/card";
@@ -24,7 +24,6 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   sourceCode, 
   reviews, 
   setTabDisabled,
-  isSolutionGenerated,
   setIsSolutionGenerated,
   solutionCode,
   setSolutionCode,
