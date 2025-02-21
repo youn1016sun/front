@@ -10,6 +10,7 @@ import { fetchHistoryDetails } from "../api/HistoriesApi";
 import { sendReviewRequest } from "../api/ReviewRequestApi";
 import { ProgressSpinner } from "primereact/progressspinner";
 import CompleteReviewDialog from "../components/CompleteDialog";
+import { TabView, TabPanel } from "primereact/tabview";
 
 interface ReviewPageProps {
   selectedProblemId?: number | null;
@@ -118,9 +119,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       } else {
         const row = {
           problem_id: problemId,
-          problem_name: "newProblemName", // ✅ 필드명 수정
+          problem_name: response.problem_name, // ✅ 필드명 수정
           history_ids: [historyId], // ✅ 필드명 통일
-          history_names: ["newHistoryName"],
+          history_names: [response.history_name,],
         };
         histories.unshift(row);
       }
@@ -160,10 +161,14 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
       <div className="code-container" style={{ display: "flex" }}>
         <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
-          <h3>Enter Your Code</h3>
-          <CodeEditor code={sourceCode} setCode={setSourceCode} highlights={highlightedLines} />
+          <TabView>
+              <TabPanel header="코드 입력" className="tab-name" disabled="true">
+                <div className="card">
+                  <CodeEditor code={sourceCode} setCode={setSourceCode} highlights={highlightedLines} />
+                </div>
+              </TabPanel>
+          </TabView>
         </Card>
-
         <Card className="code-output">
           {isLoading ? (
             <div className="loading-overlay">
