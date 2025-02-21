@@ -30,9 +30,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
   const [problemInfo, setProblemInfo] = useState<string | null>(null);
   const [historyId, setHistoryId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // ✅ "모두 완료되었습니다" 팝업 상태
-  const [isReviewComplete, setIsReviewComplete] = useState<boolean>(false);
+  const [revision, setRevision] = useState<number>(0); // ✅ revision 상태 추가
+  const [isReviewComplete, setIsReviewComplete] = useState<boolean>(false); // ✅ "모두 완료되었습니다" 팝업 상태
 
   const location = useLocation();
   const userId = location.state?.userId || localStorage.getItem("user_id");
@@ -50,6 +49,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
           setInputSource(data.input_source);
           setInputData(data.input_data);
           setSourceCode(data.source_code);
+          setRevision(data.revision || 0); // ✅ revision 값 업데이트
         })
         .catch((error) => {
           console.error("❌ Error fetching history details:", error);
@@ -103,7 +103,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setProblemId(response.problem_id);
       setProblemInfo(response.problem_info);
       setReviewResult(response.reviews || []);
+      setRevision(response.revision || 0); // ✅ revision 값 업데이트
+
+      console.log("revision값:",response.revision);
       console.log(`histories= ${histories}`);
+
       if (requestData.problem_id) {
         for (let i = 0; i < histories.length; i++) {
           if (histories[i].problem_id === requestData.problem_id) {
@@ -131,13 +135,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       if (response.reviews.every((review: any) => review.is_passed)) {
         console.log("🎉 모든 리뷰 통과! 팝업 열기");
         setIsReviewComplete(true);
-      }
-    } catch (error) {
-      console.error("❌ Error sending review request:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+          }
+        } catch (error) {
+          console.error("❌ Error sending review request:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
   const newReview = () => {
     setSourceCode("");
@@ -181,7 +185,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
               problemInfo={problemInfo} 
               sourceCode={sourceCode}
               problemId={problemId} 
-              setHighlightedLines={setHighlightedLines} 
+              setHighlightedLines={setHighlightedLines}
+              revision={revision} // ✅ revision 값
             />
           )}
         </Card>

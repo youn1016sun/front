@@ -24,6 +24,7 @@ interface FeedbackProps {
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
+  revision: number; // ✅ revision 추가
   setHighlightedLines: React.Dispatch<
     React.SetStateAction<{ start: number; end: number; is_passed: boolean }[]>
   >;
@@ -34,6 +35,7 @@ const Feedback: React.FC<FeedbackProps> = ({
   problemInfo,
   problemId,
   sourceCode,
+  revision,
   setHighlightedLines,
 }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
@@ -101,8 +103,12 @@ const Feedback: React.FC<FeedbackProps> = ({
 
   return (
     <div className="card">
+      <div className="feedback-header">
+        <span className="revision-text">{revision}번째 리뷰</span> {/* ✅ UI에 표시 */}
+      </div>
       <TabView>
         <TabPanel header="리뷰 상세" className="tab-name">
+        
           <div className="card">
             <Accordion
               activeIndex={activeIndex ?? undefined} // ✅ Primereact의 undefined 처리 방식 활용
