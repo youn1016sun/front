@@ -14,9 +14,11 @@ import CompleteReviewDialog from "../components/CompleteDialog";
 interface ReviewPageProps {
   selectedProblemId?: number | null;
   selectedHistoryId?: number | null;
+  histories: any;
+  setHistories: any;
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histories, setHistories }) => {
   const [sourceCode, setSourceCode] = useState<string>("");
   const [reviewResult, setReviewResult] = useState<any[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; is_passed: boolean }[]>([]);
@@ -100,6 +102,29 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null }) => 
       setProblemId(response.problem_id);
       setProblemInfo(response.problem_info);
       setReviewResult(response.reviews || []);
+      console.log(`histories= ${histories}`);
+      if (requestData.problem_id) {
+        for (let i = 0; i < histories.length; i++) {
+          if (histories[i].problem_id === requestData.problem_id) {
+            const [row] = histories.splice(i, 1); // ✅ 배열에서 객체 하나 추출
+      
+            row.history_ids.unshift(problemId);
+            row.history_names.unshift("newData");
+      
+            histories.unshift(row); // ✅ 배열 맨 앞에 추가
+            break;
+          }
+        }
+      } else {
+        const row = {
+          problem_id: problemId,
+          problem_name: "newProblemName", // ✅ 필드명 수정
+          history_ids: [historyId], // ✅ 필드명 통일
+          history_names: ["newHistoryName"],
+        };
+        histories.unshift(row);
+      }
+      setHistories([...histories]);
 
       // ✅ 리뷰가 통과되었을 경우 자동으로 팝업 띄우기
       if (response.reviews.every((review: any) => review.is_passed)) {
