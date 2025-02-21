@@ -111,10 +111,10 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       if (requestData.problem_id) {
         for (let i = 0; i < histories.length; i++) {
           if (histories[i].problem_id === requestData.problem_id) {
-            const [row] = histories.splice(i, 1); // ✅ 배열에서 객체 하나 추출
+            const row = histories.splice(i, 1); // ✅ 배열에서 객체 하나 추출
       
             row.history_ids.unshift(problemId);
-            row.history_names.unshift("newData");
+            row.history_names.unshift(response.history_name);
       
             histories.unshift(row); // ✅ 배열 맨 앞에 추가
             break;
@@ -156,7 +156,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
   return (
     <div className="review-page">
-      <div className="review-input1">
+      <div className="review-input1 div-box-shadow">
         <div className="url-input">
           <Button label="New Review" icon="pi pi-plus" onClick={newReview} />
           <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
@@ -164,9 +164,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       </div>
 
       <div className="code-container" style={{ display: "flex" }}>
-        <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
+        <Card className="code-input div-box-shadow" style={{ flex: 1, minWidth: "400px" }}>
           <TabView>
-              <TabPanel header="코드 입력" className="tab-name" disabled="true">
+              <TabPanel header="코드 입력" className="tab-name">
                 <div className="card">
                   <CodeEditor code={sourceCode} setCode={setSourceCode} highlights={highlightedLines} />
                 </div>

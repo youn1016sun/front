@@ -103,7 +103,7 @@ const Feedback: React.FC<FeedbackProps> = ({
 
   return (
     <div className="card">
-      <div className="feedback-header">
+      <div className="feedback-header" style={{float: "right", paddingTop: "15px"}}>
         <span className="revision-text">{revision}번째 리뷰</span> {/* ✅ UI에 표시 */}
       </div>
       <TabView>
