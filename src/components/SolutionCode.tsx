@@ -93,8 +93,8 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
             border: "1px solid #ddd",
             borderRadius: "5px",
             backgroundColor: "#ffffff",
-            padding: "10px",
-            overflow: "scroll",
+            //padding: "10px",
+            //overflow: "scroll",
           }}
         />
       ) : (

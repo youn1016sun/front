@@ -32,8 +32,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
         border: "1px solid #ddd",
         borderRadius: "5px",
         backgroundColor: readOnly ? "#f4f4f4" : "#ffffff",
-        padding: "10px",
-        overflow: "scroll",
+        //padding: "10px",
+        //overflowY: "scroll",
       }}
     />
   );
