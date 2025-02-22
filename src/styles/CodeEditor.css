@@ -1,0 +1,20 @@
+/* CodeMirror 스크롤바 스타일 */
+.cm-scroller::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 두께 */
+    height: 8px;
+  }
+  
+  .cm-scroller::-webkit-scrollbar-track {
+    background: #f4f4f4; /* 스크롤바 트랙 (배경) */
+    border-radius: 5px;
+  }
+  
+  .cm-scroller::-webkit-scrollbar-thumb {
+    background: #888; /* 스크롤바 색상 */
+    border-radius: 5px;
+  }
+  
+  .cm-scroller::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 호버 시 색상 */
+  }
+  
