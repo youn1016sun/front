@@ -156,7 +156,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
   return (
     <div className="review-page">
-      <div className="review-input1 div-box-shadow">
+      <div className="review-input1">
         <div className="url-input">
           <Button label="New Review" icon="pi pi-plus" onClick={newReview} />
           <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
@@ -164,7 +164,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       </div>
 
       <div className="code-container" style={{ display: "flex" }}>
-        <Card className="code-input div-box-shadow" style={{ flex: 1, minWidth: "400px" }}>
+        <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
           <TabView>
               <TabPanel header="코드 입력" className="tab-name">
                 <div className="card">
