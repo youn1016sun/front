@@ -123,7 +123,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           extensions={[javascript(), applyHighlight(highlightedLines)]} // ✅ 하이라이트 적용
           readOnly={true}
           style={{
-            height: "350px",
+            height: "36rem",
             fontSize: "14px",
             border: "1px solid #ddd",
             borderRadius: "5px",

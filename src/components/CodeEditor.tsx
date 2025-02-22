@@ -27,7 +27,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
         getHighlightDecorations(highlights), // ✅ 하이라이트 적용
       ]}
       style={{
-        height: "350px",
+        height: "36rem",
         fontSize: "14px",
         border: "1px solid #ddd",
         borderRadius: "5px",
