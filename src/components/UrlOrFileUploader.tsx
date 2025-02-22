@@ -84,8 +84,8 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
         {/* ✅ 파일 업로드 (버튼 오른쪽에 위치) */}
         {activeInput === "img" && (
           <FileUpload 
+            chooseLabel="파일 선택"
             mode="basic" 
-            chooseLabel="파일 선택" 
             accept="image/*" 
             customUpload={true}
             className="input-file"

@@ -27,53 +27,73 @@
 
 .review-content {
   flex: 1;
-  padding: 5px 10px;
+  padding: 0.5vh 0.4vw;
   transition: margin-left 0.3s ease-in-out;
 }
 
-.review-title {
+/* .review-title {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
   text-align: center;
-}
+} */
 
 .review-input1{
   display: flex;
-  padding: 20px;
+  padding: 1vh 1vw;
   background: white;
-  border-radius: 10px;
-  margin-bottom: 2px;
+  border-radius: 0.7vh;
+  margin-bottom: 0.2vh;
 }
 
 /* ✅ New Review 버튼과 UrlOrFileUploader를 가로 정렬 */
 .url-input {
   display: flex;
   align-items: center; /* 세로 가운데 정렬 */
-  gap: 12px; /* 버튼과 업로더 사이 간격 */
+  gap: 0.5vw; /* 버튼과 업로더 사이 간격 */
 }
 
 /* ✅ 버튼과 입력 필드를 한 줄로 정렬 */
 .input-container {
   display: flex;
   align-items: center; /* 세로 가운데 정렬 */
-  gap: 8px; /* 버튼과 입력 필드 사이 간격 */
+  gap: 0.5vw; /* 버튼과 입력 필드 사이 간격 */
+}
+
+/* New Review, URL 입력, 이미지 선택 버튼 조정*/
+.p-button {
+  font-size: 1.8vh;
+  padding:1.4vh 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.7vh;
+}
+
+/* 버튼의 아이콘과 텍스트 폭 조정*/
+.p-button .p-button-icon-left {
+  margin-right: 0.3vw;
+}
+
+/* 버튼의 아이콘 크기 조정*/
+.p-button-icon, .pi-plus{
+  font-size: 1.8vh;
 }
 
 /* ✅ 입력 필드 스타일 */
 .input-field {
-  padding: 6px;
+  font-size: 1.9vh;
+  padding: 1.4vh;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px;
+  width: 50vw;
   display: block;
 }
 
 /* ✅ 파일 업로더 스타일 */
 .input-file {
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0;
 }
 
 /* 코드 입력과 "리뷰 상세"/"모범답안" 요소 스타일  */
@@ -81,7 +101,7 @@
   flex: 1; /* 동일한 크기로 설정 */
   padding: 0 20px;
   background: white;
-  border-radius: 10px;
+  border-radius: 0.7vh;
   min-height: 250px;
 }
 

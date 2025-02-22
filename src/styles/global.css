@@ -10,11 +10,11 @@ html {
     margin: 0;
     padding: 0;
     height: fit-content;
-    background-color: #afccff43
   }
 
   .home-layout {
     height: 100%;
+    background-color: #afccff43;
   }
 
   /* ✅ HEADER 스타일 */
