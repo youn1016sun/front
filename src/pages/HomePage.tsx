@@ -1,6 +1,5 @@
 import React from 'react';
 import HomeSection from '../components/HomeSection'; // ✅ HomeSection import 추가
-import '../styles/homepage.css';
 
 const Homepage: React.FC = () => {
   return (

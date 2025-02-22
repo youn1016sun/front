@@ -4,10 +4,6 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Link, useNavigate } from "react-router-dom";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import "../styles/login.css";
 import LoginApi from "../api/LoginApi.tsx";
 
 const LoginPage: React.FC = () => {

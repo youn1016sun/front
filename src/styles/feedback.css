@@ -2,6 +2,10 @@
     font-size: 21px;
 }
 
+.p-accordion-header-link{
+    background-color:inherit;
+}
+
 .check-badge{
     float: right;
     margin-left: 4px;

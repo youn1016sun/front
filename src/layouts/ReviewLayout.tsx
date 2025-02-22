@@ -1,6 +1,5 @@
 import React, { ReactElement, useState, cloneElement } from "react";
 import Header from "../components/Header";
-import "../styles/global.css";
 import CustomSidebar from "../components/CustomSidebar";
 import { useLocation } from "react-router-dom";
 

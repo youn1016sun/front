@@ -8,7 +8,6 @@ import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
-import "../styles/feedback.css";
 
 interface Review {
   id: number;
@@ -137,6 +136,7 @@ const Feedback: React.FC<FeedbackProps> = ({
                 reviewResult.map((review, index) => (
                   <AccordionTab
                     key={review.id}
+                    style={{backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE"}} // ✅ True(연두) / False(빨강)
                     header={
                       <div
                         style={{
@@ -145,7 +145,6 @@ const Feedback: React.FC<FeedbackProps> = ({
                           alignItems: "center",
                           padding: "10px", // ✅ 여백 추가
                           borderRadius: "8px", // ✅ 둥근 모서리
-                          backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE", // ✅ True(연두) / False(빨강)
                           fontWeight: "bold",
                           width: "100%",
                         }}

@@ -7,7 +7,6 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import { EditorView, Decoration } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
-import "../styles/solution.css";
 
 interface SolutionCodeProps {
   problemId: number | null;

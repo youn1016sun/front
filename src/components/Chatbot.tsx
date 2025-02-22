@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown"
-import "../styles/review.css";
 import { InputText } from "primereact/inputtext";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Button } from "primereact/button";
