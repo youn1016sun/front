@@ -12,8 +12,8 @@ interface UrlOrFileUploaderProps {
 const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, setInputData, inputData }) => {
   const [activeInput, setActiveInput] = useState<"url" | "img" | null>(null);
   const [url, setUrl] = useState("");
-  const [urlButtonClass, setUrlButtonClass] = useState<string>("p-button-primary p-button-sm w-8rem");
-  const [imgButtonClass, setImgButtonClass] = useState<string>("p-button-secondary p-button-sm w-8rem");
+  const [urlButtonClass, setUrlButtonClass] = useState<string>("p-button-primary p-button-sm w-8rem review-page-btn");
+  const [imgButtonClass, setImgButtonClass] = useState<string>("p-button-secondary p-button-sm w-8rem review-page-btn");
 
   useEffect(() => {
     if (inputData === null) {
@@ -46,11 +46,11 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
 
   useEffect(() => {
     if (activeInput === "url") {
-      setUrlButtonClass("p-button-primary p-button-sm w-8rem");
-      setImgButtonClass("p-button-secondary p-button-sm w-8rem");
+      setUrlButtonClass("p-button-primary p-button-sm w-8rem review-page-btn");
+      setImgButtonClass("p-button-secondary p-button-sm w-8rem review-page-btn");
     } else if (activeInput === "img") {
-      setUrlButtonClass("p-button-secondary p-button-sm w-8rem");
-      setImgButtonClass("p-button-primary p-button-sm w-8rem");
+      setUrlButtonClass("p-button-secondary p-button-sm w-8rem review-page-btn");
+      setImgButtonClass("p-button-primary p-button-sm w-8rem review-page-btn");
     }
   }, [activeInput]);
 

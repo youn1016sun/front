@@ -136,7 +136,7 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, s
                       <Button label="확인" onClick={() => handleUpdateHistoryName(problem.problem_id, index, historyId)} />
                     </>
                   ) : (
-                    <SplitButton label={history} icon="pi pi-clock" className="p-button-text p-button-sm" model={items} onClick={() => onSelectHistory(historyId)} />
+                    <SplitButton dropdownIcon="pi pi-ellipsis-v" label={history} className="problem-histories p-button-text " model={items} onClick={() => onSelectHistory(historyId)} />
                   )}
                 </div>
               );
