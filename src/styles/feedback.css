@@ -2,11 +2,8 @@
     font-size: 21px;
 }
 
-.review-title {
-    background-color:#ffffff;
-}
 .p-accordion-header-link{
-    background-color:none;
+    background-color:inherit;
 }
 
 .check-badge{
