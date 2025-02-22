@@ -25,7 +25,7 @@ interface CustomSidebarProps {
 export default function CustomSidebar({ userId, onSelectHistory, histories, setHistories}: CustomSidebarProps) {
   return (
     <div className="custom-sidebar"> {/* ✅ 항상 열려 있는 사이드바 */}
-      <h2>히스토리</h2>
+      <h2 style={{fontSize:"2.4vh", fontFamily:"sans-serif", fontWeight:"900"}}>히스토리</h2>
       <History userId={userId} onSelectHistory={onSelectHistory} histories={histories} setHistories={setHistories} />
     </div>
   );
