@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../styles/review.css";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import UrlOrFileUploader from "../components/UrlOrFileUploader";

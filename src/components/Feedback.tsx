@@ -8,7 +8,6 @@ import SolutionCode from "./SolutionCode";
 import { motion } from "framer-motion";
 import { Badge } from "primereact/badge";
 import ReactMarkdown from "react-markdown";
-import "../styles/feedback.css";
 
 interface Review {
   id: number;
