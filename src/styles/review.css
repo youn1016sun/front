@@ -79,7 +79,7 @@
 }
 
 /* New Review, URL 입력, 이미지 선택 버튼 조정*/
-.review-page-btn, .p-fileupload-choose {
+.review-page-btn, .p-fileupload-choose, .review-button {
   font-size: 1.8vh;
   padding:1.4vh 1vw;
   display: flex;
@@ -177,18 +177,18 @@
 
 /* ✅ 코드 검사 버튼을 맨 아래 중앙에 배치 */
 .review-button {
-  margin-top: 5px;
+  margin-top: 0.4vh;
   display: flex;
   justify-content: center;
   align-self: center;
 }
 
-/* ✅ 사이드바 토글 버튼 위치 조정 */
-.sidebar-toggle-btn {
+/* ✅ 사이드바 토글 버튼 위치 조정, 지금은 없어진 부분으로 추정 */
+/* .sidebar-toggle-btn {
   position: absolute;
   top: 20px;
   left: 20px;
-}
+} */
 
 /* 챗봇 관련 스타일 */
 /* 챗봇 버튼 */

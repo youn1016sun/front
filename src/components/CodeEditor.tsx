@@ -30,7 +30,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
         height: "70vh",
         minWidth: "100px",
         maxWidth: "1000px",
-        fontSize: "14px",
+        fontSize: "0.9vw",
         border: "1px solid #ddd",
         borderRadius: "5px",
         backgroundColor: readOnly ? "#f4f4f4" : "#ffffff",

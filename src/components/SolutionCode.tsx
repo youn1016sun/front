@@ -123,8 +123,10 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           readOnly={true}
           style={{
             padding: "0",
+            minWidth: "100px",
+            maxWidth: "1000px",
             height: "70vh",
-            fontSize: "14px",
+            fontSize: "0.9vw",
             border: "1px solid #ddd",
             borderRadius: "5px",
             backgroundColor: "#ffffff",
