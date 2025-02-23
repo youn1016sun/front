@@ -136,7 +136,7 @@ const Feedback: React.FC<FeedbackProps> = ({
                 reviewResult.map((review, index) => (
                   <AccordionTab
                     key={review.id}
-                    style={{backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE"}} // ✅ True(연두) / False(빨강)
+                    style={{ borderRadius: "0.7vh", backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE"}} // ✅ True(연두) / False(빨강)
                     header={
                       <div
                         style={{

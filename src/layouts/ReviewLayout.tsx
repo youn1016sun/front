@@ -14,7 +14,8 @@ const ReviewLayout: React.FC<ReviewLayoutProps> = ({ children }) => {
   const [histories, setHistories] = useState<any>([]);
 
   return (
-    <div className="review-layout">
+    //<div className="review-layout">
+    <div className="home-layout">
       <Header />
       <div className="review-container">
         <CustomSidebar userId={userId} onSelectHistory={setSelectedHistoryId} histories={histories} setHistories={setHistories} />
