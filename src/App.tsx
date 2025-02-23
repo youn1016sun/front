@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import HomeLayout from './layouts/HomeLayout';
@@ -9,20 +9,29 @@ import LoginLayout from './layouts/LoginLayout';
 import RegisterPage from './pages/RegisterPage';
 import RegisterLayout from './layouts/RegisterLayout';
 
+interface HistoryItem {
+  problem_id: number;
+  problem_name: string;
+  history_ids: number[];
+  history_names: string[];
+}
+
 const App: React.FC = () => {
+  const [histories, setHistories] = useState<HistoryItem[]>([]);
+
   return (
     <Router>
       <Routes>
-        {/* Homepage - HomeLayout 사용 */}
         <Route path="/" element={<HomeLayout><HomePage /></HomeLayout>} />
-        
-        {/* LoginPage - HomeLayout 사용 */}
         <Route path="/login" element={<LoginLayout><LoginPage /></LoginLayout>} />
-        
-        {/* ReviewPage - ReviewLayout 사용 */}
-        <Route path="/review" element={<ReviewLayout><ReviewPage /></ReviewLayout>} />
-        
-        {/* 임시 회원가입 */}
+        <Route path="/review" element={
+          <ReviewLayout>
+            <ReviewPage
+              histories={histories}
+              setHistories={setHistories}
+            />
+          </ReviewLayout>
+        } />
         <Route path="/register" element={<RegisterLayout><RegisterPage /></RegisterLayout>} />
       </Routes>
     </Router>
