@@ -27,13 +27,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
         getHighlightDecorations(highlights), // ✅ 하이라이트 적용
       ]}
       style={{
-        height: "36rem",
+        height: "70vh",
+        minWidth: "100px",
+        maxWidth: "1000px",
         fontSize: "14px",
         border: "1px solid #ddd",
         borderRadius: "5px",
         backgroundColor: readOnly ? "#f4f4f4" : "#ffffff",
-        //padding: "10px",
-        //overflowY: "scroll",
       }}
     />
   );

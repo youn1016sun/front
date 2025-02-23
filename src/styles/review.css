@@ -140,6 +140,11 @@
   margin-left:0.2vw;
 }
 
+/* 코드 입력, 모범 답안 부분*/
+.code-container > div > div {
+  padding: 0 0.3vw;
+}
+
 .p-card-content{
   padding: 0;
 }
@@ -152,8 +157,8 @@
   overflow-y: scroll !important;
 }
 .cm-scroller::-webkit-scrollbar, .cm-theme-light::-webkit-scrollbar {
-  width: 4px; /* 스크롤바 두께 */
-  height: 4px;
+  width: 0.2vw; /* 스크롤바 두께 */
+  height: 0.4vh;
 }
 
 .cm-scroller::-webkit-scrollbar-track, .cm-theme-light::-webkit-scrollbar-track {
