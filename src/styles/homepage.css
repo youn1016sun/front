@@ -107,7 +107,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f9fafb; /* 기존보다 훨씬 더 연한 색상 */
+  background-color: #afccff43;
 }
 
 .home-main {

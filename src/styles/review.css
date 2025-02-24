@@ -1,7 +1,3 @@
-.div-box-shadow{
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
 ✅ 리뷰 페이지 전체 레이아웃
 .review-layout {
   display: flex;
@@ -15,72 +11,138 @@
 }
 
 .custom-sidebar {
-  width: 250px; /* ✅ 사이드바 고정 */
+  width: 13vw;
   height: 100vh;
-  background-color: #f8f9fa;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 0 1vw;
   overflow-y: auto;
+  border-right: 1px solid #b1b1fd;
+}
+/* 사이드바 히스토리 문제 제목*/
+.custom-sidebar div div div a{
+  padding: 0.8vh 0.3vw;
+  align-items:baseline;
+  font-size: 0.77vw;
+}
+
+/* 사이드바 히스토리의 외부 div */
+.custom-sidebar div div div div {
+  padding: 0;
+}
+/* 사이드바 히스토리들 */
+.problem-histories {
+  padding-top: 0.7vh;
+  padding-bottom: 0.7vh;
+  padding-left: 0.5vw;
+  min-width:100%;
+}
+.problem-histories > * {
+  font-size: 1.45vh;
+  text-align: left;
 }
 
 .review-content {
   flex: 1;
-  padding: 5px 10px;
+  padding: 0.5vh 0.4vw;
   transition: margin-left 0.3s ease-in-out;
 }
 
-.review-title {
+/* .review-title {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
   text-align: center;
-}
+} */
 
 .review-input1{
   display: flex;
-  padding: 20px;
+  padding: 1vh 1vw;
   background: white;
-  border-radius: 10px;
-  margin-bottom: 2px;
+  border-radius: 0.7vh;
+  margin-bottom: 0.2vh;
+  border: 1px solid #b1b1fd;
 }
 
 /* ✅ New Review 버튼과 UrlOrFileUploader를 가로 정렬 */
 .url-input {
   display: flex;
+  width: 90%;
   align-items: center; /* 세로 가운데 정렬 */
-  gap: 12px; /* 버튼과 업로더 사이 간격 */
+  gap: 0.5vw; /* 버튼과 업로더 사이 간격 */
 }
 
 /* ✅ 버튼과 입력 필드를 한 줄로 정렬 */
 .input-container {
   display: flex;
   align-items: center; /* 세로 가운데 정렬 */
-  gap: 8px; /* 버튼과 입력 필드 사이 간격 */
+  gap: 0.5vw; /* 버튼과 입력 필드 사이 간격 */
+}
+
+/* New Review, URL 입력, 이미지 선택 버튼 조정*/
+.review-page-btn, .p-fileupload-choose, .review-button {
+  font-size: 1.8vh;
+  padding:1.4vh 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.7vh;
+}
+
+/* 버튼들 오른쪽에 n번째 리뷰 표시 부분 */
+.revision-space {
+  display: flex;
+  width: 10%;
+  height:100%;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.8vh;
+}
+
+/* 버튼의 아이콘과 텍스트 폭 조정*/
+.p-button .p-button-icon-left {
+  margin-right: 0.3vw;
+}
+
+/* 버튼의 아이콘 크기 조정*/
+.p-button-icon, .pi-plus{
+  font-size: 1.8vh;
 }
 
 /* ✅ 입력 필드 스타일 */
 .input-field {
-  padding: 6px;
+  font-size: 1.9vh;
+  padding: 1.4vh;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px;
+  width: 50vw;
   display: block;
 }
 
 /* ✅ 파일 업로더 스타일 */
 .input-file {
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0;
 }
 
 /* 코드 입력과 "리뷰 상세"/"모범답안" 요소 스타일  */
 .code-input, .code-output {
   flex: 1; /* 동일한 크기로 설정 */
-  padding: 0 20px;
+  padding: 0 1vw;
   background: white;
-  border-radius: 10px;
+  border-radius: 0.7vh;
   min-height: 250px;
+  box-shadow: none;
+  border: 1px solid #b1b1fd;
+}
+
+/* 코드 입력, 모범답안 영역 간 여백*/
+.code-output{
+  margin-left:0.2vw;
+}
+
+/* 코드 입력, 모범 답안 부분*/
+.code-container > div > div {
+  padding: 0 0.3vw;
 }
 
 .p-card-content{
@@ -95,8 +157,8 @@
   overflow-y: scroll !important;
 }
 .cm-scroller::-webkit-scrollbar, .cm-theme-light::-webkit-scrollbar {
-  width: 4px; /* 스크롤바 두께 */
-  height: 4px;
+  width: 0.2vw; /* 스크롤바 두께 */
+  height: 0.4vh;
 }
 
 .cm-scroller::-webkit-scrollbar-track, .cm-theme-light::-webkit-scrollbar-track {
@@ -115,18 +177,18 @@
 
 /* ✅ 코드 검사 버튼을 맨 아래 중앙에 배치 */
 .review-button {
-  margin-top: 5px;
+  margin-top: 0.4vh;
   display: flex;
   justify-content: center;
   align-self: center;
 }
 
-/* ✅ 사이드바 토글 버튼 위치 조정 */
-.sidebar-toggle-btn {
+/* ✅ 사이드바 토글 버튼 위치 조정, 지금은 없어진 부분으로 추정 */
+/* .sidebar-toggle-btn {
   position: absolute;
   top: 20px;
   left: 20px;
-}
+} */
 
 /* 챗봇 관련 스타일 */
 /* 챗봇 버튼 */

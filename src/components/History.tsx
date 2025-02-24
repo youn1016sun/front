@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import { fetchUserHistory, updateHistoryName, deleteHistory } from "../api/HistoriesApi"; // ✅ API 호출 함수
+import { fetchUserHistory, updateHistoryName, deleteHistory } from "../api/HistoriesApi";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Toast } from "primereact/toast";
@@ -8,27 +8,18 @@ import { MenuItem } from "primereact/menuitem";
 import { SplitButton } from "primereact/splitbutton";
 import { InputText } from "primereact/inputtext";
 
-interface HistoryId {
-  history_id: number;
-}
-
-interface HistoryName{
-  history_name: string;
-}
-
 interface HistoryItem {
-  id: number;
-  name: string;
-  history_ids: HistoryId[];
-  history_names: HistoryName[];
+  problem_id: number;
+  problem_name: string;
+  history_ids: number[];
+  history_names: string[];
 }
-
 
 interface HistoryProps {
   userId: number | null;
-  onSelectHistory: (historyId: number) => void; // ✅ 선택한 historyId를 부모 컴포넌트로 전달
-  histories: HistoryItem[] ;
-  setHistories: (newHistories: HistoryItem[] ) => void;
+  onSelectHistory: (historyId: number) => void;
+  histories: HistoryItem[];
+  setHistories: React.Dispatch<React.SetStateAction<HistoryItem[]>>;
 }
 
 const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, setHistories }) => {
@@ -51,21 +42,19 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, s
           setIsLoading(false);
         });
     }
-    
   }, [userId]);
 
-  // ✅ 히스토리 이름 변경 함수 (API 요청 포함)
   const handleUpdateHistoryName = async (problemId: number, index: number, historyId: number) => {
     if (!newHistoryName.trim()) return;
 
     const success = await updateHistoryName(historyId, newHistoryName);
     if (success) {
-      setHistories((prevHistories) =>
+      setHistories((prevHistories: HistoryItem[]) =>
         prevHistories.map((problem) =>
           problem.problem_id === problemId
             ? {
                 ...problem,
-                history_names: problem.history_names.map((name: string, i: number) =>
+                history_names: problem.history_names.map((name, i) =>
                   i === index ? newHistoryName : name
                 ),
               }
@@ -79,18 +68,17 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, s
     setEditingHistory(null);
   };
 
-  // ✅ 히스토리 삭제 함수 (API 요청 포함)
   const handleDeleteHistory = async (problemId: number, index: number, historyId: number) => {
     const success = await deleteHistory(historyId);
     if (success) {
-      setHistories((prevHistories) =>
+      setHistories((prevHistories: HistoryItem[]) =>
         prevHistories
           .map((problem) =>
             problem.problem_id === problemId
               ? {
                   ...problem,
-                  history_names: problem.history_names.filter((_: any, i: number) => i !== index),
-                  history_ids: problem.history_ids.filter((_: any, i: number) => i !== index),
+                  history_names: problem.history_names.filter((_, i) => i !== index),
+                  history_ids: problem.history_ids.filter((_, i) => i !== index),
                 }
               : problem
           )
@@ -112,7 +100,7 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, s
       <Accordion>
         {histories.map((problem) => (
           <AccordionTab key={problem.problem_id} header={problem.problem_name}>
-            {problem.history_names.map((history: string, index: number) => {
+            {problem.history_names.map((history, index) => {
               const historyId = problem.history_ids[index];
 
               const items: MenuItem[] = [
@@ -136,7 +124,13 @@ const History: React.FC<HistoryProps> = ({ userId, onSelectHistory, histories, s
                       <Button label="확인" onClick={() => handleUpdateHistoryName(problem.problem_id, index, historyId)} />
                     </>
                   ) : (
-                    <SplitButton label={history} icon="pi pi-clock" className="p-button-text p-button-sm" model={items} onClick={() => onSelectHistory(historyId)} />
+                    <SplitButton 
+                      dropdownIcon="pi pi-ellipsis-v" 
+                      label={history} 
+                      className="problem-histories p-button-text" 
+                      model={items} 
+                      onClick={() => onSelectHistory(historyId)} 
+                    />
                   )}
                 </div>
               );

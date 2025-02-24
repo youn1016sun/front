@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../styles/review.css";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import UrlOrFileUploader from "../components/UrlOrFileUploader";
@@ -92,7 +91,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       reviews: reviewResult,
       user_id: userId,
     };
-
     console.log("📡 Sending Review Request:", requestData);
 
     try {
@@ -105,14 +103,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setReviewResult(response.reviews || []);
       setRevision(response.revision || 0); // ✅ revision 값 업데이트
 
-      console.log("revision값:",response.revision);
-      console.log(`histories= ${histories}`);
+      console.log("histories= ", JSON.stringify(histories, null, 2));
 
       if (requestData.problem_id) {
         for (let i = 0; i < histories.length; i++) {
           if (histories[i].problem_id === requestData.problem_id) {
-            const row = histories.splice(i, 1); // ✅ 배열에서 객체 하나 추출
-      
+            const row = histories.splice(i, 1)[0]; // ✅ 배열에서 객체 하나 추출
+            console.log(row);
             row.history_ids.unshift(problemId);
             row.history_names.unshift(response.history_name);
       
@@ -130,6 +127,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         histories.unshift(row);
       }
       setHistories([...histories]);
+      console.log("리뷰페이지 histories",histories);
 
       // ✅ 리뷰가 통과되었을 경우 자동으로 팝업 띄우기
       if (response.reviews.every((review: any) => review.is_passed)) {
@@ -152,19 +150,24 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
     setProblemId(null);
     setProblemInfo(null);
     setHistoryId(null);
+    setRevision(0);
+    setIsReviewComplete(false);
   };
 
   return (
     <div className="review-page">
-      <div className="review-input1 div-box-shadow">
+      <div className="review-input1">
         <div className="url-input">
-          <Button label="New Review" icon="pi pi-plus" onClick={newReview} />
-          <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
+            <Button label="새 리뷰" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
+            <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
+        </div>
+        <div className="revision-space">
+          <p>{revision}번째 리뷰</p>
         </div>
       </div>
 
       <div className="code-container" style={{ display: "flex" }}>
-        <Card className="code-input div-box-shadow" style={{ flex: 1, minWidth: "400px" }}>
+        <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
           <TabView>
               <TabPanel header="코드 입력" className="tab-name">
                 <div className="card">

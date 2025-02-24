@@ -16,11 +16,9 @@ interface HighlightedLine {
 export const getHighlightDecorations = (highlights: HighlightedLine[]) => {
   return EditorView.decorations.compute(["doc"], (state) => {
     const builder = new RangeSetBuilder<Decoration>();
-    console.log("highlight값:",highlights);
 
     highlights.forEach(({ start, end, is_passed }) => {
       const highlightColor = is_passed ? passedColor : failedColor;
-      console.log("백그라운드 컬러:",highlightColor);
       console.log("trueORfalse:", is_passed);
 
       for (let line = start; line <= end; line++) {
