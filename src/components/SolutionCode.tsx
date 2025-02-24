@@ -7,6 +7,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import { EditorView, Decoration } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
+import LoadingLogo from "../components/LoadingLogo";
 
 interface SolutionCodeProps {
   problemId: number | null;
@@ -59,13 +60,11 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
       })),
     };
 
-    console.log(`📡 솔루션 코드 POST 요청: /api/v1/solution/${problemId}`, requestData);
-
     try {
       const response = await generateSolutionCode(problemId, requestData);
-      console.log("✅ 솔루션 코드 POST 응답:", response);
-      console.log("response.lines의 값:",response.lines);
-
+      console.log(`📡 모범답안 POST 요청: /api/v1/solution/${problemId}`, requestData);
+      console.log("✅ 모범답안 POST 응답:", response);
+      console.log("✅ 모범답안 response.lines의 값:",response.lines);
       setSolutionCode(response.solution_code);
       setIsSolutionGenerated(true); // ✅ POST 요청 후 즉시 뱃지 업데이트
 
@@ -113,7 +112,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   return (
     <Card className="solution-container">
       {isLoading ? (
-        <ProgressSpinner />
+      <ProgressSpinner/>
       ) : error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : solutionCode ? (
@@ -124,7 +123,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
           style={{
             padding: "0",
             minWidth: "100px",
-            maxWidth: "1000px",
+            maxWidth: "100%",
             height: "70vh",
             fontSize: "0.9vw",
             border: "1px solid #ddd",

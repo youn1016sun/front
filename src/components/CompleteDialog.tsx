@@ -20,10 +20,10 @@ interface CompleteReviewDialogProps {
 const fetchFirstHistory = async (problemId: number) => {
   try {
     const response = await BaseApi.get(`/v1/histories/${problemId}/first-review`);
-    console.log("✅ First History 응답:", response.data);
+    console.log("✅ Before code 응답:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ First History 요청 실패:", error);
+    console.error("❌ Before code 요청 실패:", error);
     return null;
   }
 };
