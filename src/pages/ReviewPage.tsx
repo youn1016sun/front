@@ -105,12 +105,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setRevision(response.revision || 0); // ✅ revision 값 업데이트
 
       console.log("revision값:",response.revision);
+      console.log("histories= ", JSON.stringify(histories, null, 2));
 
       if (requestData.problem_id) {
         for (let i = 0; i < histories.length; i++) {
           if (histories[i].problem_id === requestData.problem_id) {
-            const row = histories.splice(i, 1); // ✅ 배열에서 객체 하나 추출
-      
+            const row = histories.splice(i, 1)[0]; // ✅ 배열에서 객체 하나 추출
+            console.log(row);
             row.history_ids.unshift(problemId);
             row.history_names.unshift(response.history_name);
       
@@ -151,13 +152,15 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
     setProblemId(null);
     setProblemInfo(null);
     setHistoryId(null);
+    setRevision(0);
+    setIsReviewComplete(false);
   };
 
   return (
     <div className="review-page">
       <div className="review-input1">
         <div className="url-input">
-            <Button label="New Review" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
+            <Button label="새 리뷰" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
             <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
         </div>
         <div className="revision-space">
