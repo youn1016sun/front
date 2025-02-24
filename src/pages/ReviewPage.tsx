@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../styles/review.css";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import UrlOrFileUploader from "../components/UrlOrFileUploader";
@@ -156,15 +155,18 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
   return (
     <div className="review-page">
-      <div className="review-input1 div-box-shadow">
+      <div className="review-input1">
         <div className="url-input">
-          <Button label="New Review" icon="pi pi-plus" onClick={newReview} />
-          <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
+            <Button label="New Review" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
+            <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
+        </div>
+        <div className="revision-space">
+          <p>{revision}번째 리뷰</p>
         </div>
       </div>
 
       <div className="code-container" style={{ display: "flex" }}>
-        <Card className="code-input div-box-shadow" style={{ flex: 1, minWidth: "400px" }}>
+        <Card className="code-input" style={{ flex: 1, minWidth: "400px" }}>
           <TabView>
               <TabPanel header="코드 입력" className="tab-name">
                 <div className="card">

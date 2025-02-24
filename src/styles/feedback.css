@@ -1,6 +1,39 @@
+/* 코드 입력, 모범 답안 부분의 패널 폰트 크기*/
 .tab-name{
-    font-size: 21px;
+    font-size: 1.1vw;
 }
+
+/* 코드 입력, 모범 답안 부분의 패딩*/
+.code-input a, .code-output a {
+    padding: 1.5vh 1vw;
+}
+
+/* 코드 입력, 모범 답안의 코드 출력 부분*/
+.p-tabview-panels {
+    padding: 1vh 1vw;
+}
+
+/* 모범 답안의 코드 영역 패딩 제거*/
+.solution-container > .p-card-body {
+    padding: 0;
+}
+
+.cm-gutters {
+    background-color: #afccff43 !important;
+    font-weight: 500;
+    font-size: 0.9vw;
+}
+
+.cm-gutters > * {
+    background-color: inherit;
+}
+
+/* .custom-sidebar > .p-accordion-header-link{
+    background-color:inherit;
+    width: 10vw;
+    height: auto;
+    font-size: 1500000px;
+} */
 
 .check-badge{
     float: right;
