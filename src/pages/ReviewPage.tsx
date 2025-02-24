@@ -91,7 +91,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       reviews: reviewResult,
       user_id: userId,
     };
-
     console.log("📡 Sending Review Request:", requestData);
 
     try {
@@ -129,6 +128,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         histories.unshift(row);
       }
       setHistories([...histories]);
+      console.log("리뷰페이지 histories",histories);
 
       // ✅ 리뷰가 통과되었을 경우 자동으로 팝업 띄우기
       if (response.reviews.every((review: any) => review.is_passed)) {
