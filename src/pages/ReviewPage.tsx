@@ -7,9 +7,10 @@ import Feedback from "../components/Feedback";
 import { useLocation } from "react-router-dom";
 import { fetchHistoryDetails } from "../api/HistoriesApi";
 import { sendReviewRequest } from "../api/ReviewRequestApi";
-import { ProgressSpinner } from "primereact/progressspinner";
+// import { ProgressSpinner } from "primereact/progressspinner";
 import CompleteReviewDialog from "../components/CompleteDialog";
 import { TabView, TabPanel } from "primereact/tabview";
+import LoadingLogo from "../components/LoadingLogo";
 
 interface ReviewPageProps {
   selectedProblemId?: number | null;
@@ -103,6 +104,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setReviewResult(response.reviews || []);
       setRevision(response.revision || 0); // ✅ revision 값 업데이트
 
+      console.log("revision값:",response.revision);
       console.log("histories= ", JSON.stringify(histories, null, 2));
 
       if (requestData.problem_id) {
@@ -178,8 +180,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         </Card>
         <Card className="code-output">
           {isLoading ? (
-            <div className="loading-overlay">
-              <ProgressSpinner />
+            <div className="loading-overlay flex flex-col items-center">
+              {/* <ProgressSpinner /> */}
+              <LoadingLogo />
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (

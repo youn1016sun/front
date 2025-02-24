@@ -34,7 +34,6 @@ const Feedback: React.FC<FeedbackProps> = ({
   problemInfo,
   problemId,
   sourceCode,
-  revision,
   setHighlightedLines,
 }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
