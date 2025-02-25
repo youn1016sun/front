@@ -1,10 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 body {
   overflow: hidden;
 }
 
 .homepage {
-  font-family: "Pretendard", sans-serif;
+  /* font-family: "Pretendard", sans-serif; */
   overflow: hidden; /* 스크롤바 숨김 */
+}
+
+.hero-content h1 {
+  font-family: "Poppins", sans-serif; /* ✅ 인트로 강조 */
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6rem;
 }
 
 /* ✅ 전체 섹션 컨테이너 (Hero 포함 모든 요소에 적용) */
@@ -87,4 +100,68 @@ body {
   background: white;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/******************************/
+/*        코드에디터 스타일     */
+/******************************/
+.custom-code-editor {
+  width: 400px;
+  height: 500px;
+  text-align: left;
+  /* max-width: 600px;
+  min-height: 200px; */
+  background-color: #ffffff;
+  color: #1e1e2e;
+  font-family: "Fira Code", monospace;
+  font-size: 1.2rem;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+}
+
+.custom-code-editor pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 깜빡이는 커서 */
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background-color: #ffffff;
+  margin-left: 5px;
+  animation: blink 0.8s infinite;
+}
+
+.code-container {
+  font-family: "Fira Code", monospace;
+  background: #1e1e1e;
+  color: #c9d1d9;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  white-space: pre-line;
+}
+
+.red {
+  color: red;
+  font-weight: bold;
+}
+
+.green {
+  color: green;
+  font-weight: bold;
+}
+
+
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
