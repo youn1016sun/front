@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import "../styles/homepage.css";
 import { Button } from "primereact/button";
@@ -22,7 +23,7 @@ const sections = [
 
 const Homepage: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
-
+  const navigate= useNavigate();
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (event.deltaY > 0) {
@@ -38,6 +39,9 @@ const Homepage: React.FC = () => {
     };
   }, []);
 
+  const redirectReviewPage = () => {
+    navigate("/login");
+  }
   return (
     <div className="homepage">
       <motion.div
@@ -51,7 +55,7 @@ const Homepage: React.FC = () => {
               <div className="hero-content">
                 <h1>{section.title}</h1>
                 <p>{section.description}</p>
-                <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" />
+                <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" onClick={()=> redirectReviewPage()}/>
               </div>
             ) : section.img ? (
               <div className="step-container">
