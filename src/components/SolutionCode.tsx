@@ -7,12 +7,10 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import { EditorView, Decoration } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
-import LoadingLogo from "../components/LoadingLogo";
 
 interface SolutionHighLightedLine{
-  start_number_line: number;
-  end_number_line: number;
-  is_passed: boolean;
+  start: number;
+  end: number;
 }
 
 interface SolutionCodeProps {
@@ -43,7 +41,6 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number }[]>([]);
 
   // ✅ POST 요청: 모범답안 생성
   const handleGenerateSolution = async () => {
@@ -86,7 +83,6 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
             end: line.end_line_number,
           }))
         );
-        console.log("솔루션코드 하이라이트 setHighlightedLines:", highlightedLines);
       }
     } catch (error) {
       console.error(`❌ POST 요청 실패: problemId=${problemId}`, error);
