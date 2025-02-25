@@ -130,7 +130,7 @@ const applyHighlight = (solutionHighLightedLines: { start: number; end: number }
           style={{
             padding: "0",
             minWidth: "100px",
-            maxWidth: "100%",
+            maxWidth: "37vw",
             height: "70vh",
             fontSize: "0.9vw",
             border: "1px solid #ddd",
