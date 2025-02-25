@@ -29,7 +29,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
       style={{
         height: "70vh",
         minWidth: "100px",
-        maxWidth: "1000px",
+        maxWidth: "37vw",
         fontSize: "0.9vw",
         border: "1px solid #ddd",
         borderRadius: "5px",

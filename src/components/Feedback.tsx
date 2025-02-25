@@ -34,7 +34,6 @@ const Feedback: React.FC<FeedbackProps> = ({
   problemInfo,
   problemId,
   sourceCode,
-  revision,
   setHighlightedLines,
 }) => {
   const [activeChat, setActiveChat] = useState<number | null>(null);
@@ -42,6 +41,7 @@ const Feedback: React.FC<FeedbackProps> = ({
   const [isSolutionGenerated, setIsSolutionGenerated] = useState<boolean>(false);
   const [isTabDisabled, setIsTabDisabled] = useState<boolean>(false);
   const [solutionCode, setSolutionCode] = useState<string | null>(null);
+  const [solutionHighLightedLines, setSolutionHighLightedLines] = useState<{ start: number; end: number;}[]>([]);
 
   useEffect(() => {
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
@@ -59,6 +59,13 @@ const Feedback: React.FC<FeedbackProps> = ({
           if (data.is_created) {
             setIsSolutionGenerated(true); // ✅ 모범답안이 존재하면 즉시 뱃지 업데이트
             setSolutionCode(data.solution_code);
+            setSolutionHighLightedLines(
+              data.lines.map((line: { start_line_number: number; end_line_number: number }) => ({
+                start: line.start_line_number,
+                end: line.end_line_number,
+              }))
+            );
+            console.log(JSON.stringify(solutionHighLightedLines));
           } else {
             setIsSolutionGenerated(false);
             setSolutionCode(null);
@@ -199,6 +206,8 @@ const Feedback: React.FC<FeedbackProps> = ({
             setIsSolutionGenerated={setIsSolutionGenerated}
             solutionCode={solutionCode}
             setSolutionCode={setSolutionCode}
+            solutionHighLightedLines={solutionHighLightedLines}
+            setSolutionHighLightedLines={setSolutionHighLightedLines}
             setTabDisabled={setIsTabDisabled}
           />
         </TabPanel>

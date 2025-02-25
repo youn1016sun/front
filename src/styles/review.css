@@ -115,7 +115,7 @@
   padding: 1.4vh;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 50vw;
+  width: 46vw;
   display: block;
 }
 
@@ -156,22 +156,22 @@
 .cm-theme-light {
   overflow-y: scroll !important;
 }
-.cm-scroller::-webkit-scrollbar, .cm-theme-light::-webkit-scrollbar {
+.cm-scroller::-webkit-scrollbar, .cm-theme-light::-webkit-scrollbar, .p-dialog::-webkit-scrollbar {
   width: 0.2vw; /* 스크롤바 두께 */
   height: 0.4vh;
 }
 
-.cm-scroller::-webkit-scrollbar-track, .cm-theme-light::-webkit-scrollbar-track {
+.cm-scroller::-webkit-scrollbar-track, .cm-theme-light::-webkit-scrollbar-track, .p-dialog::-webkit-scrollbar-track {
   background: #afccff43; /* 스크롤바 트랙 (배경) */
   border-radius: 5px;
 }
 
-.cm-scroller::-webkit-scrollbar-thumb, .cm-theme-light::-webkit-scrollbar-thumb {
+.cm-scroller::-webkit-scrollbar-thumb, .cm-theme-light::-webkit-scrollbar-thumb, .p-dialog::-webkit-scrollbar-thumb {
   background: #3b82f6; /* 스크롤바 색상 */
   border-radius: 5px;
 }
 
-.cm-scroller::-webkit-scrollbar-thumb:hover, .cm-theme-light::-webkit-scrollbar-thumb:hover {
+.cm-scroller::-webkit-scrollbar-thumb:hover, .cm-theme-light::-webkit-scrollbar-thumb:hover, .p-dialog::-webkit-scrollbar-thumb:hover {
   background: #065ff0; /* 호버 시 색상 */
 }
 
@@ -329,4 +329,20 @@ margin-top: auto;
   left: 0;
   background: rgba(255, 255, 255, 0.4); /* 반투명 배경 */
   z-index: 10;
+}
+
+
+/* 리뷰 완료 */
+.p-dialog {
+  display: block;
+  flex-direction: none;
+  overflow:scroll;
+}
+/* 리뷰 완료 배경 */
+.p-dialog > * {
+  background-color: #eaf2ff;
+}
+
+.p-dialog div div div {
+  box-shadow: none;
 }

@@ -7,9 +7,10 @@ import Feedback from "../components/Feedback";
 import { useLocation } from "react-router-dom";
 import { fetchHistoryDetails } from "../api/HistoriesApi";
 import { sendReviewRequest } from "../api/ReviewRequestApi";
-import { ProgressSpinner } from "primereact/progressspinner";
+// import { ProgressSpinner } from "primereact/progressspinner";
 import CompleteReviewDialog from "../components/CompleteDialog";
 import { TabView, TabPanel } from "primereact/tabview";
+import LoadingLogo from "../components/LoadingLogo";
 
 interface ReviewPageProps {
   selectedProblemId?: number | null;
@@ -24,7 +25,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
   const [highlightedLines, setHighlightedLines] = useState<{ start: number; end: number; is_passed: boolean }[]>([]);
   const [inputSource, setInputSource] = useState<string | null>(null);
   const [inputData, setInputData] = useState<string | null>(null);
-  const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("Run Review");
+  const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("리뷰 받기");
   const [problemId, setProblemId] = useState<number | null>(null);
   const [problemInfo, setProblemInfo] = useState<string | null>(null);
   const [historyId, setHistoryId] = useState<number | null>(null);
@@ -41,13 +42,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       fetchHistoryDetails(selectedHistoryId)
         .then((data) => {
           console.log("✅ Received history details:", data);
-          setReviewResult(data.reviews || []);
           setHistoryId(selectedHistoryId);
           setProblemId(data.problem_id);
           setProblemInfo(data.problem_info);
           setInputSource(data.input_source);
           setInputData(data.input_data);
           setSourceCode(data.source_code);
+          setReviewResult(data.reviews || []);
           setRevision(data.revision || 0); // ✅ revision 값 업데이트
         })
         .catch((error) => {
@@ -58,9 +59,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
   useEffect(() => {
     if (reviewResult.length > 0) {
-      setReviewButtonLabel("Review Again");
+      setReviewButtonLabel("다시 리뷰 받기");
     } else {
-      setReviewButtonLabel("Run Review");
+      setReviewButtonLabel("리뷰 받기");
     }
   }, [reviewResult]);
 
@@ -103,6 +104,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setReviewResult(response.reviews || []);
       setRevision(response.revision || 0); // ✅ revision 값 업데이트
 
+      console.log("revision값:",response.revision);
       console.log("histories= ", JSON.stringify(histories, null, 2));
 
       if (requestData.problem_id) {
@@ -158,7 +160,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
     <div className="review-page">
       <div className="review-input1">
         <div className="url-input">
-            <Button label="새 리뷰" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
+            <Button label="새로운 문제 생성" icon="pi pi-plus" onClick={newReview} className="review-page-btn" />
             <UrlOrFileUploader setInputSource={setInputSource} setInputData={setInputData} inputData={inputData} />
         </div>
         <div className="revision-space">
@@ -178,8 +180,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         </Card>
         <Card className="code-output">
           {isLoading ? (
-            <div className="loading-overlay">
-              <ProgressSpinner />
+            <div className="loading-overlay flex flex-col items-center">
+              {/* <ProgressSpinner /> */}
+              <LoadingLogo />
               <p>리뷰를 생성 중입니다...</p>
             </div>
           ) : (

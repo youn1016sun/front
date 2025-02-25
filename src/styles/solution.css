@@ -1,6 +1,7 @@
 .solution-container {
     min-height: 340px;
     box-sizing: border-box;
+    box-shadow: none;
 }
 .p-tabview-panels a {
     background-color:inherit;
