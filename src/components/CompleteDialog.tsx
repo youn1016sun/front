@@ -81,51 +81,51 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
       return builder.finish();
     });
   };
-
+  const cardDesign= { 
+    width: "100%", 
+    padding: "1rem", 
+    boxShadow: "none",
+    border: "1px solid #b1b1fd",
+  };
+  const codeMirrorDesign = {
+    height: "100%",
+    fontSize: "14px",
+    border: "1px solid #ddd",
+    borderRadius: "5px",
+    backgroundColor: "#ffffff",
+    textAlign: "left" as const ,
+  };
   return (
     <Dialog
       header="🎉 모든 리뷰 사항이 수정되었어요! 🎉"
       visible={visible}
       onHide={onHide}
-      style={{ width: "1000px", height: "700px", position: "relative" }}
+      style={{ width: "99vw", height: "100vh", position: "relative", textAlign: "center"}}
+      blockScroll={false}
     >
-      <p>회원님의 첫 리뷰에서 얼마나 바뀌었는지 확인해보세요.</p>
+      <p>회원님의 첫 리뷰에서<br></br>얼마나 바뀌었는지 확인해보세요.</p>
 
       {isLoading ? (
         <ProgressSpinner />
       ) : (
         <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
           {/* ✅ Before Code */}
-          <Card title="Before" style={{ width: "48%", padding: "1rem", boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)" }}>
+          <Card title="Before" style={ cardDesign }>
             <CodeMirror
               value={beforeCode || "첫 리뷰 코드가 없습니다."}
               extensions={[javascript(), beforeHighlightExtension]}
               readOnly
-              style={{
-                height: "350px",
-                fontSize: "14px",
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-                backgroundColor: "#ffffff",
-                padding: "10px",
-              }}
+              style={ codeMirrorDesign }
             />
           </Card>
 
           {/* ✅ After Code */}
-          <Card title="After" style={{ width: "48%", padding: "1rem", boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.1)" }}>
+          <Card title="After" style={ cardDesign }>
             <CodeMirror
               value={sourceCode}
               extensions={[javascript(), highlightWithOpacity(highlightedLines, "#E8F5E9")]}
               readOnly
-              style={{
-                height: "350px",
-                fontSize: "14px",
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-                backgroundColor: "#ffffff",
-                padding: "10px",
-              }}
+              style={codeMirrorDesign}
             />
           </Card>
         </div>
