@@ -74,14 +74,44 @@ const Homepage: React.FC = () => {
         </section>
 
       {/*병수님 여기에 수정하세요요요요요요요용*/}
-        <section className="hero-section">
-          <h1>gdgdgdg</h1>
-          <p>AI 리뷰를 통해 코드 품질을 향상시키세요.</p>
-        </section>
+        {/* 알고리뷰 핵심 가치 섹션 */}
+<section className="hero-subsection">
+  <div className="slider-container">
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2>AI 기반 코드 리뷰</h2>
+      <p>고민 중인 문제에 대해 30초 안에 리뷰를 받아보세요</p>
+    </motion.div>
+
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <h2>개선 방향 & 모범 답안</h2>
+      <p>세부적인 개선 방향을 확인하고, 최적화된 코드 예시까지 받아보세요</p>
+    </motion.div>
+
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+    >
+      <h2>실시간 재리뷰 & 챗봇 서비스</h2>
+      <p>최적의 코드에 도전하시고, 언제든 질문하세요</p>
+    </motion.div>
+  </div>
+</section>
 
 
-        {/* 기존 sections도 스크롤 포함 */}
-        {sections.map((section) => (
+      {/* 기존 sections도 스크롤 포함 */}
+      {sections.map((section) => (
           <section key={section.id} className="section">
             <div className="step-container">
               <img src={section.img} alt={section.title} />
@@ -90,9 +120,6 @@ const Homepage: React.FC = () => {
             </div>
           </section>
         ))}
-
-
-
 
       </motion.div>
     </div>
