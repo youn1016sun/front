@@ -13,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           {children} {/* ✅ props로 전달된 컴포넌트 표시 */}
           <li><Link to="/">Home</Link></li>
           <li><Link to="/login">Login</Link></li>
+          <li><Link to="/tutorial">Tutorial</Link></li>
           <li><Link to="/review">Review</Link></li>
         </ul>
       </nav>
