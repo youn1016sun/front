@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import "../styles/homepage.css";
 import { Button } from "primereact/button";
@@ -25,9 +26,11 @@ const TOTAL_SECTIONS = sections.length + 2;
 
 const Homepage: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
-  const [scrollLock, setScrollLock] = useState(false);
+  const navigate= useNavigate();
+  const [scrollLock, setScrollLock] = useState(false); // ✅ 스크롤 잠금 상태 추가
 
-  // ✅ 스크롤 관리 함수
+  // ✅ 스크롤 관리 함수 (모든 섹션 포함)
+
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (scrollLock) return;
@@ -51,6 +54,9 @@ const Homepage: React.FC = () => {
     };
   }, [scrollLock]);
 
+  const redirectLoginPage = () => {
+    navigate("/login");
+  }
   return (
     <div className="homepage">
       <motion.div
@@ -64,14 +70,43 @@ const Homepage: React.FC = () => {
             <h1>알고리뷰와 함께 맞춤형 코드리뷰를 받아보세요</h1>
           </div>
           <CustomCodeEditor />
-          <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" style={{marginTop: "20px", padding:"12px 48px", borderRadius:"100px"}} />
+          <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" style={{marginTop: "20px", padding:"12px 48px", borderRadius:"100px"}} onClick={()=> redirectLoginPage()} />
         </section>
 
-        {/* sub-section 영역 */}
-        <section className="hero-section">
-          <h1>gdgdggd</h1>
-          <p>AI 리뷰를 통해 코드 품질을 향상시키세요.</p>
-        </section>
+        {/* 알고리뷰 핵심 가치 섹션 */}
+<section className="hero-subsection">
+  <div className="slider-container">
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2>AI 기반 코드 리뷰</h2>
+      <p>고민 중인 문제에 대해 30초 안에 리뷰를 받아보세요</p>
+    </motion.div>
+
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <h2>개선 방향 & 모범 답안</h2>
+      <p>세부적인 개선 방향을 확인하고, 최적화된 코드 예시까지 받아보세요</p>
+    </motion.div>
+
+    <motion.div 
+      className="slide"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+    >
+      <h2>실시간 재리뷰 & 챗봇 서비스</h2>
+      <p>최적의 코드에 도전하시고, 언제든 질문하세요</p>
+    </motion.div>
+  </div>
+</section>
 
         {/* ✅ 기존 sections도 스크롤 포함 */}
         {sections.map((section) => (
@@ -99,11 +134,11 @@ const Homepage: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="step-container">
-                <img src={section.img} alt={section.title} />
-                <h2>{section.title}</h2>
-                <p>{section.description}</p>
-              </div>
+            <div className="step-container">
+              <img src={section.img} alt={section.title} />
+              <h2>{section.title}</h2>
+              <p>{section.description}</p>
+            </div>
             )}
           </section>
         ))}
