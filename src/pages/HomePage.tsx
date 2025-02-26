@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import "../styles/homepage.css";
 import { Button } from "primereact/button";
@@ -21,9 +22,11 @@ const sections = [
 
 const Homepage: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
+  const navigate= useNavigate();
   const [scrollLock, setScrollLock] = useState(false); // ✅ 스크롤 잠금 상태 추가
 
   // ✅ 스크롤 관리 함수 (모든 섹션 포함)
+
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (scrollLock) return;
@@ -47,6 +50,9 @@ const Homepage: React.FC = () => {
     };
   }, [scrollLock]);
 
+  const redirectReviewPage = () => {
+    navigate("/login");
+  }
   return (
     <div className="homepage">
       <motion.div
@@ -73,7 +79,6 @@ const Homepage: React.FC = () => {
           </Card>
         </section>
 
-      {/*병수님 여기에 수정하세요요요요요요요용*/}
         {/* 알고리뷰 핵심 가치 섹션 */}
 <section className="hero-subsection">
   <div className="slider-container">
@@ -113,6 +118,40 @@ const Homepage: React.FC = () => {
       {/* 기존 sections도 스크롤 포함 */}
       {sections.map((section) => (
           <section key={section.id} className="section">
+
+            {section.button ? (
+              <div className="hero-content">
+                <h1>{section.title}</h1>
+                <p>{section.description}</p>
+                <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" onClick={()=> redirectReviewPage()}/>
+              </div>
+            ) : section.img ? (
+              <div className="step-container">
+                <img src={section.img} alt={section.title} />
+                <h2>{section.title}</h2>
+                <p>{section.description}</p>
+              </div>
+            ) : (
+              <div className="review-preview">
+                <h2>{section.title}</h2>
+                <div className="review-container">
+                  <Card className="code-input-card">
+                    <h3>📝 코드 입력</h3>
+                    <CodeMirror
+                      value={`function add(a, b) {\n  return a + b;\n}`}
+                      extensions={[javascript()]}
+                      readOnly
+                      style={{ height: "200px", fontSize: "14px" }}
+                    />
+                  </Card>
+                  <Card className="code-output-card">
+                    <h3>✅ 리뷰 결과</h3>
+                    <p>⚠️ 'return' 키워드 사용 시, 타입 검사를 추가하는 것이 좋습니다.</p>
+                  </Card>
+                </div>
+              </div>
+            )}
+
             <div className="step-container">
               <img src={section.img} alt={section.title} />
               <h2>{section.title}</h2>
@@ -120,7 +159,6 @@ const Homepage: React.FC = () => {
             </div>
           </section>
         ))}
-
       </motion.div>
     </div>
   );
