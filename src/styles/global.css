@@ -22,8 +22,6 @@ html {
     background: linear-gradient(120deg, #62bdfc, #2a89dc); /* 밝은 파란색 → 강한 그라데이션 */
     color: white;
     padding: 0.7vh 2.8vh;
-    border-bottom-left-radius: 2.7vh;
-    border-bottom-right-radius: 2.7vh;
     text-align: center;
     animation: slideDown 0.8s ease-in-out; /* 등장 애니메이션 */
   }

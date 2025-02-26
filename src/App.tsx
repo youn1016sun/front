@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import LoginLayout from './layouts/LoginLayout';
 import RegisterPage from './pages/RegisterPage';
 import RegisterLayout from './layouts/RegisterLayout';
+import TutorialPage from './pages/TutorialPage';
 
 interface HistoryItem {
   problem_id: number;
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           </ReviewLayout>
         } />
         <Route path="/register" element={<RegisterLayout><RegisterPage /></RegisterLayout>} />
+        <Route path="/tutorial" element={<TutorialPage />} />
       </Routes>
     </Router>
   );
