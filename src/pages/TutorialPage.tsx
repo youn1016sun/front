@@ -147,34 +147,34 @@ useEffect(() => {
         message: "클릭하여 리뷰의 세부사항을 확인해보세요.",
         target: ".tutorial-accordion1.p-accordion-header",
       },
-    {
-        message: "이곳에서 알고리뷰 챗봇과 대화도 할 수 있어요.",
-        target: ".tutorial-review-output",
-    },
+    // {
+    //     message: "이곳에서 알고리뷰 챗봇과 대화도 할 수 있어요.",
+    //     target: ".tutorial-review-output",
+    // },
     {
         message: "모범답안을 누르면 해당 리뷰에 대한 알고리뷰의 정답코드를 볼 수 있어요.",
         target: ".tutorial-review-output",
       },
-    {
-        message: "피드백사항을 바탕으로 코드를 바꿔볼까요? 알고리뷰가 바꿔볼게요.",
-        target: ".tutorial-code-input",
-    },
-    {
-        message: "재리뷰를 받아볼까요? 버튼을 눌러주세요.",
-        target: ".tutorial-button",
-    },
-    {
-        message: "재리뷰가 완료되었어요!",
-        target: ".tutorial-review-output",
-    },
-    {
-      message: "한번 받은 리뷰에 대해서는 히스토리에서 다시 확인하실 수 있어요!",
-      target: ".tutorial-history-accordion",
-    },
-    {
-        message: "튜토리얼을 모두 완료하셨어요. 아무곳이나 한번 클릭하면 로그인페이지로 이동해져요.",
-        target: ".tutorialtuto",
-      },
+    // {
+    //     message: "피드백을 바탕으로 코드를 바꿔볼까요? 알고리뷰가 수정해줄게요.",
+    //     target: ".tutorial-code-input",
+    // },
+    // {
+    //     message: "수정을 했으니 재리뷰를 받아볼까요? 버튼을 눌러주세요.",
+    //     target: ".tutorial-button",
+    // },
+    // {
+    //     message: "재리뷰가 완료되었어요! 피드백 사항이 잘 반영되면 색상이 초록색으로 바뀌어요.",
+    //     target: ".tutorial-review-output",
+    // },
+    // {
+    //     message: "모든 리뷰는 히스토리에서 다시 확인하실 수 있어요!",
+    //     target: ".tutorial-history-accordion",
+    // },
+    // {
+    //     message: "튜토리얼을 모두 완료하셨어요. 아무곳이나 한번 클릭하면 로그인페이지로 이동해져요.",
+    //     target: ".tutorialtuto",
+    //   },
   ];
 
   // ✅ 튜토리얼 시작 함수
@@ -356,7 +356,24 @@ useEffect(() => {
                 </TabPanel>
                 <TabPanel header="모범답안">
                   <pre className="solution-code">
-                    {`function optimizedLruCache() {\n  console.log("Optimized LRU Cache");\n}`}
+                    {`def solution(nums: list, length: int, target: int) -> int:
+                        answer = 0
+                        seen = set()
+                        
+                        for num in nums:
+                            complement = target - num
+                            if complement in seen:
+                                answer += 1
+                            seen.add(num)
+                        
+                        return answer
+
+                    input_data = sys.stdin.read().strip().split('\n')
+                    length = int(input_data[0])
+                    nums = list(map(int, input_data[1].split()))
+                    target = int(input_data[2])
+
+                    print(solution(nums, length, target))`}
                   </pre>
                 </TabPanel>
               </TabView>
