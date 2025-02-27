@@ -56,7 +56,7 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
 
   return (
     <div className="url-or-file-uploader">
-      {/* ✅ 버튼과 입력 필드를 한 줄로 정렬 */}
+      {/* 버튼과 입력 필드를 한 줄로 정렬 */}
       <div className="input-container">
         <Button 
           label="URL 입력" 
@@ -71,7 +71,7 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
           className={imgButtonClass}
         />
 
-        {/* ✅ URL 입력 필드 (버튼 오른쪽에 위치) */}
+        {/* URL 입력 필드 (버튼 오른쪽에 위치) */}
         {activeInput === "url" && (
           <InputText 
             value={url} 
@@ -81,7 +81,7 @@ const UrlOrFileUploader: React.FC<UrlOrFileUploaderProps> = ({ setInputSource, s
           />
         )}
 
-        {/* ✅ 파일 업로드 (버튼 오른쪽에 위치) */}
+        {/* 파일 업로드 (버튼 오른쪽에 위치) */}
         {activeInput === "img" && (
           <FileUpload 
             chooseLabel="파일 선택"

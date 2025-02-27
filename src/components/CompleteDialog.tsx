@@ -16,7 +16,7 @@ interface CompleteReviewDialogProps {
   highlightedLines: { start: number; end: number }[];
 }
 
-// ✅ GET 요청 함수: First History 가져오기
+// GET 요청 함수: First History 가져오기
 const fetchFirstHistory = async (problemId: number) => {
   try {
     const response = await BaseApi.get(`/v1/histories/${problemId}/first-review`);
@@ -34,7 +34,7 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [beforeHighlightExtension, setBeforeHighlightExtension] = useState<any>([]);
 
-  // ✅ Dialog가 열릴 때 첫 리뷰 코드 가져오기 : start_line_number값을 start로 변경
+  // Dialog가 열릴 때 첫 리뷰 코드 가져오기 : start_line_number값을 start로 변경
   useEffect(() => {
     if (visible && problemId) {
       setIsLoading(true);
@@ -53,7 +53,7 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
     }
   }, [visible, problemId]);
 
-  // before 코드에 대한 하이라이트 색상 지정 : #FFEBEE
+  // before 코드에 대한 하이라이트 색상 지정 : 빨강
   useEffect(() => {
     if (beforeHighlights.length > 0) {
       console.log("🎨 Before 코드 하이라이트 적용:", beforeHighlights);
@@ -61,7 +61,7 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
     }
   }, [beforeHighlights]);
 
-  // ✅ 하이라이트 적용 함수 - 겹치는 부분에 대한 고려 없이 같은 색상으로 적용됨
+  // 하이라이트 적용 함수 - 겹치는 부분에 대한 고려 없이 같은 색상으로 적용됨
   const highlightWithOpacity = (highlights: { start: number; end: number }[], color: string) => {
     return EditorView.decorations.compute(["doc"], (state) => {
       const builder = new RangeSetBuilder<Decoration>();
@@ -109,7 +109,7 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
         <ProgressSpinner />
       ) : (
         <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          {/* ✅ Before Code */}
+          {/* Before Code */}
           <Card title="Before" style={ cardDesign }>
             <CodeMirror
               value={beforeCode || "첫 리뷰 코드가 없습니다."}
@@ -119,7 +119,7 @@ const CompleteReviewDialog: React.FC<CompleteReviewDialogProps> = ({ visible, on
             />
           </Card>
 
-          {/* ✅ After Code */}
+          {/* After Code */}
           <Card title="After" style={ cardDesign }>
             <CodeMirror
               value={sourceCode}

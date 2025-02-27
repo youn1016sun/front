@@ -2,7 +2,7 @@ import BaseApi from "./BaseApi";
 
 interface LoginResponse {
     message: string;
-    user_id: number; // `user_id`는 숫자
+    user_id: number;
 }
 
 interface LoginProps {

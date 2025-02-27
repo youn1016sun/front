@@ -5,13 +5,12 @@ import "../styles/homepage.css";
 import { Button } from "primereact/button";
 import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
-import logo from "../assets/images/logo.svg";
 
-// 이미지 import
+// 이미지 import //
 import Logo from "../assets/images/logo.svg";
 
 const messages = [
-  "알고리뷰는 AI 기반 코드 리뷰 플랫폼으로, 개발자의 알고리즘 실력을 성장시킵니다.",
+  "생성형 AI를 활용하는 코테준비생을 위한 솔루션",
   "개발 실력 향상의 새로운 패러다임",
   "어려움을 겪고 있는 문제를 해결할 수 있도록 방향성을 제안해드립니다."
 ];
@@ -23,6 +22,7 @@ const Homepage: React.FC = () => {
 
   const TOTAL_SECTIONS = 3;
 
+// 휠 이벤트 감지를 통해 페이지를 넘기는 지점 계산 함수
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (scrollLock) return;
@@ -56,7 +56,7 @@ const Homepage: React.FC = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % messages.length);
         setFade(true);
       }, 500); // 텍스트 변경 전 짧은 fade-out 효과
-    }, 4000); // 3초마다 변경
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -87,7 +87,7 @@ const Homepage: React.FC = () => {
               </div>
           </nav>
         </header>
-        {/* ✅ Hero 섹션 */}
+        {/* Hero 섹션 */}
         <section className="hero-section">
           <section className="l-main bd-grid">
             <section className="hero-home">
@@ -96,7 +96,7 @@ const Homepage: React.FC = () => {
                     <p className={`hero-home-description fade-text ${fade ? 'fade-in' : 'fade-out'}`}>{messages[currentIndex]}</p>
                 </div>
                 <div className="hero-home-img">
-                    <img src={logo} alt="image" className="hero-logo" />
+                    <img src={Logo} alt="image" className="hero-logo" />
                 </div>
              </section>
                 <div className="hero-home-scroll">
@@ -106,7 +106,7 @@ const Homepage: React.FC = () => {
           </section>
         </section>
 
-        {/* ✅ 알고리뷰 핵심 가치 섹션 */}
+        {/* 알고리뷰 핵심 가치 섹션 */}
         <section className="hero-subsection">
           <div className="intro-logo-container">
             <img src={Logo} alt="algoreviewLogo" className="intro-logo" />
@@ -174,7 +174,7 @@ const Homepage: React.FC = () => {
             </section>
         </section>
 
-        {/* ✅ 개별 설명 섹션 */}
+        {/* 개별 설명 섹션 */}
         <section className="tutorial-section">
           <div className="tutorial-comment">
             <h2>먼저 어떻게 사용하는지 알아볼까요?</h2>
@@ -195,7 +195,7 @@ const Homepage: React.FC = () => {
               </ul>
             </div>
             <div className="home-footer-right">
-              <div className="home-footer-logo-space"><img src={logo} className="footerlogo"/></div>
+              <div className="home-footer-logo-space"><img src={Logo} className="footerlogo"/></div>
               <p>&copy; 2025 AlgoReview</p>
               <p>TABA 7th</p>
             </div>

@@ -7,7 +7,6 @@ import Feedback from "../components/Feedback";
 import { useLocation } from "react-router-dom";
 import { fetchHistoryDetails } from "../api/HistoriesApi";
 import { sendReviewRequest } from "../api/ReviewRequestApi";
-// import { ProgressSpinner } from "primereact/progressspinner";
 import CompleteReviewDialog from "../components/CompleteDialog";
 import { TabView, TabPanel } from "primereact/tabview";
 import LoadingLogo from "../components/LoadingLogo";
@@ -30,8 +29,8 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
   const [problemInfo, setProblemInfo] = useState<string | null>(null);
   const [historyId, setHistoryId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [revision, setRevision] = useState<number>(0); // ✅ revision 상태 추가
-  const [isReviewComplete, setIsReviewComplete] = useState<boolean>(false); // ✅ "모두 완료되었습니다" 팝업 상태
+  const [revision, setRevision] = useState<number>(0); // revision 상태 추가
+  const [isReviewComplete, setIsReviewComplete] = useState<boolean>(false); // "모두 완료되었습니다" 팝업 상태
 
   const location = useLocation();
   const userId = location.state?.userId || localStorage.getItem("user_id");
@@ -49,7 +48,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
           setInputData(data.input_data);
           setSourceCode(data.source_code);
           setReviewResult(data.reviews || []);
-          setRevision(data.revision || 0); // ✅ revision 값 업데이트
+          setRevision(data.revision || 0); // revision 값 업데이트
         })
         .catch((error) => {
           console.error("❌ Error fetching history details:", error);
@@ -67,7 +66,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
 
 
 
-  // ✅ 모든 리뷰가 `is_passed: true`이면 팝업 표시
+  // 모든 리뷰가 `is_passed: true`이면 팝업 표시
   useEffect(() => {
     if (reviewResult.length > 0 && reviewResult.every((review) => review.is_passed)) {
       console.log("✅ 모든 리뷰 통과! 팝업 표시");
@@ -102,7 +101,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setProblemId(response.problem_id);
       setProblemInfo(response.problem_info);
       setReviewResult(response.reviews || []);
-      setRevision(response.revision || 0); // ✅ revision 값 업데이트
+      setRevision(response.revision || 0); // revision 값 업데이트
 
       console.log("revision값:",response.revision);
       console.log("histories= ", JSON.stringify(histories, null, 2));
@@ -110,20 +109,20 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       if (requestData.problem_id) {
         for (let i = 0; i < histories.length; i++) {
           if (histories[i].problem_id === requestData.problem_id) {
-            const row = histories.splice(i, 1)[0]; // ✅ 배열에서 객체 하나 추출
+            const row = histories.splice(i, 1)[0]; // 배열에서 객체 하나 추출
             console.log(row);
             row.history_ids.unshift(problemId);
             row.history_names.unshift(response.history_name);
       
-            histories.unshift(row); // ✅ 배열 맨 앞에 추가
+            histories.unshift(row); // 배열 맨 앞에 추가
             break;
           }
         }
       } else {
         const row = {
           problem_id: problemId,
-          problem_name: response.problem_name, // ✅ 필드명 수정
-          history_ids: [historyId], // ✅ 필드명 통일
+          problem_name: response.problem_name, // 필드명 수정
+          history_ids: [historyId], // 필드명 통일
           history_names: [response.history_name,],
         };
         histories.unshift(row);
@@ -131,7 +130,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
       setHistories([...histories]);
       console.log("리뷰페이지 histories",histories);
 
-      // ✅ 리뷰가 통과되었을 경우 자동으로 팝업 띄우기
+      // 리뷰가 통과되었을 경우 자동으로 팝업 띄우기
       if (response.reviews.every((review: any) => review.is_passed)) {
         console.log("🎉 모든 리뷰 통과! 팝업 열기");
         setIsReviewComplete(true);
@@ -181,7 +180,6 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         <Card className="code-output">
           {isLoading ? (
             <div className="loading-overlay flex flex-col items-center">
-              {/* <ProgressSpinner /> */}
               <LoadingLogo />
               <p>리뷰를 생성 중입니다...</p>
             </div>
@@ -192,7 +190,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
               sourceCode={sourceCode}
               problemId={problemId} 
               setHighlightedLines={setHighlightedLines}
-              revision={revision} // ✅ revision 값
+              revision={revision} // revision 값
             />
           )}
         </Card>
@@ -208,7 +206,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ selectedHistoryId = null, histo
         />
       </div>
 
-      {/* ✅ "모두 완료되었습니다" 팝업 */}
+      {/* "모두 완료되었습니다" 팝업 */}
       <CompleteReviewDialog 
         visible={isReviewComplete} 
         onHide={() => setIsReviewComplete(false)} 
