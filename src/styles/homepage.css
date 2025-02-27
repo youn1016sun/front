@@ -1,10 +1,18 @@
-body {
-  overflow: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css');
 
 .homepage {
-  font-family: "Pretendard", sans-serif;
-  overflow: hidden; /* 스크롤바 숨김 */
+  position: fixed;
+  overflow: hidden !important;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  font-size: 1.6rem;
 }
 
 /* ✅ 전체 섹션 컨테이너 (Hero 포함 모든 요소에 적용) */
@@ -22,12 +30,147 @@ body {
   text-align: center;
 }
 
-/* ✅ Hero Section (독립적이지만 스크롤 적용) */
+/***********************************/
+/**           hero-airpod          **/
+/***********************************/
+.bd-grid {
+  max-width: 1500px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+.l-header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: #fff;
+}
+
+.hero-nav {
+  height: 4.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-nav-item { margin-bottom: 1.5rem; }
+.hero-nav-link { color: black }
+  .hero-nav-link:hover { color: #0071e3 }
+
+.hero-nav-btn {
+  background-color: #0071e3;
+  color: #fff;
+  padding: 0.375rem 1rem;
+  border-radius: 2rem;
+  text-decoration-line: none;
+}
+
+.hero-home {
+  height: calc(100vh - 3rem);
+
+  display: flex;
+  grid-template-rows: 1.5fr 1fr 1fr;
+  grid-template-areas: "data" "img" "scroll";
+  row-gap: 1.5rem;
+}
+
+.hero-home-data, .hero-home-img {
+  flex: 1;  /* 두 요소가 같은 비율(1:1)로 공간을 차지 */
+}
+
+.hero-home-data {
+  grid-area: data;
+  text-align: center;
+  padding-top: 10rem;
+}
+
+.hero-home-title {
+  font-family: "Roboto", sans-serif !important;
+  font-weight: 400;
+  /* font-family: 'Roboto', sans-serif; */
+  animation: fadeUp 1s ease-in-out forwards;
+}
+
+.hero-home-description {
+  font-family: "pretendard", sans-serif;
+  font-size: var(--normal-font-size);
+  padding: 0 1rem;
+}
+
+.fade-text {
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.hero-home-img {
+  grid-area: img;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .hero-home-img img {
+      width: 200px;
+      height: 200px;
+  }
+
+.hero-home-scroll {
+  grid-area: scroll;
+  text-align: center;
+  align-self: center;
+  margin-bottom: 2%;
+}
+
+.hero-home-scroll-text {
+  display: block;
+  font-size: .75rem;
+  margin-bottom: 1rem;
+}
+.hero-home-scroll-icon {
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+.hero-home-scroll-item { width: 2rem; }
+
+
+.hero-logo { animation: hero-logo 2s infinite; }
+
+  @keyframes hero-logo {
+      50% { transform: translateY(-10%); }
+  }
+
+
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-5px);
+  }
+}
+
+
+/******************************/
+/*        hero-section         */
+/******************************/
 .hero-section {
   width: 100vw;
   height: 100vh;
-  color: white;
-  background: linear-gradient(135deg, #a3b8ff, #788cff);
+  color:#1d1d1f;
+  /* background: linear-gradient(135deg, #a3b8ff, #788cff); */
+  background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +194,6 @@ body {
   width: 300px;
 }
 
-/* ✅ 사용 설명서 각 Step */
 .step-container {
   width: 400px;
   text-align: center;
@@ -67,7 +209,6 @@ body {
   border-radius: 10px;
 }
 
-/* ✅ 리뷰 미리보기 섹션 */
 .review-preview {
   text-align: center;
   background: #f1f1f1;
@@ -90,9 +231,11 @@ body {
 }
 
 
-/* subsection */
-/* ✅ Hero Subsection */
+/**************************/
+/****  Hero Subsection  **/
+/*************************/
 .hero-subsection {
+  font-family: "pretendard", sans-serif;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -100,34 +243,234 @@ body {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  background-color: #f8f9fa;
-  overflow: hidden;
+  background-color: #fff;
 }
 
-/* ✅ 가로 정렬 유지 */
-.slider-container {
+.hero-subsection .hero-intro {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.intro-logo{
+  width: 80px;
+  height: 80px;
+}
+
+/**************************/
+/****Hero Subsection-row**/
+/*************************/
+.subhero-section{
+  width: 100%;
+  height: 100vh;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.row{
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 10%; /* 카드 사이 간격 추가 */
+  margin-top: 5%;
+}
+.col-sm-4{
+  width: 300px;
+}
+
+.subhero-card{
+  position: relative;
+  max-width: 300px;
+  height: auto;
+  background: linear-gradient(-45deg,#fe0847,#feae3f);
+  border-radius: 15px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  -webkit-box-shadow: 0 10px 15px rgba(0,0,0,.1) ;
+          box-shadow: 0 10px 15px rgba(0,0,0,.1) ;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+.subhero-card:hover{
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+.col-sm-4:nth-child(1) .subhero-card ,
+.col-sm-4:nth-child(1) .subhero-card .title .fa{
+  background: linear-gradient(-45deg,#f403d1,#64b5f6);
+
+}
+.col-sm-4:nth-child(2) .subhero-card,
+.col-sm-4:nth-child(2) .subhero-card .title .fa{
+  background: linear-gradient(-45deg,#ffec61,#f321d7);
+
+}
+.col-sm-4:nth-child(3) .subhero-card,
+.col-sm-4:nth-child(3) .subhero-card .title .fa{
+  background: linear-gradient(-45deg,#24ff72,#9a4eff);
+
+}
+.subhero-card::before{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: rgba(255, 255, 255, .1);
+z-index: 1;
+-webkit-transform: skewY(-5deg) scale(1.5);
+        transform: skewY(-5deg) scale(1.5);
+}
+.title .fa{
+  color:#fff;
+  font-size: 60px;
+  width: 100px;
+  height: 100px;
+  border-radius:  50%;
+  text-align: center;
+  line-height: 100px;
+  -webkit-box-shadow: 0 10px 10px rgba(0,0,0,.1) ;
+          box-shadow: 0 10px 10px rgba(0,0,0,.1) ;
+
+}
+.title h2 {
+  position: relative;
+  margin: 20px  0 0;
+  padding: 0;
+  color: #fff;
+  font-size: 28px;
+ z-index: 2;
+}
+.price,.option{
+  position: relative;
+  z-index: 2;
+}
+.price h4 {
+margin: 0;
+padding: 20px 0 ;
+color: #fff;
+font-size: 60px;
+}
+.option ul {
+  margin: 0;
+  padding: 0;
+
+}
+.option ul li {
+margin: 0 0 10px;
+padding: 0;
+list-style: none;
+color: #fff;
+font-size: 16px;
+}
+.subhero-card a {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  color : black;
+  width: 150px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 40px;
+  display: block;
+  text-align: center;
+  margin: 20px auto 0 ;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+
+}
+.subhero-card a:hover{
+    text-decoration: none;
+}
+
+/***********************************/
+/**    tutorial-section 스타일     **/
+/***********************************/
+.tutorial-section {
+  font-family: "pretendard", sans-serif;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  flex-direction: column;
+  text-align: center;
+  background-color: #fff;
+}
+
+/***********************************/
+/**         footer 스타일          **/
+/***********************************/
+
+.home-footer {
+  font-family: "Roboto", sans-serif;
+  background-color: #f0f0f0;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  flex-wrap: wrap;
+  width: 100%;
+  letter-spacing: 1.3px; /* 자간을 넓혀서 스타일리시한 느낌 */
+}
+
+/* 좌측 영역 (팀원 목록) */
+.home-footer-left {
+  flex: 1;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.home-footer-left h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.home-footer-left ul {
+  list-style: none;
+  padding: 0;
+}
+
+.home-footer-left li {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+/* 우측 영역 (로고 + 텍스트) */
+.home-footer-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-footer-logo-space {
+  width: 100px;
+  height: 100px;
+  background-color: #dcdcdc; /* 로고 이미지 대체 박스 */
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 80px; /* 간격을 조금 넓힘 */
-}
-
-/* ✅ 개별 슬라이드 스타일 */
-.slide {
-  text-align: center;
-  max-width: 30%;
-  opacity: 0; /* 초기 투명도 */
-  transform: translateY(50px); /* 아래에서 등장 */
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.slide h2 {
-  font-size: 2rem;
+  font-size: 0.9rem;
   font-weight: bold;
+  border-radius: 50%;
   margin-bottom: 10px;
 }
 
-.slide p {
-  font-size: 1.2rem;
-  color: #555;
+.footerlogo{
+  width: 90px;
+  height: 90px;
+}
+
+.home-footer-right p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
 }

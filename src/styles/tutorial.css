@@ -1,0 +1,278 @@
+@import url('https://cdn.jsdelivr.net/npm/pretendard/dist/web/static/pretendard.css');
+
+/* 전체 레이아웃 */
+.tutorial-page {
+    font-family: "pretendard", sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f9f9ff;
+  }
+  
+  /* HEADER 스타일 */
+  .tutorial-custom-header {
+    background: linear-gradient(120deg, #62bdfc, #2a89dc);
+    color: white;
+    padding: 1vh 2vw;
+    text-align: center;
+  }
+  
+  /* 네비게이션 스타일 */
+  nav {
+    height: 3vh;
+    font-family: "Roboto", sans-serif;
+  }
+  nav ul {
+    display: flex;
+    height: 3vh;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  nav ul li {
+    margin: 0 1vw;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  nav ul li:hover {
+    transform: translateY(-3px);
+  }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 2.1vh;
+    font-weight: bold;
+  }
+  nav ul li a:hover {
+    color: #ffe082;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.7);
+  }
+
+  .tutorial-url-input{
+    width: 250px;
+  }
+  
+  /* 튜토리얼 컨테이너 */
+  .tutorial-container {
+    display: flex;
+    flex: 1;
+    gap: 2vw;
+    padding: 2vh 2vw;
+  }
+  
+  /* 히스토리 사이드바 */
+  .tutorial-history-sidebar {
+    width: 16vw;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #b1b1fd;
+  }
+  
+  /* 버튼 박스 */
+  .tutorial-input-box {
+    display: flex;
+    gap: 10px;
+    background: #fcfdff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #b1b1fd;
+  }
+  
+  .tutorial-btn {
+    background: #788cff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .tutorial-btn:hover {
+    background: #5a72d3;
+  }
+  
+  /* 코드 입력 & 리뷰 결과 */
+  .tutorial-content{
+    padding: 15px;
+    width: 100vw;
+    height: 500px;
+  }
+  .tutorial-review-container {
+    display: flex;
+    width: 100%;
+    height: 90%;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .tutorial-review-output.p-card.p-component{
+    height: 100%;
+  }
+  .tutorial-review-input.p-card.p-component{
+    height: 100%;
+  }
+  
+  /* 코드 입력 */
+  .tutorial-code-input {
+    flex: 1;
+    height: 100%;
+    border: 1px solid #b1b1fd;
+  }
+
+  .tutorial-accordion1.p-accordion-header{
+    background-color: #FFEBEE;
+    border-radius: 5px;
+  }
+
+  /* 리뷰 상세 & 모범답안 */
+  .tutorial-review-output {
+    flex: 1;
+    height: 100%;
+    border: 1px solid #b1b1fd;
+  }
+  
+  /* 솔루션 코드 */
+  .solution-code {
+    background: #eef2ff;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #b1b1fd;
+  }
+  
+  /* 버튼 */
+  .tutorial-button {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .p-button-success {
+    background: #28a745;
+    border: none;
+  }
+  
+  .p-button-success:hover {
+    background: #218838;
+  }
+  
+  /***************************/
+  /*   튜토리얼 진행 스타일    */
+  /*    튜토리얼 오버레이     */
+  /***************************/
+
+  /* 튜토리얼 시작 화면 - 화면 중앙 정렬 */
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 튜토리얼 메시지 박스 스타일 */
+.tutorial-message-box {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    /* max-width: 400px; */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 메시지 텍스트 */
+.tutorial-message-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.tutorial-message-box p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+/* 시작 버튼 */
+.tutorial-message-box .p-button {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* 페이드 인 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* 전체를 덮는 어두운 배경 */
+.tutorial-highlight-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* 전체 화면 어두워짐 */
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 하이라이트 효과 */
+.highlight {
+    position: relative !important;
+    z-index: 1000 !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9) !important; /* 밝은 하이라이트 효과 */
+    transition: box-shadow 0.3s ease-in-out;
+    border-radius: 8px; /* 둥글게 강조 */
+}
+
+/* 말풍선 스타일 */
+/* 말풍선 기본 스타일 */
+.tutorial-tooltip {
+    position: absolute;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    z-index: 1001;
+}
+
+/* 화살표 (아래 방향) */
+.tutorial-tooltip::before {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+    z-index: 1002;
+}
+
+/* 붉은색 하이라이트 스타일 */
+/* 하이라이트된 줄 스타일 */
+.cm-highlight {
+    background-color: rgba(255, 0, 0, 0.3) !important; /* 연한 붉은색 */
+    border-left: 3px solid red !important; /* 강조 */
+  }
+  
+  

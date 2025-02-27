@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import "../styles/homepage.css";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
 import { motion } from "framer-motion";
-import CodeMirror from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
+import { Link } from 'react-router-dom';
 
-// 이미지 import
-import mainImg from "../assets/images/main_page.png";
+// 이미지 import //
+import Logo from "../assets/images/logo.svg";
 
-// sections 정의
-const sections = [
-  { id: "how-to-use1", title: "1. 프로젝트 회원가입", description: "간단한 가입 후 프로젝트를 시작하세요.", img: mainImg },
-  { id: "how-to-use2", title: "2. 코드 입력", description: "리뷰하고 싶은 코드를 입력하세요.", img: "code-input.png" },
-  { id: "how-to-use3", title: "3. 리뷰 실행", description: "AI가 코드를 분석하여 리뷰를 제공합니다.", img: "review-process.png" },
-  { id: "how-to-use4", title: "4. 리뷰 피드백 확인", description: "리뷰 내용을 확인하고 개선하세요.", img: "feedback.png" },
-  { id: "review-preview", title: "🔍 리뷰 기능 미리보기", description: "AI 기반 리뷰 시스템을 직접 체험해보세요." },
+const messages = [
+  "생성형 AI를 활용하는 코테준비생을 위한 솔루션",
+  "개발 실력 향상의 새로운 패러다임",
+  "어려움을 겪고 있는 문제를 해결할 수 있도록 방향성을 제안해드립니다."
 ];
 
 const Homepage: React.FC = () => {
   const [currentSection, setCurrentSection] = useState(0);
-  const [scrollLock, setScrollLock] = useState(false); // ✅ 스크롤 잠금 상태 추가
+  const navigate = useNavigate();
+  const [scrollLock, setScrollLock] = useState(false);
 
-  // ✅ 스크롤 관리 함수 (모든 섹션 포함)
+  const TOTAL_SECTIONS = 3;
+
+// 휠 이벤트 감지를 통해 페이지를 넘기는 지점 계산 함수
   useEffect(() => {
     const handleScroll = (event: WheelEvent) => {
       if (scrollLock) return;
@@ -32,7 +31,7 @@ const Homepage: React.FC = () => {
         setScrollLock(true);
 
         if (event.deltaY > 0) {
-          setCurrentSection((prev) => Math.min(prev + 1, sections.length));
+          setCurrentSection((prev) => Math.min(prev + 1, TOTAL_SECTIONS - 1));
         } else {
           setCurrentSection((prev) => Math.max(prev - 1, 0));
         }
@@ -47,6 +46,28 @@ const Homepage: React.FC = () => {
     };
   }, [scrollLock]);
 
+  // 멘트 회전 함수
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % messages.length);
+        setFade(true);
+      }, 500); // 텍스트 변경 전 짧은 fade-out 효과
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const redirectTutorialPage = () => {
+    navigate("/tutorial");
+  };
+
+  
+
   return (
     <div className="homepage">
       <motion.div
@@ -54,73 +75,132 @@ const Homepage: React.FC = () => {
         animate={{ translateY: `-${currentSection * 100}vh` }}
         transition={{ ease: "easeInOut", duration: 0.8 }}
       >
-        {/* ✅ Hero 섹션 */}
+        <header className="l-header">
+          <nav className="hero-nav bd-grid">
+              <div className="hero-nav-menu" id="hero-nav-menu">
+                  <ul className="hero-nav-list">
+                      <li className="hero-nav-item"><Link to="/"  className="hero-nav-link">Home</Link></li>
+                      <li className="hero-nav-item"><Link to="/login"  className="hero-nav-link">Login</Link></li>
+                      <li className="hero-nav-item"><Link to="/tutorial"  className="hero-nav-link">Tutorial</Link></li>
+                      <li className="hero-nav-item"><Link to="/review"  className="hero-nav-link">Review</Link></li>
+                  </ul>
+              </div>
+          </nav>
+        </header>
+        {/* Hero 섹션 */}
         <section className="hero-section">
-          <h1>더 나은 코드, 더 나은 개발</h1>
-          <p>AI 리뷰를 통해 코드 품질을 향상시키세요.</p>
-          <Button label="리뷰 시작하기" icon="pi pi-play" className="p-button-primary p-button-lg" />
-          <Card className="intro-code-input">
-            <CodeMirror
-              value={`function add(a, b) {\n  return a + b;\n}`}
-              extensions={[javascript()]}
-              readOnly
-              style={{
-                fontSize: "0.9vw",
-                border: "1px solid #ddd",
-                borderRadius: "5px",
-              }}
-            />
-          </Card>
+          <section className="l-main bd-grid">
+            <section className="hero-home">
+                <div className="hero-home-data">
+                    <h1 className="hero-home-title">Algo Review</h1>
+                    <p className={`hero-home-description fade-text ${fade ? 'fade-in' : 'fade-out'}`}>{messages[currentIndex]}</p>
+                </div>
+                <div className="hero-home-img">
+                    <img src={Logo} alt="image" className="hero-logo" />
+                </div>
+             </section>
+                <div className="hero-home-scroll">
+                    <span className="hero-home-scroll-text">Scroll down for more</span>
+                    <a href="#l-section"><img src="https://i.postimg.cc/brPG1vnY/bx-mouse.png" alt="icon" className="hero-home-scroll-icon" /></a>
+                </div>
+          </section>
         </section>
 
-      {/*병수님 여기에 수정하세요요요요요요요용*/}
         {/* 알고리뷰 핵심 가치 섹션 */}
-<section className="hero-subsection">
-  <div className="slider-container">
-    <motion.div 
-      className="slide"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h2>AI 기반 코드 리뷰</h2>
-      <p>고민 중인 문제에 대해 30초 안에 리뷰를 받아보세요</p>
-    </motion.div>
-
-    <motion.div 
-      className="slide"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      <h2>개선 방향 & 모범 답안</h2>
-      <p>세부적인 개선 방향을 확인하고, 최적화된 코드 예시까지 받아보세요</p>
-    </motion.div>
-
-    <motion.div 
-      className="slide"
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1 }}
-    >
-      <h2>실시간 재리뷰 & 챗봇 서비스</h2>
-      <p>최적의 코드에 도전하시고, 언제든 질문하세요</p>
-    </motion.div>
-  </div>
-</section>
-
-
-      {/* 기존 sections도 스크롤 포함 */}
-      {sections.map((section) => (
-          <section key={section.id} className="section">
-            <div className="step-container">
-              <img src={section.img} alt={section.title} />
-              <h2>{section.title}</h2>
-              <p>{section.description}</p>
+        <section className="hero-subsection">
+          <div className="intro-logo-container">
+            <img src={Logo} alt="algoreviewLogo" className="intro-logo" />
+            <div className="intro-text">
+              <h2>Q. 왜 알고리뷰를 사용해야 할까요?</h2>
             </div>
-          </section>
-        ))}
+          </div>
+          <section className="subhero-section">
+            <div className="container-fluid">
+              <div className="container">
+                <div className="row">
+                  <div className="col-sm-4">
+                    <div className="subhero-card text-center">
+                      <div className="title">
+                        <i className="fa fa-paper-plane" aria-hidden="true"></i>
+                        <h2>AI 기반 코드 리뷰</h2>
+                      </div>
+                      <div className="price">
+                        <h4>Open AI</h4>
+                      </div>
+                      <div className="option">
+                        <ul>
+                        <li> <i className="fa fa-check" aria-hidden="true"></i> 자동으로 코드 개선 방향을 제시합니다 </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
 
+                  <div className="col-sm-4">
+                    <div className="subhero-card text-center">
+                      <div className="title">
+                        <i className="fa fa-plane" aria-hidden="true"></i>
+                        <h2>피드백 & 모범 답안</h2>
+                      </div>
+                      <div className="price">
+                        <h4>UX/UI</h4>
+                      </div>
+                      <div className="option">
+                        <ul>
+                        <li> <i className="fa fa-check" aria-hidden="true"></i> 단순한 정답이 아닌, 더 나은 코드를 학습하세요. </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-sm-4">
+                    <div className="subhero-card text-center">
+                      <div className="title">
+                        <i className="fa fa-rocket" aria-hidden="true"></i>
+                        <h2>코딩 실력 성장 기록</h2>
+                      </div>
+                      <div className="price">
+                        <h4>History</h4>
+                      </div>
+                      <div className="option">
+                        <ul>
+                        <li> <i className="fa fa-check" aria-hidden="true"></i> 나만의 코드 학습 히스토리를 관리하세요. </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </section>
+        </section>
+
+        {/* 개별 설명 섹션 */}
+        <section className="tutorial-section">
+          <div className="tutorial-comment">
+            <h2>먼저 어떻게 사용하는지 알아볼까요?</h2>
+            <p>여기서 튜토리얼을 배우고, 공부를 시작하세요!</p>
+          </div>
+          
+          <Button label="튜토리얼" icon="pi pi-play" className="homepage-login-button" onClick={redirectTutorialPage} />
+
+          <div className="home-footer">
+            <div className="home-footer-left">
+              <h3>Team Members</h3>
+              <ul>
+                <li>조형식 - Team Leader, PM</li>
+                <li>윤순상 - BackEnd, Cloud Infra</li>
+                <li>이윤열 - BackEnd, AI Prompt</li>
+                <li>장민성 - FrontEnd, UX/UI</li>
+                <li>윤병수 - PM, FrontEnd</li>
+              </ul>
+            </div>
+            <div className="home-footer-right">
+              <div className="home-footer-logo-space"><img src={Logo} className="footerlogo"/></div>
+              <p>&copy; 2025 AlgoReview</p>
+              <p>TABA 7th</p>
+            </div>
+          </div>
+        </section>
       </motion.div>
     </div>
   );

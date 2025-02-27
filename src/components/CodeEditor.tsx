@@ -22,9 +22,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, setCode, readOnly = false
       value={code}
       onChange={readOnly ? () => {} : (value) => setCode(value)}
       extensions={[
-        javascript(), // ✅ JavaScript 문법 적용
-        generateHighlightTheme, // ✅ 하이라이트 테마 적용
-        getHighlightDecorations(highlights), // ✅ 하이라이트 적용
+        javascript(), // JavaScript 문법 적용
+        generateHighlightTheme, // 하이라이트 테마 적용
+        getHighlightDecorations(highlights), // 하이라이트 적용
       ]}
       style={{
         height: "70vh",

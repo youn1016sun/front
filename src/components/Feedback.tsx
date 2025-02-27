@@ -23,7 +23,7 @@ interface FeedbackProps {
   problemInfo: string | null;
   problemId: number | null;
   sourceCode: string | null;
-  revision: number; // ✅ revision 추가
+  revision: number;
   setHighlightedLines: React.Dispatch<
     React.SetStateAction<{ start: number; end: number; is_passed: boolean }[]>
   >;
@@ -47,7 +47,7 @@ const Feedback: React.FC<FeedbackProps> = ({
     console.log("🔄 Feedback component received new reviewResult:", reviewResult);
   }, [reviewResult]);
 
-  // ✅ GET 요청: 모범답안이 이미 존재하는지 확인
+  // GET 요청: 모범답안이 이미 존재하는지 확인
   useEffect(() => {
     if (problemId) {
       console.log(`📡 GET 요청 시작: /api/v1/solution/${problemId}`);
@@ -55,9 +55,9 @@ const Feedback: React.FC<FeedbackProps> = ({
 
       fetchSolutionCode(problemId)
         .then((data) => {
-          console.log("✅ GET 응답:", data);
+          console.log("GET 응답:", data);
           if (data.is_created) {
-            setIsSolutionGenerated(true); // ✅ 모범답안이 존재하면 즉시 뱃지 업데이트
+            setIsSolutionGenerated(true); // 모범답안이 존재하면 즉시 뱃지 업데이트
             setSolutionCode(data.solution_code);
             setSolutionHighLightedLines(
               data.lines.map((line: { start_line_number: number; end_line_number: number }) => ({
@@ -82,11 +82,11 @@ const Feedback: React.FC<FeedbackProps> = ({
     }
   }, [problemId]);//setTabDisabled, setIsSolutionGenerated]);
 
-  // ✅ Title 클릭 시 하이라이트 적용/해제 (닫기 기능 수정)
+  // Title 클릭 시 하이라이트 적용/해제 (닫기 기능 수정)
   const handleAccordionToggle = (index: number) => {
     if (index === null || index === undefined || !reviewResult[index]) {
       console.error("❌ 유효하지 않은 index 접근", index);
-      return; // ❗ 유효하지 않은 index는 실행하지 않음
+      return; // 유효하지 않은 index는 실행하지 않음
     }
 
     console.log(`🔄 handleAccordionToggle 실행됨 | 현재 activeIndex: ${activeIndex}, 클릭된 index: ${index}`);
@@ -114,19 +114,19 @@ const Feedback: React.FC<FeedbackProps> = ({
         
           <div className="card">
             <Accordion
-              activeIndex={activeIndex ?? undefined} // ✅ Primereact의 undefined 처리 방식 활용
+              activeIndex={activeIndex ?? undefined} // Primereact의 undefined 처리 방식
               onTabChange={(e) => {
                 const index = e.index as number;
 
-                // ❗ index가 null 또는 undefined일 때 처리
+                // index가 null 또는 undefined일 때 처리
                 if (index === null || index === undefined) {
                   console.warn("⚠️ onTabChange 이벤트에서 null 또는 undefined index 반환됨", index);
                   setActiveIndex(null);
-                  setHighlightedLines([]); // ✅ 닫을 때 하이라이트 제거
+                  setHighlightedLines([]); // 닫을 때 하이라이트 제거
                   return;
                 }
 
-                // ❗ reviewResult 범위를 벗어나는 index인지 체크
+                // reviewResult 범위를 벗어나는 index인지 체크
                 if (!reviewResult[index]) {
                   console.error("❌ 유효하지 않은 index 접근", index);
                   return;
@@ -140,21 +140,21 @@ const Feedback: React.FC<FeedbackProps> = ({
                 reviewResult.map((review, index) => (
                   <AccordionTab
                     key={review.id}
-                    style={{ borderRadius: "0.7vh", backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE"}} // ✅ True(연두) / False(빨강) //"#E8F5E9" : "#FFEBEE"
+                    style={{ borderRadius: "0.7vh", backgroundColor: review.is_passed ? "#E8F5E9" : "#FFEBEE"}} // True(연두) / False(빨강)
                     header={
                       <div
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
                           alignItems: "center",
-                          padding: "10px", // ✅ 여백 추가
-                          borderRadius: "8px", // ✅ 둥근 모서리
+                          padding: "10px", 
+                          borderRadius: "8px", 
                           fontWeight: "bold",
                           width: "100%",
                         }}
                       >
                         {review.title}
-                        {/* ✅ 챗봇 버튼을 다시 추가하여 사라지는 문제 해결 */}
+                        {/* 챗봇 버튼을 다시 추가하여 사라지는 문제 해결 */}
                         {activeIndex === index && (
                           <Button
                             icon="pi pi-comments"
@@ -191,7 +191,7 @@ const Feedback: React.FC<FeedbackProps> = ({
           </div>
         </TabPanel>
 
-        {/* ✅ 모범답안 탭 - 생성 버튼 유지 개선 */}
+        {/* 모범답안 탭 - 생성 버튼 유지 개선 */}
         <TabPanel
           header={<span>모범답안 {isSolutionGenerated && <Badge value="✔" severity="success" className="check-badge"/>}</span>}
           disabled={isTabDisabled}
