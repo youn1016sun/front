@@ -22,10 +22,10 @@ const Chatbot: React.FC<ChatbotProps> = ({
 }) => {
   const [chatMessages, setChatMessages] = useState<{ sender: string; text: string }[]>([]);
   const [userInput, setUserInput] = useState<string>("");
-  const [isExpanded, setIsExpanded] = useState(false); // ✅ 확장 여부 상태 추가
+  const [isExpanded, setIsExpanded] = useState(false); // 확장 여부 상태
   const scrollRef = useRef<any>(null);
 
-  // ✅ 스크롤을 최신 메시지로 이동
+  // 스크롤을 최신 메시지로 이동
   useEffect(() => {
     setTimeout(() => {
       if (scrollRef.current) {
@@ -34,7 +34,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
     }, 100);
   }, [chatMessages]);
 
-  // ✅ 챗봇 메시지 전송 함수
+  // 챗봇 메시지 전송 함수
   const sendMessage = async () => {
     if (userInput.trim() === "") return;
 
@@ -73,16 +73,16 @@ const Chatbot: React.FC<ChatbotProps> = ({
   };
 
   return (
-    <div className={`chatbot-window ${isExpanded ? "expanded" : ""}`}> {/* ✅ 확장 상태 반영 */}
-      {/* ✅ 챗봇 헤더: 버튼 추가 */}
+    <div className={`chatbot-window ${isExpanded ? "expanded" : ""}`}> {/* 확장 상태 반영 */}
+      {/* 챗봇 헤더: 버튼 추가 */}
       <div className="chatbot-header">
         <h3>ChatBot</h3>
         <div>
-          {/* 🔹 확장 버튼 (토글 기능 추가) */}
+          {/* 확장 버튼 (토글 기능) */}
           <Button
-            icon={isExpanded ? "pi pi-compress" : "pi pi-external-link"} // ✅ 확장 상태에 따라 아이콘 변경
+            icon={isExpanded ? "pi pi-compress" : "pi pi-external-link"} // 확장 상태에 따라 아이콘 변경
             className="p-button-text chatbot-expand-btn"
-            onClick={() => setIsExpanded(!isExpanded)} // ✅ 버튼 누르면 확장/축소
+            onClick={() => setIsExpanded(!isExpanded)} // 버튼 누르면 확장/축소
           />
           <Button icon="pi pi-times" className="p-button-text" onClick={onClose} />
         </div>

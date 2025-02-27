@@ -7,8 +7,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import "../styles/tutorial.css";
 import LoadingLogo from "../components/LoadingLogo";
-import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";  // ✅ React Router용
+import { useNavigate } from "react-router-dom";  // React Router용
 
 const TutorialPage: React.FC = () => {
 const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -16,15 +15,15 @@ const [isTutorialStart, setIsTutorialStart] = useState(false);
 const [tutorialStep, setTutorialStep] = useState<number>(0);
 const [showOverlay, setShowOverlay] = useState<boolean>(false);
 const [tooltipPosition, setTooltipPosition] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
-const navigate = useNavigate();  // ✅ React Router 사용 시
-// ✅ 새로운 코드 입력 상태 추가
+const navigate = useNavigate();  // React Router 사용 시
+// 새로운 코드 입력 상태 추가
 const [optimizedCodeTyped, setOptimizedCodeTyped] = useState(false);
 const [codeOptimizedInput, setCodeOptimizedInput] = useState("");
-// ✅ URL 자동 입력 상태 (한 번만 입력되도록)
+// URL 자동 입력 상태 (한 번만 입력되도록)
 const [urlInput, setUrlInput] = useState<string>("");
 const [isUrlTyped, setIsUrlTyped] = useState(false);
-const urlExample = "https://example.com/problem1";
-// ✅ 코드 자동 입력 상태 (한 번만 입력되도록)
+const urlExample = "https://algoreview/problem1";
+// 코드 자동 입력 상태 (한 번만 입력되도록)
 const [codeInput, setCodeInput] = useState<string>("");
 const [isCodeTyped, setIsCodeTyped] = useState(false);
 const exampleCode = `import sys
@@ -63,8 +62,7 @@ nums=list(map(int, input_data[1].split()))
 target=int(input_data[2])
 print(solution(nums, length, target))`;
 
-
-// ✅ 리뷰 버튼 클릭 시 로딩 상태 추가
+// 리뷰 버튼 클릭 시 로딩 상태 추가
 const [isLoading, setIsLoading] = useState<boolean>(false);
 const [showReviewDetails, setShowReviewDetails] = useState<boolean>(false);
 const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("리뷰받기");
@@ -79,15 +77,15 @@ const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("리뷰받기
             i++;
           } else {
             clearInterval(typeEffect);
-            setIsUrlTyped(true); // ✅ 한 번 입력 후 다시 실행되지 않도록 설정
+            setIsUrlTyped(true); // 한 번 입력 후 다시 실행되지 않도록 설정
           }
         }, 50);
         return () => clearInterval(typeEffect);
       }
-    }, [tutorialStep, isTutorialStart, isUrlTyped]); // ✅ 한 번만 실행되도록 의존성 추가
+    }, [tutorialStep, isTutorialStart, isUrlTyped]); // 한 번만 실행되도록 의존성 추가
 
     useEffect(() => {
-        // ✅ 튜토리얼이 "코드 입력 안내" 단계(1)일 때만 실행
+        // 튜토리얼이 "코드 입력 안내" 단계(1)일 때만 실행
         if (tutorialStep === 1 && !isCodeTyped && isTutorialStart) {
           let i = 0;
           setCodeInput(""); // ✅ 초기화 후 입력 시작
@@ -97,7 +95,7 @@ const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("리뷰받기
               i++;
             } else {
               clearInterval(typeEffect);
-              setIsCodeTyped(true); // ✅ 한 번 실행 후 다시 실행되지 않도록 설정
+              setIsCodeTyped(true); // 한 번 실행 후 다시 실행되지 않도록 설정
             }
           }, 5);
           return () => clearInterval(typeEffect);
@@ -105,7 +103,7 @@ const [reviewButtonLabel, setReviewButtonLabel] = useState<string>("리뷰받기
       }, [tutorialStep, isTutorialStart, isCodeTyped]);
 
 
-      // ✅ 재리뷰 코드 변경 스텝 실행 (튜토리얼 특정 스텝)
+      // 재리뷰 코드 변경 스텝 실행 (튜토리얼 특정 스텝)
 useEffect(() => {
     if (tutorialStep === 7 && !optimizedCodeTyped && isTutorialStart) {
       let i = 0;
@@ -125,7 +123,7 @@ useEffect(() => {
   }, [tutorialStep, isTutorialStart, optimizedCodeTyped]);
     
 
-  // ✅ 튜토리얼 단계별 설정
+  // 튜토리얼 단계별 설정
   const tutorialSteps = [
     {
       message: "문제의 출처 URL이나 사진을 넣어주세요. 알고리뷰가 가상 주소를 넣어둘게요.",
@@ -177,7 +175,7 @@ useEffect(() => {
     //   },
   ];
 
-  // ✅ 튜토리얼 시작 함수
+  // 튜토리얼 시작 함수
   const startTutorial = () => {
     setIsTutorialStart(true);
     setShowOverlay(true);
@@ -337,18 +335,16 @@ useEffect(() => {
                     showReviewDetails && (
                       <Accordion>
                         <AccordionTab header="O(N^2) 복잡도의 비효율적인 이중 반복문 사용" className="tutorial-accordion1" >
-                          <ReactMarkdown>**🔍 현재 코드의 문제점**
-                            - 현재 코드는 모든 가능한 (i, j) 쌍을 이중 반복문으로 확인하며, 이는 O(N^2) 시간 복잡도를 가집니다.
-                            - 주어진 N의 최대값이 100,000이기 때문에, 이중 반복문은 대규모 입력에서 비효율적입니다.
-
-                            **🚀 해결 방법**
-                            1. **해시 테이블을 활용한 최적화**
-                            - 각 숫자에 대해 필요한 값 (`target - current_number`)이 앞서 나온 적이 있는지 해시 테이블(딕셔너리)을 활용해 확인합니다.
-                            - 해시 테이블을 사용하면 각 숫자에 대해 상수 시간 복잡도로 필요한 값을 찾을 수 있습니다.
-                            - 이를 통해 전체 알고리즘의 시간 복잡도를 O(N)으로 개선할 수 있습니다.
-
-                            **✅ 기대 효과**                                
-                            - 시간 복잡도가 O(N)으로 개선되어, 대규모 입력에서도 효율적으로 작동할 수 있습니다.</ReactMarkdown>
+                          <pre className="review-comment">{
+`🔍 현재 코드의 문제점
+- 현재 코드는 모든 가능한 (i, j) 쌍을 이중 반복문으로 
+확인하며, 이는 O(N^2) 시간 복잡도를 가집니다.
+🚀 해결 방법
+- 각 숫자에 대해 필요한 값(target - current_number)이 
+앞서 나온 적이 있는지 해시 테이블(딕셔너리)을 
+활용해 확인합니다.
+- 해시 테이블을 사용하면 각 숫자에 대해 상수시간 복잡도로 
+필요한 값을 찾을 수 있습니다.`}</pre>
                         </AccordionTab>
                       </Accordion>
                     )
@@ -356,24 +352,21 @@ useEffect(() => {
                 </TabPanel>
                 <TabPanel header="모범답안">
                   <pre className="solution-code">
-                    {`def solution(nums: list, length: int, target: int) -> int:
-                        answer = 0
-                        seen = set()
-                        
-                        for num in nums:
-                            complement = target - num
-                            if complement in seen:
-                                answer += 1
-                            seen.add(num)
-                        
-                        return answer
+                    {
+`def solution(nums: list, length: int, target: int) -> int:
+    answer = 0
+    seen = set()
+    for num in nums:
+        complement = target - num
+        if complement in seen:
+            answer += 1
+        seen.add(num)
+    return answer
+input_data = sys.stdin.read().strip().split('\n')
+nums = list(map(int, input_data[1].split()))
 
-                    input_data = sys.stdin.read().strip().split('\n')
-                    length = int(input_data[0])
-                    nums = list(map(int, input_data[1].split()))
-                    target = int(input_data[2])
-
-                    print(solution(nums, length, target))`}
+print(solution(nums, length, target))`
+                    }
                   </pre>
                 </TabPanel>
               </TabView>

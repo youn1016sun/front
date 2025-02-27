@@ -15,10 +15,10 @@ const LoginPage: React.FC = () => {
   console.log("Logging in with:", email, password);
 
   const result = await LoginApi({ email, password });
-    // ✅ 로그인 정보 저장 (예: localStorage, 상태관리 라이브러리)
-  localStorage.setItem("user_id", result.user_id.toString()); // localStorage에 저장할때는 항상 문자열로 변환해야함.
+  // 로그인 정보 저장 (localStorage, 상태관리 라이브러리)
+  localStorage.setItem("user_id", result.user_id.toString());
 
-    // review에 스테이트값 전달
+  // review에 스테이트값 전달
   navigate("/review", { state: { userId: result.user_id }});
 };
 

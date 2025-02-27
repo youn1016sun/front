@@ -42,7 +42,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // ✅ POST 요청: 모범답안 생성
+  // POST 요청: 모범답안 생성
   const handleGenerateSolution = async () => {
     if (!problemId || !problemInfo) {
       console.error(`🚨 POST 요청 실패: problemId=${problemId}, problemInfo=${problemInfo}`);
@@ -58,7 +58,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
       problem_info: problemInfo,
       source_code: sourceCode,
       reviews: reviews.map((review, index) => ({
-        review_id: index + 1, // ✅ review_id는 1부터 시작
+        review_id: index + 1, // review_id는 1부터 시작
         title: review.title,
         comments: review.comments,
         start_line_number: 0,
@@ -73,9 +73,9 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
       console.log("✅ 모범답안 POST 응답:", response);
       console.log("✅ 모범답안 response.lines의 값:",response.lines);
       setSolutionCode(response.solution_code);
-      setIsSolutionGenerated(true); // ✅ POST 요청 후 즉시 뱃지 업데이트
+      setIsSolutionGenerated(true); // POST 요청 후 즉시 뱃지 업데이트
 
-      // ✅ 응답에서 lines 데이터 추출하여 하이라이트 설정
+      // 응답에서 lines 데이터 추출하여 하이라이트 설정
       if (response.lines) {
         setSolutionHighLightedLines(
           response.lines.map((line: { start_line_number: number; end_line_number: number }) => ({
@@ -93,7 +93,7 @@ const SolutionCode: React.FC<SolutionCodeProps> = ({
     }
   };
 
-    // ✅ CodeMirror 하이라이트 적용 함수
+// CodeMirror 하이라이트 적용 함수
 const applyHighlight = (solutionHighLightedLines: { start: number; end: number }[]) => {
   console.log("🔍 applyHighlight 실행됨 - solutionHighLightedLines:", JSON.stringify(solutionHighLightedLines));
   return EditorView.decorations.compute(["doc"], (state) => {
@@ -107,7 +107,7 @@ const applyHighlight = (solutionHighLightedLines: { start: number; end: number }
         builder.add(
           linePos.from,
           linePos.from,
-          Decoration.line({ attributes: { style: `background-color: #E8F5E9` } }) // ✅ 고정 색상 적용
+          Decoration.line({ attributes: { style: `background-color: #E8F5E9` } }) // 고정 색상 적용
         );
       }
     }
@@ -125,7 +125,7 @@ const applyHighlight = (solutionHighLightedLines: { start: number; end: number }
       ) : solutionCode ? (
         <CodeMirror
           value={solutionCode}
-          extensions={[javascript(), applyHighlight(solutionHighLightedLines)]} // ✅ 하이라이트 적용
+          extensions={[javascript(), applyHighlight(solutionHighLightedLines)]} // 하이라이트 적용
           readOnly={true}
           style={{
             padding: "0",
